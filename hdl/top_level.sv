@@ -13,7 +13,7 @@ module top_level(
   input wire  mic_data //microphone data
   );
   assign led = sw; //for debugging
-  //shut up those rgb LEDs (active high):
+  // Turn off RGB leds (active high):
   assign rgb1= 0;
   assign rgb0 = 0;
 
@@ -29,7 +29,6 @@ module top_level(
   // a decimation by a factor of 256 gives us 8 bit 12 kHz audio
   //we do the latter in this lab.
 
-
   logic record; //signal used to trigger recording
   //definitely want this debounced:
   debouncer rec_deb(  .clk_in(clk_m),
@@ -40,14 +39,12 @@ module top_level(
   //logic for controlling PDM associated modules:
   logic [8:0] m_clock_counter; //used for counting for mic clock generation
   logic audio_sample_valid;//single-cycle enable for samples at ~12 kHz (approx)
-  logic audio_sample_valid_2;//single-cycle enable for samples at ~12 kHz (approx)
   logic signed [7:0] mic_audio; //audio from microphone 8 bit unsigned at 12 kHz
   logic[7:0] audio_data; //raw scaled audio data
 
   //logic for interfacing with the microphone and generating 3.072 MHz signals
   logic [7:0] pdm_tally;
   logic [8:0] pdm_counter;
-  logic [8:0] pdm_counter_2;
 
   localparam PDM_COUNT_PERIOD = 32; //do not change
   localparam NUM_PDM_SAMPLES = 256; //number of pdm in downsample/decimation/average
@@ -57,7 +54,6 @@ module top_level(
   logic pdm_signal_valid; //single-cycle signal at 3.072 MHz indicating pdm steps
 
   assign pdm_signal_valid = mic_clk && ~old_mic_clk;
-
 
   //logic to produce 25 MHz step signal for PWM module
   logic [1:0] pwm_counter;
@@ -75,6 +71,7 @@ module top_level(
     m_clock_counter <= (m_clock_counter==PDM_COUNT_PERIOD-1)?0:m_clock_counter+1;
     old_mic_clk <= mic_clk;
   end
+
   //generate audio signal (samples at ~12 kHz
   always_ff @(posedge clk_m)begin
     if (pdm_signal_valid)begin
@@ -89,36 +86,9 @@ module top_level(
       audio_sample_valid <= 0;
     end
   end
-  
-  always_ff @(posedge clk_m)begin
-    if (pdm_signal_valid)begin
-      pdm_counter_2         <= (pdm_counter_2==436)?0:pdm_counter_2 + 1;
-      audio_sample_valid_2  <= (pdm_counter_2==436);
-    end else begin
-      audio_sample_valid_2 <= 0;
-    end
-  end
 
-  logic [7:0] tone_750; //output of sine wave of 750Hz
-  logic [7:0] tone_440; //output of sine wave of 440 Hz
   logic [7:0] single_audio; //recorder non-echo output
   logic [7:0] echo_audio; //recorder echo output
-
-  //generate a 750 Hz tone
-  sine_generator sine_750(
-    .clk_in(clk_m),
-    .rst_in(sys_rst),
-    .step_in(audio_sample_valid),
-    .amp_out(tone_750)
-  );
-
-  //generate a 440 Hz tone
-  sine_generator sine_440(
-    .clk_in(clk_m),
-    .rst_in(sys_rst),
-    .step_in(audio_sample_valid_2),
-    .amp_out(tone_440)
-  );
 
   recorder my_recorder(
     .clk_in(clk_m), //system clock
@@ -130,10 +100,8 @@ module top_level(
     .echo_out(echo_audio) //played back audio (8 bit signed at 12 kHz)
   );
 
-
   //choose which signal to play:
   logic [7:0] audio_data_sel;
-
   always_comb begin
     if          (sw[0])begin
       audio_data_sel = tone_750; //signed
@@ -163,7 +131,6 @@ module top_level(
   //PDM:
   logic pdm_out_signal; //an inherently digital signal (0 or 1..no need to make signed)
   //the value is encoded using Pulse Density Modulation
-  logic audio_out; //value that drives output channels directly
 
   //already implemented for you:
   pwm my_pwm(
@@ -173,8 +140,7 @@ module top_level(
     .tick_in(pwm_step),
     .pwm_out(pwm_out_signal)
   );
-
-  //you build (currently empty):
+  
   pdm my_pdm(
     .clk_in(clk_m),
     .rst_in(sys_rst),
@@ -183,28 +149,20 @@ module top_level(
     .pdm_out(pdm_out_signal)
   );
 
-  always_comb begin
-    case (sw[4:3])
-      2'b00: audio_out = pwm_out_signal;
-      2'b01: audio_out = pdm_out_signal;
-      2'b10: audio_out = sampled_mic_data;
-      2'b11: audio_out = 0;
-    endcase
-  end
+  xfft_1 fft(
+    .aclk(clk_in),
+    .s_axis_daa_tvalid(fft_valid),
+    .s_axis_data_tdata(fft_data),
+    .s_axis_data_tlast(fft_last),
+    .s_axis_data_tready(fft_ready),
+    .s_axis_config_tdata(0),
+    .s_axis_config_tvalid(0),
+    .m_axis_data_tdata(fft_out_data),
+    .m_axis_data_tlast(fft_out_last)
+  );
 
-  assign spkl = audio_out;
-  assign spkr = audio_out;
 
 endmodule // top_level
 
-//Volume Control
-module volume_control (
-  input wire [2:0] vol_in,
-  input wire signed [7:0] signal_in,
-  output logic signed [7:0] signal_out);
-    logic [2:0] shift;
-    assign shift = 3'd7 - vol_in;
-    assign signal_out = signal_in>>>shift;
-endmodule
 
 `default_nettype wire
