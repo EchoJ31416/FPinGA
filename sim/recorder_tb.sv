@@ -7,7 +7,7 @@ module recorder_tb();
   logic rst_in;
   logic audio_valid_in;
   logic record_in;
-  logic [7:0] audio_in, single_out, echo_out;
+  logic [7:0] audio_in, single_out;
 
   recorder my_recorder(
     .clk_in(clk_in),
@@ -15,8 +15,7 @@ module recorder_tb();
     .record_in(record_in),
     .audio_valid_in(audio_valid_in),
     .audio_in(audio_in),
-    .single_out(single_out),
-    .echo_out(echo_out)
+    .single_out(single_out)
   );
 
   always begin

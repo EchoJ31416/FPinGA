@@ -8,71 +8,79 @@ module top_level(
   output logic [15:0] led, //16 green output LEDs (located right above switches)
   output logic [2:0] rgb0, //rgb led
   output logic [2:0] rgb1, //rgb led
-  output logic spkl, spkr, //speaker outputs
+  output logic [3:0] ss0_an,//anode control for upper four digits of seven-seg display
+  output logic [3:0] ss1_an,//anode control for lower four digits of seven-seg display
+  output logic [6:0] ss0_c, //cathode controls for the segments of upper four digits
+  output logic [6:0] ss1_c, //cathod controls for the segments of lower four digits
   output logic mic_clk, //microphone clock
   input wire  mic_data //microphone data
   );
-  assign led = sw; //for debugging
+
+  // For debugging
+  assign led = sw;
+
   // Turn off RGB leds (active high):
   assign rgb1= 0;
   assign rgb0 = 0;
 
+  // System reset
   logic sys_rst;
   assign sys_rst = btn[0];
 
+  // Clock magic
   logic clk_m;
   audio_clk_wiz macw (.clk_in(clk_100mhz), .clk_out(clk_m)); //98.3MHz
-  // we make 98.3 MHz since that number is cleanly divisible by
-  // 32 to give us 3.072 MHz.  3.072 MHz is nice because it is cleanly divisible
-  // by nice powers of 2 to give us reasonable audio sample rates. For example,
-  // a decimation by a factor of 64 could give us 6 bit 48 kHz audio
-  // a decimation by a factor of 256 gives us 8 bit 12 kHz audio
-  //we do the latter in this lab.
 
-  logic record; //signal used to trigger recording
-  //definitely want this debounced:
+  // Seven segment for display - REPLACE WITH HDMI SECTION IN THE FUTURE
+  logic [31:0] val_to_display; //either the spi data or the btn_count data (default)
+  logic [6:0] ss_c; // used to grab output cathode signal for 7s leds
+  seven_segment_controller display(.clk_in(clk_100mhz),
+                                .rst_in(sys_rst),
+                                .val_in(val_to_display),
+                                .cat_out(ss_c),
+                                .an_out({ss0_an, ss1_an}));
+  assign ss0_c = ss_c; // control upper four digit's cathodes
+  assign ss1_c = ss_c; // control lower four digits cathodes
+
+  // Recording section
+  logic record; // signal used to trigger recording
   debouncer rec_deb(  .clk_in(clk_m),
                       .rst_in(sys_rst),
                       .dirty_in(btn[1]),
                       .clean_out(record));
 
-  //logic for controlling PDM associated modules:
+  // Logic for controlling PDM associated modules:
   logic [8:0] m_clock_counter; //used for counting for mic clock generation
   logic audio_sample_valid;//single-cycle enable for samples at ~12 kHz (approx)
   logic signed [7:0] mic_audio; //audio from microphone 8 bit unsigned at 12 kHz
   logic[7:0] audio_data; //raw scaled audio data
 
-  //logic for interfacing with the microphone and generating 3.072 MHz signals
+  // Logic for interfacing with the microphone and generating 3.072 MHz signals
   logic [7:0] pdm_tally;
   logic [8:0] pdm_counter;
-
   localparam PDM_COUNT_PERIOD = 32; //do not change
   localparam NUM_PDM_SAMPLES = 256; //number of pdm in downsample/decimation/average
-
   logic old_mic_clk; //prior mic clock for edge detection
   logic sampled_mic_data; //one bit grabbed/held values of mic
   logic pdm_signal_valid; //single-cycle signal at 3.072 MHz indicating pdm steps
-
   assign pdm_signal_valid = mic_clk && ~old_mic_clk;
 
-  //logic to produce 25 MHz step signal for PWM module
+  // Logic to produce 25 MHz step signal for PWM module
   logic [1:0] pwm_counter;
   logic pwm_step; //single-cycle pwm step
   assign pwm_step = (pwm_counter==2'b11);
-
   always_ff @(posedge clk_m)begin
     pwm_counter <= pwm_counter+1;
   end
 
-  //generate clock signal for microphone
-  //microphone signal at ~3.072 MHz
+  // Generate clock signal for microphone - microphone signal at ~3.072 MHz
   always_ff @(posedge clk_m)begin
     mic_clk <= m_clock_counter < PDM_COUNT_PERIOD/2;
     m_clock_counter <= (m_clock_counter==PDM_COUNT_PERIOD-1)?0:m_clock_counter+1;
     old_mic_clk <= mic_clk;
   end
 
-  //generate audio signal (samples at ~12 kHz
+  // Generate audio signal (samples at ~12 kHz)
   always_ff @(posedge clk_m)begin
     if (pdm_signal_valid)begin
       sampled_mic_data    <= mic_data;
@@ -96,8 +104,7 @@ module top_level(
     .record_in(record), //button indicating whether to record or not
     .audio_valid_in(audio_sample_valid), //12 kHz audio sample valid signal
     .audio_in(mic_audio), //8 bit signed data from microphone
-    .single_out(single_audio), //played back audio (8 bit signed at 12 kHz)
-    .echo_out(echo_audio) //played back audio (8 bit signed at 12 kHz)
+    .single_out(single_audio) //played back audio (8 bit signed at 12 kHz)
   );
 
   //choose which signal to play:
@@ -125,14 +132,8 @@ module top_level(
   // is not as important.
   volume_control vc (.vol_in(sw[15:13]),.signal_in(audio_data_sel), .signal_out(vol_out));
 
-  //PWM:
+  //PWM - REPLACE WITH LOW PASS FILTER
   logic pwm_out_signal; //an inherently digital signal (0 or 1..no need to make signed)
-  //the "value" is encoded using Pulse Width Modulation
-  //PDM:
-  logic pdm_out_signal; //an inherently digital signal (0 or 1..no need to make signed)
-  //the value is encoded using Pulse Density Modulation
-
-  //already implemented for you:
   pwm my_pwm(
     .clk_in(clk_m),
     .rst_in(sys_rst),
@@ -141,14 +142,7 @@ module top_level(
     .pwm_out(pwm_out_signal)
   );
   
-  pdm my_pdm(
-    .clk_in(clk_m),
-    .rst_in(sys_rst),
-    .level_in(vol_out),
-    .tick_in(pdm_signal_valid),
-    .pdm_out(pdm_out_signal)
-  );
-
+  // FFT  
   xfft_1 fft(
     .aclk(clk_in),
     .s_axis_daa_tvalid(fft_valid),
@@ -161,7 +155,12 @@ module top_level(
     .m_axis_data_tlast(fft_out_last)
   );
 
+  // Tone Checking Finite State Machine
+    // IMPLEMENT ASAP  
 
+  // Logic to Change Display Data
+    //Do this with sequential logic! Not combinational!
+  assign val_to_display = 0; // CHANGE ASAP
 endmodule // top_level
 
 
