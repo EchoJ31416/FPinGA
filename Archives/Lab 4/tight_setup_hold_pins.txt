@@ -1,0 +1,19 @@
++=====================+=====================+==============================+
+| Launch Setup Clock  | Launch Hold Clock   | Pin                          |
++=====================+=====================+==============================+
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_red/tmds_out_reg[0]/D   |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_green/tally_reg[1]/D    |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_blue/tally_reg[3]/D     |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_red/tally_reg[4]/D      |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_red/tally_reg[2]/D      |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_green/tally_reg[2]/D    |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_red/tmds_out_reg[2]/D   |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_green/tmds_out_reg[2]/D |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_green/tmds_out_reg[9]/D |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_red/tmds_out_reg[9]/D   |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_green/tmds_out_reg[7]/D |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_blue/tally_reg[2]/D     |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_blue/tally_reg[4]/D     |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_red/tally_reg[3]/D      |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_blue/tmds_out_reg[9]/D  |
++---------------------+---------------------+------------------------------+

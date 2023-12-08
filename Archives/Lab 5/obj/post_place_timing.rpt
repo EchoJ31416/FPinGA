@@ -1,0 +1,102 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
+| Date         : Thu Oct 19 19:10:26 2023
+| Host         : DESKTOP-M3QN9GM running 64-bit major release  (build 9200)
+| Command      : report_timing -file obj/post_place_timing.rpt
+| Design       : top_level
+| Device       : 7s50-csga324
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+| Design State : Fully Placed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Slack (MET) :             0.790ns  (required time - arrival time)
+  Source:                 g_pipe/interm_reg[2][2]/C
+                            (rising edge-triggered cell FDRE clocked by clk_pixel_clk_wiz_0  {rise@0.000ns fall@6.734ns period=13.468ns})
+  Destination:            tmds_blue/tmds_out_reg[6]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pixel_clk_wiz_0  {rise@0.000ns fall@6.734ns period=13.468ns})
+  Path Group:             clk_pixel_clk_wiz_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            13.468ns  (clk_pixel_clk_wiz_0 rise@13.468ns - clk_pixel_clk_wiz_0 rise@0.000ns)
+  Data Path Delay:        12.174ns  (logic 3.002ns (24.659%)  route 9.172ns (75.341%))
+  Logic Levels:           12  (CARRY4=1 LUT3=1 LUT4=2 LUT5=3 LUT6=5)
+  Clock Path Skew:        -0.047ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.556ns = ( 11.912 - 13.468 ) 
+    Source Clock Delay      (SCD):    -0.957ns
+    Clock Pessimism Removal (CPR):    0.553ns
+  Clock Uncertainty:      0.168ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.329ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pixel_clk_wiz_0 rise edge)
+                                                      0.000     0.000 r  
+    N15                                               0.000     0.000 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000     0.000    mhdmicw/clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         1.440     1.440 r  mhdmicw/clkin1_ibufg/O
+                         net (fo=1, estimated)        1.233     2.673    mhdmicw/clk_ref_clk_wiz_0
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -7.025    -4.352 r  mhdmicw/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, estimated)        1.666    -2.686    mhdmicw/clk_pixel_clk_wiz_0
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096    -2.590 r  mhdmicw/clkout1_buf/O
+                         net (fo=1037, estimated)     1.633    -0.957    g_pipe/clk_pixel
+    SLICE_X4Y37          FDRE                                         r  g_pipe/interm_reg[2][2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X4Y37          FDRE (Prop_fdre_C_Q)         0.456    -0.501 f  g_pipe/interm_reg[2][2]/Q
+                         net (fo=4, estimated)        1.055     0.554    g_pipe/interm_reg[2][7]_0[2]
+    SLICE_X4Y31          LUT4 (Prop_lut4_I0_O)        0.124     0.678 f  g_pipe/tmds_out[0]_i_5/O
+                         net (fo=2, estimated)        0.820     1.498    b_pipe/tmds_out[4]_i_4
+    SLICE_X4Y32          LUT6 (Prop_lut6_I0_O)        0.124     1.622 r  b_pipe/tmds_out[0]_i_4/O
+                         net (fo=17, estimated)       0.547     2.169    b_pipe/interm_reg[2][2]_1
+    SLICE_X4Y32          LUT6 (Prop_lut6_I4_O)        0.124     2.293 r  b_pipe/tmds_out[0]_i_2/O
+                         net (fo=24, estimated)       0.886     3.179    b_pipe/interm_reg[6][0]
+    SLICE_X2Y32          LUT4 (Prop_lut4_I3_O)        0.148     3.327 f  b_pipe/i__carry_i_12__0/O
+                         net (fo=2, estimated)        1.010     4.337    b_pipe/i__carry_i_12__0_n_0
+    SLICE_X3Y32          LUT6 (Prop_lut6_I1_O)        0.328     4.665 r  b_pipe/i__carry_i_9__1/O
+                         net (fo=5, estimated)        0.860     5.525    b_pipe/i__carry_i_9__1_n_0
+    SLICE_X3Y30          LUT6 (Prop_lut6_I0_O)        0.124     5.649 r  b_pipe/i__carry_i_6__4/O
+                         net (fo=3, estimated)        0.591     6.240    b_pipe/i__carry_i_6__4_n_0
+    SLICE_X3Y29          LUT6 (Prop_lut6_I3_O)        0.124     6.364 f  b_pipe/i__carry_i_3__1/O
+                         net (fo=11, estimated)       0.615     6.979    b_pipe/interm_reg[2][3]_0
+    SLICE_X3Y28          LUT3 (Prop_lut3_I0_O)        0.124     7.103 r  b_pipe/i__carry_i_1__6/O
+                         net (fo=1, routed)           0.000     7.103    tmds_blue/S[1]
+    SLICE_X3Y28          CARRY4 (Prop_carry4_S[1]_CO[1])
+                                                      0.491     7.594 f  tmds_blue/tally2_inferred__0/i__carry/CO[1]
+                         net (fo=1, estimated)        0.436     8.030    tmds_blue/tally2_inferred__0/i__carry_n_2
+    SLICE_X1Y28          LUT5 (Prop_lut5_I0_O)        0.329     8.359 r  tmds_blue/tally[4]_i_2__0/O
+                         net (fo=8, estimated)        0.847     9.206    b_pipe/tally_reg[3]
+    SLICE_X1Y28          LUT5 (Prop_lut5_I3_O)        0.154     9.360 r  b_pipe/tmds_out[9]_i_2/O
+                         net (fo=6, estimated)        1.121    10.481    mvg/tmds_out_reg[9]
+    SLICE_X1Y23          LUT5 (Prop_lut5_I3_O)        0.352    10.833 r  mvg/tmds_out[6]_i_1/O
+                         net (fo=1, estimated)        0.384    11.217    tmds_blue/tmds_out_reg[9]_0[4]
+    SLICE_X1Y23          FDRE                                         r  tmds_blue/tmds_out_reg[6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pixel_clk_wiz_0 rise edge)
+                                                     13.468    13.468 r  
+    N15                                               0.000    13.468 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000    13.468    mhdmicw/clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         1.370    14.838 r  mhdmicw/clkin1_ibufg/O
+                         net (fo=1, estimated)        1.171    16.010    mhdmicw/clk_ref_clk_wiz_0
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -7.279     8.731 r  mhdmicw/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, estimated)        1.583    10.314    mhdmicw/clk_pixel_clk_wiz_0
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    10.405 r  mhdmicw/clkout1_buf/O
+                         net (fo=1037, estimated)     1.507    11.912    tmds_blue/clk_pixel
+    SLICE_X1Y23          FDRE                                         r  tmds_blue/tmds_out_reg[6]/C
+                         clock pessimism              0.553    12.464    
+                         clock uncertainty           -0.168    12.296    
+    SLICE_X1Y23          FDRE (Setup_fdre_C_D)       -0.289    12.007    tmds_blue/tmds_out_reg[6]
+  -------------------------------------------------------------------
+                         required time                         12.007    
+                         arrival time                         -11.217    
+  -------------------------------------------------------------------
+                         slack                                  0.790    
+
+
+
+

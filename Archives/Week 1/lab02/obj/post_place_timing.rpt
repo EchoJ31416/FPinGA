@@ -1,0 +1,120 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
+| Date         : Wed Sep 13 15:45:29 2023
+| Host         : DESKTOP-M3QN9GM running 64-bit major release  (build 9200)
+| Command      : report_timing -file obj/post_place_timing.rpt
+| Design       : top_level
+| Device       : 7s50-csga324
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+| Design State : Physopt postPlace
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Slack:                    inf
+  Source:                 sw[0]
+                            (input port)
+  Destination:            led[4]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        30.123ns  (logic 14.094ns (46.788%)  route 16.029ns (53.212%))
+  Logic Levels:           34  (CARRY4=18 IBUF=1 LUT2=1 LUT3=6 LUT4=2 LUT5=2 LUT6=3 OBUF=1)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    G1                                                0.000     0.000 f  sw[0] (IN)
+                         net (fo=0)                   0.000     0.000    sw[0]
+    G1                   IBUF (Prop_ibuf_I_O)         1.465     1.465 f  sw_IBUF[0]_inst/O
+                         net (fo=50, estimated)       2.099     3.564    n1/sw_IBUF[0]
+    SLICE_X63Y77         LUT6 (Prop_lut6_I1_O)        0.124     3.688 r  n1/res_out0__122_carry_i_9/O
+                         net (fo=9, estimated)        0.753     4.441    n1/res_out0__122_carry_i_9_n_0
+    SLICE_X63Y78         LUT4 (Prop_lut4_I1_O)        0.124     4.565 r  n1/res_out0__122_carry_i_1/O
+                         net (fo=22, estimated)       0.515     5.080    n1/data3[7]
+    SLICE_X63Y77         LUT2 (Prop_lut2_I1_O)        0.124     5.204 r  n1/res_out0__122_carry__0_i_4/O
+                         net (fo=4, estimated)        0.838     6.042    n1/res_out0__122_carry__0_i_4_n_0
+    SLICE_X64Y77         LUT6 (Prop_lut6_I0_O)        0.124     6.166 r  n1/res_out0__121_carry__0_i_6/O
+                         net (fo=1, routed)           0.000     6.166    n1/res_out0__121_carry__0_i_6_n_0
+    SLICE_X64Y77         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.513     6.679 r  n1/res_out0__121_carry__0/CO[3]
+                         net (fo=1, estimated)        0.000     6.679    n1/res_out0__121_carry__0_n_0
+    SLICE_X64Y78         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.254     6.933 r  n1/res_out0__121_carry__1/CO[0]
+                         net (fo=11, estimated)       0.985     7.918    n1/res_out0__121_carry__1_n_3
+    SLICE_X65Y72         LUT3 (Prop_lut3_I0_O)        0.367     8.285 r  n1/led_OBUF[7]_inst_i_70/O
+                         net (fo=1, routed)           0.000     8.285    n1/led_OBUF[7]_inst_i_70_n_0
+    SLICE_X65Y72         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550     8.835 r  n1/led_OBUF[7]_inst_i_54/CO[3]
+                         net (fo=1, estimated)        0.000     8.835    n1/led_OBUF[7]_inst_i_54_n_0
+    SLICE_X65Y73         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     8.949 r  n1/led_OBUF[7]_inst_i_51/CO[3]
+                         net (fo=1, estimated)        0.000     8.949    n1/led_OBUF[7]_inst_i_51_n_0
+    SLICE_X65Y74         CARRY4 (Prop_carry4_CI_CO[1])
+                                                      0.157     9.106 r  n1/led_OBUF[7]_inst_i_50/CO[1]
+                         net (fo=11, estimated)       0.785     9.891    n1/led_OBUF[7]_inst_i_50_n_2
+    SLICE_X64Y73         LUT3 (Prop_lut3_I0_O)        0.329    10.220 r  n1/led_OBUF[7]_inst_i_61/O
+                         net (fo=1, routed)           0.000    10.220    n1/led_OBUF[7]_inst_i_61_n_0
+    SLICE_X64Y73         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    10.753 r  n1/led_OBUF[7]_inst_i_42/CO[3]
+                         net (fo=1, estimated)        0.000    10.753    n1/led_OBUF[7]_inst_i_42_n_0
+    SLICE_X64Y74         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    10.870 r  n1/led_OBUF[7]_inst_i_39/CO[3]
+                         net (fo=1, estimated)        0.009    10.879    n1/led_OBUF[7]_inst_i_39_n_0
+    SLICE_X64Y75         CARRY4 (Prop_carry4_CI_CO[1])
+                                                      0.157    11.036 r  n1/led_OBUF[7]_inst_i_38/CO[1]
+                         net (fo=11, estimated)       0.911    11.947    n1/led_OBUF[7]_inst_i_38_n_2
+    SLICE_X62Y73         LUT3 (Prop_lut3_I0_O)        0.332    12.279 r  n1/led_OBUF[7]_inst_i_49/O
+                         net (fo=1, routed)           0.000    12.279    n1/led_OBUF[7]_inst_i_49_n_0
+    SLICE_X62Y73         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    12.829 r  n1/led_OBUF[7]_inst_i_30/CO[3]
+                         net (fo=1, estimated)        0.000    12.829    n1/led_OBUF[7]_inst_i_30_n_0
+    SLICE_X62Y74         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    12.943 r  n1/led_OBUF[7]_inst_i_27/CO[3]
+                         net (fo=1, estimated)        0.009    12.952    n1/led_OBUF[7]_inst_i_27_n_0
+    SLICE_X62Y75         CARRY4 (Prop_carry4_CI_CO[1])
+                                                      0.157    13.109 r  n1/led_OBUF[7]_inst_i_26/CO[1]
+                         net (fo=11, estimated)       0.924    14.033    n1/led_OBUF[7]_inst_i_26_n_2
+    SLICE_X61Y73         LUT3 (Prop_lut3_I0_O)        0.329    14.362 r  n1/led_OBUF[7]_inst_i_37/O
+                         net (fo=1, routed)           0.000    14.362    n1/led_OBUF[7]_inst_i_37_n_0
+    SLICE_X61Y73         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    14.912 r  n1/led_OBUF[7]_inst_i_21/CO[3]
+                         net (fo=1, estimated)        0.000    14.912    n1/led_OBUF[7]_inst_i_21_n_0
+    SLICE_X61Y74         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    15.026 r  n1/led_OBUF[7]_inst_i_18/CO[3]
+                         net (fo=1, estimated)        0.009    15.035    n1/led_OBUF[7]_inst_i_18_n_0
+    SLICE_X61Y75         CARRY4 (Prop_carry4_CI_CO[1])
+                                                      0.157    15.192 r  n1/led_OBUF[7]_inst_i_17/CO[1]
+                         net (fo=11, estimated)       0.909    16.101    n1/led_OBUF[7]_inst_i_17_n_2
+    SLICE_X59Y73         LUT3 (Prop_lut3_I0_O)        0.329    16.430 r  n1/led_OBUF[6]_inst_i_16/O
+                         net (fo=1, routed)           0.000    16.430    n1/led_OBUF[6]_inst_i_16_n_0
+    SLICE_X59Y73         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550    16.980 r  n1/led_OBUF[6]_inst_i_9/CO[3]
+                         net (fo=1, estimated)        0.000    16.980    n1/led_OBUF[6]_inst_i_9_n_0
+    SLICE_X59Y74         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    17.094 r  n1/led_OBUF[7]_inst_i_11/CO[3]
+                         net (fo=1, estimated)        0.009    17.103    n1/led_OBUF[7]_inst_i_11_n_0
+    SLICE_X59Y75         CARRY4 (Prop_carry4_CI_CO[1])
+                                                      0.157    17.260 r  n1/led_OBUF[7]_inst_i_10/CO[1]
+                         net (fo=11, estimated)       0.815    18.075    n1/led_OBUF[7]_inst_i_10_n_2
+    SLICE_X58Y73         LUT3 (Prop_lut3_I0_O)        0.329    18.404 r  n1/led_OBUF[0]_inst_i_10/O
+                         net (fo=1, routed)           0.000    18.404    n1/led_OBUF[0]_inst_i_10_n_0
+    SLICE_X58Y73         CARRY4 (Prop_carry4_S[1]_O[2])
+                                                      0.580    18.984 f  n1/led_OBUF[0]_inst_i_5/O[2]
+                         net (fo=3, estimated)        0.830    19.814    n1/led_OBUF[0]_inst_i_5_n_5
+    SLICE_X60Y75         LUT4 (Prop_lut4_I3_O)        0.326    20.140 r  n1/led_OBUF[7]_inst_i_14/O
+                         net (fo=3, estimated)        0.992    21.132    n1/led_OBUF[7]_inst_i_14_n_0
+    SLICE_X61Y76         LUT5 (Prop_lut5_I0_O)        0.356    21.488 r  n1/led_OBUF[4]_inst_i_5/O
+                         net (fo=1, estimated)        0.598    22.086    n1/led_OBUF[4]_inst_i_5_n_0
+    SLICE_X61Y76         LUT6 (Prop_lut6_I4_O)        0.326    22.412 r  n1/led_OBUF[4]_inst_i_3/O
+                         net (fo=1, estimated)        0.857    23.269    n1/led_OBUF[4]_inst_i_3_n_0
+    SLICE_X61Y81         LUT5 (Prop_lut5_I2_O)        0.124    23.393 r  n1/led_OBUF[4]_inst_i_1/O
+                         net (fo=1, estimated)        3.182    26.575    led_OBUF[4]
+    D16                  OBUF (Prop_obuf_I_O)         3.548    30.123 r  led_OBUF[4]_inst/O
+                         net (fo=0)                   0.000    30.123    led[4]
+    D16                                                               r  led[4] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+
+
+

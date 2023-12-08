@@ -1,0 +1,108 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
+| Date         : Wed Sep 13 15:45:22 2023
+| Host         : DESKTOP-M3QN9GM running 64-bit major release  (build 9200)
+| Command      : report_timing -file obj/post_synth_timing.rpt
+| Design       : top_level
+| Device       : 7s50-csga324
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+| Design State : Synthesized
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Slack:                    inf
+  Source:                 sw[3]
+                            (input port)
+  Destination:            led[7]
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        22.215ns  (logic 13.236ns (59.583%)  route 8.978ns (40.417%))
+  Logic Levels:           28  (CARRY4=18 IBUF=1 LUT2=1 LUT3=1 LUT4=2 LUT5=1 LUT6=3 OBUF=1)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    E2                                                0.000     0.000 f  sw[3] (IN)
+                         net (fo=0)                   0.000     0.000    sw[3]
+    E2                   IBUF (Prop_ibuf_I_O)         1.490     1.490 f  sw_IBUF[3]_inst/O
+                         net (fo=44, unplaced)        0.800     2.290    n1/sw_IBUF[3]
+                         LUT6 (Prop_lut6_I0_O)        0.124     2.414 r  n1/res_out0__122_carry_i_9/O
+                         net (fo=9, unplaced)         0.490     2.904    n1/res_out0__122_carry_i_9_n_0
+                         LUT4 (Prop_lut4_I1_O)        0.124     3.028 r  n1/res_out0__122_carry_i_1/O
+                         net (fo=22, unplaced)        0.511     3.539    n1/data3[7]
+                         LUT2 (Prop_lut2_I1_O)        0.124     3.663 r  n1/res_out0__122_carry__0_i_3/O
+                         net (fo=2, unplaced)         0.650     4.313    n1/res_out0__122_carry__0_i_3_n_0
+                         CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.507     4.820 r  n1/res_out0__121_carry__0/CO[3]
+                         net (fo=1, unplaced)         0.000     4.820    n1/res_out0__121_carry__0_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.293     5.113 r  n1/res_out0__121_carry__1/CO[0]
+                         net (fo=11, unplaced)        0.357     5.470    n1/res_out0__121_carry__1_n_3
+                         LUT3 (Prop_lut3_I0_O)        0.367     5.837 r  n1/led_OBUF[7]_inst_i_70/O
+                         net (fo=1, unplaced)         0.000     5.837    n1/led_OBUF[7]_inst_i_70_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550     6.387 r  n1/led_OBUF[7]_inst_i_54/CO[3]
+                         net (fo=1, unplaced)         0.009     6.396    n1/led_OBUF[7]_inst_i_54_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     6.510 r  n1/led_OBUF[7]_inst_i_51/CO[3]
+                         net (fo=1, unplaced)         0.000     6.510    n1/led_OBUF[7]_inst_i_51_n_0
+                         CARRY4 (Prop_carry4_CI_CO[1])
+                                                      0.178     6.688 r  n1/led_OBUF[7]_inst_i_50/CO[1]
+                         net (fo=11, unplaced)        0.571     7.259    n1/led_OBUF[7]_inst_i_50_n_2
+                         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.788     8.047 r  n1/led_OBUF[7]_inst_i_42/CO[3]
+                         net (fo=1, unplaced)         0.009     8.056    n1/led_OBUF[7]_inst_i_42_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     8.170 r  n1/led_OBUF[7]_inst_i_39/CO[3]
+                         net (fo=1, unplaced)         0.000     8.170    n1/led_OBUF[7]_inst_i_39_n_0
+                         CARRY4 (Prop_carry4_CI_CO[1])
+                                                      0.178     8.348 r  n1/led_OBUF[7]_inst_i_38/CO[1]
+                         net (fo=11, unplaced)        0.571     8.919    n1/led_OBUF[7]_inst_i_38_n_2
+                         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.788     9.707 r  n1/led_OBUF[7]_inst_i_30/CO[3]
+                         net (fo=1, unplaced)         0.009     9.716    n1/led_OBUF[7]_inst_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     9.830 r  n1/led_OBUF[7]_inst_i_27/CO[3]
+                         net (fo=1, unplaced)         0.000     9.830    n1/led_OBUF[7]_inst_i_27_n_0
+                         CARRY4 (Prop_carry4_CI_CO[1])
+                                                      0.178    10.008 r  n1/led_OBUF[7]_inst_i_26/CO[1]
+                         net (fo=11, unplaced)        0.571    10.579    n1/led_OBUF[7]_inst_i_26_n_2
+                         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.788    11.367 r  n1/led_OBUF[7]_inst_i_21/CO[3]
+                         net (fo=1, unplaced)         0.009    11.376    n1/led_OBUF[7]_inst_i_21_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    11.490 r  n1/led_OBUF[7]_inst_i_18/CO[3]
+                         net (fo=1, unplaced)         0.000    11.490    n1/led_OBUF[7]_inst_i_18_n_0
+                         CARRY4 (Prop_carry4_CI_CO[1])
+                                                      0.178    11.668 r  n1/led_OBUF[7]_inst_i_17/CO[1]
+                         net (fo=11, unplaced)        0.571    12.239    n1/led_OBUF[7]_inst_i_17_n_2
+                         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.788    13.027 r  n1/led_OBUF[6]_inst_i_9/CO[3]
+                         net (fo=1, unplaced)         0.009    13.036    n1/led_OBUF[6]_inst_i_9_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    13.150 r  n1/led_OBUF[7]_inst_i_11/CO[3]
+                         net (fo=1, unplaced)         0.000    13.150    n1/led_OBUF[7]_inst_i_11_n_0
+                         CARRY4 (Prop_carry4_CI_CO[1])
+                                                      0.178    13.328 r  n1/led_OBUF[7]_inst_i_10/CO[1]
+                         net (fo=11, unplaced)        0.571    13.899    n1/led_OBUF[7]_inst_i_10_n_2
+                         CARRY4 (Prop_carry4_CYINIT_O[1])
+                                                      0.821    14.720 r  n1/led_OBUF[0]_inst_i_5/O[1]
+                         net (fo=4, unplaced)         0.635    15.355    n1/led_OBUF[0]_inst_i_5_n_6
+                         LUT4 (Prop_lut4_I1_O)        0.306    15.661 f  n1/led_OBUF[7]_inst_i_14/O
+                         net (fo=3, unplaced)         0.920    16.581    n1/led_OBUF[7]_inst_i_14_n_0
+                         LUT5 (Prop_lut5_I2_O)        0.124    16.705 r  n1/led_OBUF[7]_inst_i_7/O
+                         net (fo=3, unplaced)         0.467    17.172    n1/led_OBUF[7]_inst_i_7_n_0
+                         LUT6 (Prop_lut6_I2_O)        0.124    17.296 r  n1/led_OBUF[7]_inst_i_4/O
+                         net (fo=1, unplaced)         0.449    17.745    n1/led_OBUF[7]_inst_i_4_n_0
+                         LUT6 (Prop_lut6_I4_O)        0.124    17.869 r  n1/led_OBUF[7]_inst_i_1/O
+                         net (fo=1, unplaced)         0.800    18.669    led_OBUF[7]
+    D17                  OBUF (Prop_obuf_I_O)         3.546    22.215 r  led_OBUF[7]_inst/O
+                         net (fo=0)                   0.000    22.215    led[7]
+    D17                                                               r  led[7] (OUT)
+  -------------------------------------------------------------------    -------------------
+
+
+
+

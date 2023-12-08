@@ -1,0 +1,7 @@
++=====================+=====================+==========================+
+| Launch Setup Clock  | Launch Hold Clock   | Pin                      |
++=====================+=====================+==========================+
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_red/tally_reg[2]/D  |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_red/tally_reg[1]/D  |
+| clk_pixel_clk_wiz_0 | clk_pixel_clk_wiz_0 | tmds_blue/tally_reg[1]/D |
++---------------------+---------------------+--------------------------+

@@ -1,0 +1,78 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
+| Date         : Wed Nov  1 21:29:52 2023
+| Host         : DESKTOP-M3QN9GM running 64-bit major release  (build 9200)
+| Command      : report_timing -file obj/post_place_timing.rpt
+| Design       : top_level
+| Device       : 7s50-csga324
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+| Design State : Fully Placed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Slack (MET) :             4.164ns  (required time - arrival time)
+  Source:                 divider_inst/dividend_reg[14]/C
+                            (rising edge-triggered cell FDRE clocked by gclk  {rise@0.000ns fall@4.000ns period=10.000ns})
+  Destination:            divider_inst/dividend_reg[10]/CE
+                            (rising edge-triggered cell FDRE clocked by gclk  {rise@0.000ns fall@4.000ns period=10.000ns})
+  Path Group:             gclk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (gclk rise@10.000ns - gclk rise@0.000ns)
+  Data Path Delay:        5.363ns  (logic 0.980ns (18.273%)  route 4.383ns (81.727%))
+  Logic Levels:           4  (LUT3=1 LUT4=1 LUT6=2)
+  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.854ns = ( 14.854 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.144ns
+    Clock Pessimism Removal (CPR):    0.266ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock gclk rise edge)       0.000     0.000 r  
+    N15                                               0.000     0.000 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000     0.000    clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         1.440     1.440 r  clk_100mhz_IBUF_inst/O
+                         net (fo=1, estimated)        1.972     3.412    clk_100mhz_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.508 r  clk_100mhz_IBUF_BUFG_inst/O
+                         net (fo=2352, estimated)     1.636     5.144    divider_inst/clk_100mhz_IBUF_BUFG
+    SLICE_X4Y42          FDRE                                         r  divider_inst/dividend_reg[14]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X4Y42          FDRE (Prop_fdre_C_Q)         0.456     5.600 r  divider_inst/dividend_reg[14]/Q
+                         net (fo=6, estimated)        0.993     6.593    divider_inst/dividend[14]
+    SLICE_X3Y44          LUT4 (Prop_lut4_I0_O)        0.124     6.717 r  divider_inst/quotient[0]_i_8/O
+                         net (fo=1, estimated)        0.953     7.670    divider_inst/quotient[0]_i_8_n_0
+    SLICE_X2Y46          LUT6 (Prop_lut6_I0_O)        0.124     7.794 r  divider_inst/quotient[0]_i_3/O
+                         net (fo=1, estimated)        0.940     8.734    divider_inst/quotient[0]_i_3_n_0
+    SLICE_X1Y44          LUT6 (Prop_lut6_I1_O)        0.124     8.858 r  divider_inst/quotient[0]_i_1/O
+                         net (fo=34, estimated)       0.716     9.574    divider_inst/quotient[0]_i_1_n_0
+    SLICE_X3Y45          LUT3 (Prop_lut3_I2_O)        0.152     9.726 r  divider_inst/dividend[31]_i_1/O
+                         net (fo=32, estimated)       0.781    10.507    divider_inst/dividend[31]_i_1_n_0
+    SLICE_X4Y41          FDRE                                         r  divider_inst/dividend_reg[10]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock gclk rise edge)      10.000    10.000 r  
+    N15                                               0.000    10.000 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000    10.000    clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         1.370    11.370 r  clk_100mhz_IBUF_inst/O
+                         net (fo=1, estimated)        1.873    13.244    clk_100mhz_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.335 r  clk_100mhz_IBUF_BUFG_inst/O
+                         net (fo=2352, estimated)     1.519    14.854    divider_inst/clk_100mhz_IBUF_BUFG
+    SLICE_X4Y41          FDRE                                         r  divider_inst/dividend_reg[10]/C
+                         clock pessimism              0.266    15.119    
+                         clock uncertainty           -0.035    15.084    
+    SLICE_X4Y41          FDRE (Setup_fdre_C_CE)      -0.413    14.671    divider_inst/dividend_reg[10]
+  -------------------------------------------------------------------
+                         required time                         14.671    
+                         arrival time                         -10.507    
+  -------------------------------------------------------------------
+                         slack                                  4.164    
+
+
+
+

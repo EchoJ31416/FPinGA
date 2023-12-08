@@ -1,0 +1,4 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Desktop/6.2050/Lab 7/hdl/recorder.sv" into library work
+INFO: [VRFC 10-311] analyzing module recorder
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Desktop/6.2050/Lab 7/hdl/xilinx_true_dual_port_read_first_2_clock_ram.v" into library work
+INFO: [VRFC 10-311] analyzing module xilinx_true_dual_port_read_first_2_clock_ram
