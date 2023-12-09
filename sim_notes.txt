@@ -1,5 +1,0 @@
-########################### Commands For running recorder simulations ###########################
-xvlog --sv ./hdl/recorder.sv .\hdl\xilinx_true_dual_port_read_first_2_clock_ram.v
-xelab -svlog ./sim/recorder_tb.sv --debug wave 
-xsim recorder_tb -t xsim_run.tcl
-gtkwave dump.vcd

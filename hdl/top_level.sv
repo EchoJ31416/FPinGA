@@ -32,13 +32,15 @@ module top_level(
   audio_clk_wiz macw (.clk_in(clk_100mhz), .clk_out(clk_m)); //98.3MHz
 
   // Seven segment for display - REPLACE WITH HDMI SECTION IN THE FUTURE
-  logic [31:0] val_to_display; //either the spi data or the btn_count data (default)
+  logic [31:0] val_to_display; // value of number to display using 7s
   logic [6:0] ss_c; // used to grab output cathode signal for 7s leds
+
   seven_segment_controller display(.clk_in(clk_100mhz),
                                 .rst_in(sys_rst),
                                 .val_in(val_to_display),
                                 .cat_out(ss_c),
                                 .an_out({ss0_an, ss1_an}));
+
   assign ss0_c = ss_c; // control upper four digit's cathodes
   assign ss1_c = ss_c; // control lower four digits cathodes
 
@@ -49,23 +51,23 @@ module top_level(
                       .dirty_in(btn[1]),
                       .clean_out(record));
 
-  // Logic for controlling PDM associated modules:
-  logic [8:0] m_clock_counter; //used for counting for mic clock generation
-  logic audio_sample_valid;//single-cycle enable for samples at ~12 kHz (approx)
-  logic signed [7:0] mic_audio; //audio from microphone 8 bit unsigned at 12 kHz
-  logic[7:0] audio_data; //raw scaled audio data
+    // Logic for controlling microphone associated modules:
+  logic [8:0] m_clock_counter; // used for counting for mic clock generation
+  logic audio_sample_valid; // single-cycle enable for samples at ~12 kHz (approx)
+  logic signed [7:0] mic_audio; // audio from microphone 8 bit unsigned at 12 kHz
+  logic [7:0] audio_data; // raw scaled audio data
 
-  // Logic for interfacing with the microphone and generating 3.072 MHz signals
+    // Logic for interfacing with the microphone and generating 3.072 MHz signals
   logic [7:0] pdm_tally;
   logic [8:0] pdm_counter;
-  localparam PDM_COUNT_PERIOD = 32; //do not change
-  localparam NUM_PDM_SAMPLES = 256; //number of pdm in downsample/decimation/average
-  logic old_mic_clk; //prior mic clock for edge detection
-  logic sampled_mic_data; //one bit grabbed/held values of mic
-  logic pdm_signal_valid; //single-cycle signal at 3.072 MHz indicating pdm steps
+  localparam PDM_COUNT_PERIOD = 32; // do not change
+  localparam NUM_PDM_SAMPLES = 256; // number of pdm in downsample/decimation/average
+  logic old_mic_clk; // prior mic clock for edge detection
+  logic sampled_mic_data; // one bit grabbed/held values of mic
+  logic pdm_signal_valid; // single-cycle signal at 3.072 MHz indicating pdm steps
   assign pdm_signal_valid = mic_clk && ~old_mic_clk;
 
-  // Logic to produce 25 MHz step signal for PWM module
+    // Logic to produce 25 MHz step signal for PWM module
   logic [1:0] pwm_counter;
   logic pwm_step; //single-cycle pwm step
   assign pwm_step = (pwm_counter==2'b11);
@@ -73,14 +75,14 @@ module top_level(
     pwm_counter <= pwm_counter+1;
   end
 
-  // Generate clock signal for microphone - microphone signal at ~3.072 MHz
+    // Generate clock signal for microphone - microphone signal at ~3.072 MHz
   always_ff @(posedge clk_m)begin
     mic_clk <= m_clock_counter < PDM_COUNT_PERIOD/2;
     m_clock_counter <= (m_clock_counter==PDM_COUNT_PERIOD-1)?0:m_clock_counter+1;
     old_mic_clk <= mic_clk;
   end
 
-  // Generate audio signal (samples at ~12 kHz)
+    // Generate audio signal (samples at ~12 kHz)
   always_ff @(posedge clk_m)begin
     if (pdm_signal_valid)begin
       sampled_mic_data    <= mic_data;
@@ -94,74 +96,99 @@ module top_level(
       audio_sample_valid <= 0;
     end
   end
-
-  logic [7:0] single_audio; //recorder non-echo output
-  logic [7:0] echo_audio; //recorder echo output
-
+    // Recorder
+  logic [7:0] single_audio; // recorder output
+ 
   recorder my_recorder(
-    .clk_in(clk_m), //system clock
-    .rst_in(sys_rst),//global reset
-    .record_in(record), //button indicating whether to record or not
-    .audio_valid_in(audio_sample_valid), //12 kHz audio sample valid signal
-    .audio_in(mic_audio), //8 bit signed data from microphone
-    .single_out(single_audio) //played back audio (8 bit signed at 12 kHz)
+    .clk_in(clk_m), // system clock
+    .rst_in(sys_rst),// global reset
+    .record_in(record), // button indicating whether to record or not
+    .audio_valid_in(audio_sample_valid), // 12 kHz audio sample valid signal
+    .audio_in(mic_audio), // 8 bit signed data from microphone
+    .single_out(single_audio) // played back audio (8 bit signed at 12 kHz)
   );
 
-  //choose which signal to play:
-  logic [7:0] audio_data_sel;
+  // Select Functional Mode - UPDATE AS CAPACITIES IMPROVE
+  logic [2:0] mode;
+  assign mode_0 = 2'b00; // Standby mode
+  assign mode_1 = 2'b01; // Tone Identifying Mode
+  assign mode_2 = 2'b10; // Randomized Practice Mode
+  assign mode_3 = 2'b11; // Challenge Mode
+    
   always_comb begin
-    if          (sw[0])begin
-      audio_data_sel = tone_750; //signed
+    if (sw[0])begin
+      mode = mode_0;
     end else if (sw[1])begin
-      audio_data_sel = tone_440; //signed
-    end else if (sw[5])begin
-      audio_data_sel = mic_audio; //signed
-    end else if (sw[6])begin
-      audio_data_sel = single_audio; //signed
-    end else if (sw[7])begin
-      audio_data_sel = echo_audio; //signed
-    end else begin
-      audio_data_sel = mic_audio; //signed
+      mode = mode_1;
+    end else if (sw[2])begin
+      mode = mode_2;
+    end else if (sw[3])begin
+      mode = mode_3
     end
   end
 
-
-  logic signed [7:0] vol_out; //can be signed or not signed...doesn't really matter
-  // all this does is convey the output of vol_out to the input of the pdm
-  // since it isn't used directly with any sort of math operation its signedness
-  // is not as important.
-  volume_control vc (.vol_in(sw[15:13]),.signal_in(audio_data_sel), .signal_out(vol_out));
-
-  //PWM - REPLACE WITH LOW PASS FILTER
-  logic pwm_out_signal; //an inherently digital signal (0 or 1..no need to make signed)
-  pwm my_pwm(
-    .clk_in(clk_m),
-    .rst_in(sys_rst),
-    .level_in(vol_out),
-    .tick_in(pwm_step),
-    .pwm_out(pwm_out_signal)
-  );
-  
   // FFT  
+  logic fft_valid; // used by the external master to signal that it is able to provide data
+  logic fft_last; // asserted by the external master on the last sample of the frame
+  logic fft_ready; // used by the core to signal that it is ready to accept data
+  logic fft_out_last; // asserted by the core on the last sample of the frame
+  logic fft_out_valid; // asserted by the core to signal that it is able to provide status data
+  logic fft_out_ready; // asserted by the external slave to signal that it is ready to accept data
+  
+  logic [31:0] fft_data; // unprocessed sample data
+  logic [31:0] fft_out_data; // carries processed sample data - [31:16] real, [15:0] imaginary
+
+    // CONTROL FLOW OF DATA - WRITTEN BY PROFF
+  always_ff @(posedge clk_m)begin  
+    if (audio_sample_valid)begin    
+      fft_valid = 1;    
+      fft_data = {single_audio,8'b0};    
+    end else begin    
+      fft_valid = 0;  
+    end 
+  end
+
+    // Transform length of 1024, Frequency of 100 MHz, Data throughput of 50 Msps
   xfft_1 fft(
-    .aclk(clk_in),
-    .s_axis_daa_tvalid(fft_valid),
-    .s_axis_data_tdata(fft_data),
-    .s_axis_data_tlast(fft_last),
-    .s_axis_data_tready(fft_ready),
-    .s_axis_config_tdata(0),
-    .s_axis_config_tvalid(0),
-    .m_axis_data_tdata(fft_out_data),
-    .m_axis_data_tlast(fft_out_last)
-  );
+   .aclk(clk_100mhz),
+   .s_axis_data_tvalid(fft_valid), .s_axis_data_tdata(fft_data),
+   .s_axis_data_tlast(fft_last), .s_axis_data_tready(fft_ready), 
+   .s_axis_config_tdata(0), .s_axis_config_tvalid(0), .s_axis_config_tready(),
+   .m_axis_data_tdata(fft_out_data), .m_axis_data_tvalid(fft_out_valid),
+   .m_axis_data_tlast(fft_out_last), .m_axis_data_tready(fft_out_ready),
+   .event_frame_started(), .event_tlast_unexpected(), .event_tlast_missing(),
+   .event_data_in_channel_halt(), .event_data_out_channel_halt());
 
   // Tone Checking Finite State Machine
-    // IMPLEMENT ASAP  
+  tone_detection_fsm tone_detection(
+     .clk_in(clk_m),
+     .rst_in(rst_in),
+     .fft_data(fft_out_data),
+     .tone_ident(tone_ident),
+     .ready_signal(fft_ready),
+     .valid_signal(fft_valid)
+  );  
 
-  // Logic to Change Display Data
-    //Do this with sequential logic! Not combinational!
-  assign val_to_display = 0; // CHANGE ASAP
+  // Logic to Change Display Data - CHANGE WITH STATE MACHINE FOR MORE ADVANCED VERSIONS
+  // UPDATE WITH HDMI WHEN PROVE FOURIER WORKS
+  logic [2:0] first; // variable to store 1st tone identifier
+  logic [2:0] second; // variable to store 2nd tone identifier
+  logic [2:0] third; // variable to store 3rd tone identifier
+  logic [2:0] fourth; // variable to store 4th tone identifier
+
+  assign first = 3'b000; // also known as neutral tone
+  assign second = 3'b001; // also known as rising tone
+  assign third = 3'b010; // also known as undulating tone
+  assign fourth = 3'b100; // also known as falling tone
+
+  always_ff @(posedge clk_m)begin
+    case(tone_ident)
+      first: val_to_display = 32'd1;   
+      second: val_to_display = 32'd2;
+      third: val_to_display = 32'd3;
+      fourth: val_to_display = 32'd4;
+      default: val_to_display = 32'd0;
+    endcase
+  end
 endmodule // top_level
-
-
 `default_nettype wire
