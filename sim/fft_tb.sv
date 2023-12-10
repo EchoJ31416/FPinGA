@@ -53,7 +53,7 @@ module fft_tb();
     fft_last = 1;
 
     for (int i = 0; i<10000; i=i+1)begin
-      audio_data = i;
+      fft_data = i;
       #10;
     end
 

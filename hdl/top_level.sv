@@ -139,10 +139,13 @@ module top_level(
   logic [31:0] fft_out_data; // carries processed sample data - [31:16] real, [15:0] imaginary
 
     // CONTROL FLOW OF DATA - WRITTEN BY PROFF
+  logic [9:0] fft_data_count; // Used to count frames for FFT
   always_ff @(posedge clk_m)begin  
     if (audio_sample_valid)begin    
-      fft_valid = 1;    
-      fft_data = {single_audio,8'b0};    
+      fft_valid <= 1;    
+      fft_data <= {single_audio,8'b0};
+      fft_data_count <= fft_data_count + 1;    
+      fft_last <= (fft_data == 1023);
     end else begin    
       fft_valid = 0;  
     end 
@@ -161,34 +164,35 @@ module top_level(
 
   // Tone Checking Finite State Machine
   tone_detection_fsm tone_detection(
-     .clk_in(clk_m),
+     .valid_in_signal(fft_out_valid),
+     .fft_last(fft_out_last),
+     .clk_in(clk_100mhz),
      .rst_in(rst_in),
      .fft_data(fft_out_data),
      .tone_ident(tone_ident),
-     .ready_signal(fft_ready),
-     .valid_signal(fft_valid)
+     .ready_signal(fft_out_ready),
+     .valid_signal(tone_valid)
   );  
 
   // Logic to Change Display Data - CHANGE WITH STATE MACHINE FOR MORE ADVANCED VERSIONS
   // UPDATE WITH HDMI WHEN PROVE FOURIER WORKS
-  logic [2:0] first; // variable to store 1st tone identifier
-  logic [2:0] second; // variable to store 2nd tone identifier
-  logic [2:0] third; // variable to store 3rd tone identifier
-  logic [2:0] fourth; // variable to store 4th tone identifier
+  localparam FIRST = 3'b000; // variable to store 1st tone identifier
+  localparam SECOND = 3'b001; // variable to store 2nd tone identifier
+  localparam THIRD = 3'b010; // variable to store 3rd tone identifier
+  localparam FOURTH = 3'b100; // variable to store 4th tone identifier
 
-  assign first = 3'b000; // also known as neutral tone
-  assign second = 3'b001; // also known as rising tone
-  assign third = 3'b010; // also known as undulating tone
-  assign fourth = 3'b100; // also known as falling tone
-
-  always_ff @(posedge clk_m)begin
-    case(tone_ident)
-      first: val_to_display = 32'd1;   
-      second: val_to_display = 32'd2;
-      third: val_to_display = 32'd3;
-      fourth: val_to_display = 32'd4;
-      default: val_to_display = 32'd0;
-    endcase
+  always_ff @(posedge clk_100mhz)begin
+    if(tone_valid)begin
+      case(tone_ident)
+        FIRST: val_to_display = 32'd1;   
+        SECOND: val_to_display = 32'd2;
+        THIRD: val_to_display = 32'd3;
+        FOURTH: val_to_display = 32'd4;
+        default: val_to_display = 32'd0;
+      endcase
+    end else begin
+      val_to_display == 32'hFEED; // Use to debug pipelining issues
+    end
   end
 endmodule // top_level
 `default_nettype wire
