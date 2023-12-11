@@ -1,0 +1,6 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fft_tb.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fft_tb
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/ip_2_tb/ip_2_tb.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Cesar/Documents/GitHub/FPinGA/ip/xfft_1/ip/xfft_1/sim/xfft_1.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'xfft_1'

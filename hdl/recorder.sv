@@ -21,7 +21,6 @@ module  recorder(
 
   always_ff @(posedge clk_in)begin
     if (rst_in)begin
-      echo_out <= 0;
       w_address <= 0;
       r_address <= 0;
       single_address <= 0;
