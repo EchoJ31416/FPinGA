@@ -7,6 +7,7 @@ module fft_tb();
   logic rst_in;
 
   logic fft_valid;
+  logic [7:0] audio_data;
   logic [31:0] fft_data;
   logic fft_last;
   logic fft_ready;
@@ -26,15 +27,15 @@ module fft_tb();
     .event_frame_started(), .event_tlast_unexpected(), .event_tlast_missing(),
     .event_data_in_channel_halt(), .event_data_out_channel_halt());
 
-  always begin
-      #5;  //every 5 ns switch...so period of clock is 10 ns...100 MHz clock
+  always begin // 100 MHz clock
+      #5; 
       clk_in = !clk_in;
   end
-  //initial block...this is our test simulation
+
   initial begin
-    $dumpfile("fft_tb.vcd"); //file to store value change dump (vcd)
+    $dumpfile("fft_tb.vcd"); 
     $dumpvars(0,fft_tb);
-    $display("Starting Sim"); //print nice message at start
+    $display("Starting Sim");
     rst_in = 0;
     #10;
     rst_in = 1;
@@ -46,6 +47,7 @@ module fft_tb();
     fft_out_last = 0;
     fft_out_valid = 0;
     fft_out_ready = 0;
+    audio_data = 0;
     #10;
 
     rst_in = 0;

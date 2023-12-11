@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2023.1 (64-bit)
+# SW Build 3865809 on Sun May  7 15:05:29 MDT 2023
+# IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+# SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+# Start of session at: Mon Dec 11 15:19:16 2023
+# Process ID: 10260
+# Current directory: C:/Users/Cesar/Documents/GitHub/FPinGA
+# Command line: vivado.exe -mode batch -source sim.tcl
+# Log file: C:/Users/Cesar/Documents/GitHub/FPinGA/vivado.log
+# Journal file: C:/Users/Cesar/Documents/GitHub/FPinGA\vivado.jou
+# Running On: DESKTOP-M3QN9GM, OS: Windows, CPU Frequency: 2803 MHz, CPU Physical cores: 4, Host memory: 34056 MB
+#-----------------------------------------------------------
+source sim.tcl
+# create_project -force -part  xc7s50csga324-1 ip_2_tb ip_2_tb
+create_project: Time (s): cpu = 00:00:07 ; elapsed = 00:00:09 . Memory (MB): peak = 1462.750 ; gain = 161.730
+WARNING: [Common 17-259] Unknown Tcl command './sim/fft_tb.sv' sending command to the OS shell for execution. It is recommended to use 'exec' to send the command to the OS shell.
+invalid command name "./sim/fft_tb.sv"
+    while executing
+"./sim/fft_tb.sv"
+    invoked from within
+"read_verilog -sv [./sim/fft_tb.sv]"
+    (file "sim.tcl" line 7)
+INFO: [Common 17-206] Exiting Vivado at Mon Dec 11 15:19:33 2023...
