@@ -3,8 +3,8 @@
 # SW Build 3865809 on Sun May  7 15:05:29 MDT 2023
 # IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
 # SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
-# Start of session at: Tue Dec 12 16:23:09 2023
-# Process ID: 31568
+# Start of session at: Tue Dec 12 16:00:32 2023
+# Process ID: 29744
 # Current directory: C:/Users/Cesar/Documents/GitHub/FPinGA
 # Command line: vivado.exe -mode batch -source sim/fsm_sim.tcl
 # Log file: C:/Users/Cesar/Documents/GitHub/FPinGA/vivado.log
@@ -13,7 +13,7 @@
 #-----------------------------------------------------------
 source sim/fsm_sim.tcl
 # create_project -force -part  xc7s50csga324-1 ip_4_tb ip_4_tb
-create_project: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 456.270 ; gain = 164.875
+create_project: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 454.836 ; gain = 162.590
 # read_verilog -sv ./sim/fsm_tb.sv
 # read_verilog -sv ./hdl/tone_detection_fsm.sv
 # read_ip ./ip/div_gen_0/div_gen_0.xci
@@ -35,26 +35,26 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7s50'
 INFO: [Device 21-403] Loading part xc7s50csga324-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 50944
+INFO: [Synth 8-7075] Helper process launched with PID 17120
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1273.016 ; gain = 408.434
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 1273.723 ; gain = 410.648
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'fsm_tb' [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv:4]
 INFO: [Synth 8-251] Starting Sim [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv:56]
 INFO: [Synth 8-251] Simulation finished [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv:85]
 INFO: [Synth 8-6157] synthesizing module 'tone_detection_fsm' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:3]
-INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:54]
-INFO: [Synth 8-6157] synthesizing module 'div_gen_0' [C:/Users/Cesar/Documents/GitHub/FPinGA/.Xil/Vivado-31568-DESKTOP-89OFCK6/realtime/div_gen_0_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'div_gen_0' (0#1) [C:/Users/Cesar/Documents/GitHub/FPinGA/.Xil/Vivado-31568-DESKTOP-89OFCK6/realtime/div_gen_0_stub.v:6]
-WARNING: [Synth 8-689] width (62) of port connection 'm_axis_dout_tdata' does not match port width (64) of module 'div_gen_0' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:152]
-WARNING: [Synth 8-7071] port 's_axis_dividend_tvalid' of module 'div_gen_0' is unconnected for instance 'first_div' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:146]
-WARNING: [Synth 8-7023] instance 'first_div' of module 'div_gen_0' has 7 connections declared, but only 6 given [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:146]
-WARNING: [Synth 8-689] width (62) of port connection 'm_axis_dout_tdata' does not match port width (64) of module 'div_gen_0' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:160]
-WARNING: [Synth 8-7071] port 's_axis_dividend_tvalid' of module 'div_gen_0' is unconnected for instance 'second_div' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:154]
-WARNING: [Synth 8-7023] instance 'second_div' of module 'div_gen_0' has 7 connections declared, but only 6 given [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:154]
-WARNING: [Synth 8-689] width (62) of port connection 'm_axis_dout_tdata' does not match port width (64) of module 'div_gen_0' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:168]
-WARNING: [Synth 8-7071] port 's_axis_dividend_tvalid' of module 'div_gen_0' is unconnected for instance 'third_div' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:162]
-WARNING: [Synth 8-7023] instance 'third_div' of module 'div_gen_0' has 7 connections declared, but only 6 given [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:162]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:52]
+INFO: [Synth 8-6157] synthesizing module 'div_gen_0' [C:/Users/Cesar/Documents/GitHub/FPinGA/.Xil/Vivado-29744-DESKTOP-89OFCK6/realtime/div_gen_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'div_gen_0' (0#1) [C:/Users/Cesar/Documents/GitHub/FPinGA/.Xil/Vivado-29744-DESKTOP-89OFCK6/realtime/div_gen_0_stub.v:6]
+WARNING: [Synth 8-689] width (62) of port connection 'm_axis_dout_tdata' does not match port width (64) of module 'div_gen_0' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:149]
+WARNING: [Synth 8-7071] port 's_axis_dividend_tvalid' of module 'div_gen_0' is unconnected for instance 'first_div' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:143]
+WARNING: [Synth 8-7023] instance 'first_div' of module 'div_gen_0' has 7 connections declared, but only 6 given [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:143]
+WARNING: [Synth 8-689] width (62) of port connection 'm_axis_dout_tdata' does not match port width (64) of module 'div_gen_0' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:157]
+WARNING: [Synth 8-7071] port 's_axis_dividend_tvalid' of module 'div_gen_0' is unconnected for instance 'second_div' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:151]
+WARNING: [Synth 8-7023] instance 'second_div' of module 'div_gen_0' has 7 connections declared, but only 6 given [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:151]
+WARNING: [Synth 8-689] width (62) of port connection 'm_axis_dout_tdata' does not match port width (64) of module 'div_gen_0' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:165]
+WARNING: [Synth 8-7071] port 's_axis_dividend_tvalid' of module 'div_gen_0' is unconnected for instance 'third_div' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:159]
+WARNING: [Synth 8-7023] instance 'third_div' of module 'div_gen_0' has 7 connections declared, but only 6 given [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:159]
 INFO: [Synth 8-6155] done synthesizing module 'tone_detection_fsm' (0#1) [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:3]
 WARNING: [Synth 8-689] width (32) of port connection 'recording_length' does not match port width (1) of module 'tone_detection_fsm' [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv:27]
 WARNING: [Synth 8-85] always block has no event control specified [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv:31]
@@ -63,18 +63,18 @@ WARNING: [Synth 8-85] always block has no event control specified [C:/Users/Cesa
 INFO: [Synth 8-6155] done synthesizing module 'fsm_tb' (0#1) [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv:4]
 WARNING: [Synth 8-6014] Unused sequential element ready_to_div_reg was removed.  [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:39]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1386.680 ; gain = 522.098
+Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1386.406 ; gain = 523.332
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1386.680 ; gain = 522.098
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1386.406 ; gain = 523.332
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1386.680 ; gain = 522.098
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1386.406 ; gain = 523.332
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.007 . Memory (MB): peak = 1386.680 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.007 . Memory (MB): peak = 1386.406 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -87,20 +87,20 @@ Parsing XDC File [c:/Users/Cesar/Documents/GitHub/FPinGA/ip/div_gen_0/ip/div_gen
 Finished Parsing XDC File [c:/Users/Cesar/Documents/GitHub/FPinGA/ip/div_gen_0/ip/div_gen_0/div_gen_0/div_gen_0_in_context.xdc] for cell 'tone_detection/third_div'
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1430.156 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1484.098 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1430.156 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1484.098 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished Constraint Validation : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7s50csga324-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
@@ -109,12 +109,12 @@ Applied set_property KEEP_HIERARCHY = SOFT for tone_detection/first_div. (constr
 Applied set_property KEEP_HIERARCHY = SOFT for tone_detection/second_div. (constraint file  auto generated constraint).
 Applied set_property KEEP_HIERARCHY = SOFT for tone_detection/third_div. (constraint file  auto generated constraint).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-327] inferring latch for variable 'fft_valid_reg' [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv:28]
 WARNING: [Synth 8-327] inferring latch for variable 'fft_out_valid_reg' [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv:19]
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -122,7 +122,7 @@ Start RTL Component Statistics
 Detailed RTL Component Info : 
 +---Adders : 
 	   3 Input   33 Bit       Adders := 3     
-	   2 Input   11 Bit       Adders := 2     
+	   2 Input   11 Bit       Adders := 1     
 +---Registers : 
 	               33 Bit    Registers := 3     
 	               32 Bit    Registers := 4     
@@ -139,8 +139,8 @@ Detailed RTL Component Info :
 	   2 Input    4 Bit        Muxes := 1     
 	  20 Input    3 Bit        Muxes := 1     
 	   2 Input    2 Bit        Muxes := 3     
-	   2 Input    1 Bit        Muxes := 14    
-	   4 Input    1 Bit        Muxes := 7     
+	   2 Input    1 Bit        Muxes := 13    
+	   4 Input    1 Bit        Muxes := 6     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -157,29 +157,29 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
-WARNING: [Synth 8-3936] Found unconnected internal register 'tone_detection/change_3_reg' and it is trimmed from '33' to '32' bits. [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:70]
-WARNING: [Synth 8-3936] Found unconnected internal register 'tone_detection/change_2_reg' and it is trimmed from '33' to '32' bits. [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:71]
-WARNING: [Synth 8-3936] Found unconnected internal register 'tone_detection/change_1_reg' and it is trimmed from '33' to '32' bits. [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:72]
+WARNING: [Synth 8-3936] Found unconnected internal register 'tone_detection/change_3_reg' and it is trimmed from '33' to '32' bits. [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:67]
+WARNING: [Synth 8-3936] Found unconnected internal register 'tone_detection/change_2_reg' and it is trimmed from '33' to '32' bits. [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:68]
+WARNING: [Synth 8-3936] Found unconnected internal register 'tone_detection/change_1_reg' and it is trimmed from '33' to '32' bits. [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:69]
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished Timing Optimization : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished Technology Mapping : Time (s): cpu = 00:00:19 ; elapsed = 00:00:21 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -200,37 +200,37 @@ CRITICAL WARNING: [Synth 8-4442] BlackBox module \tone_detection/first_div  has 
 CRITICAL WARNING: [Synth 8-4442] BlackBox module \tone_detection/second_div  has unconnected pin s_axis_dividend_tvalid
 CRITICAL WARNING: [Synth 8-4442] BlackBox module \tone_detection/third_div  has unconnected pin s_axis_dividend_tvalid
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished IO Insertion : Time (s): cpu = 00:00:23 ; elapsed = 00:00:24 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:23 ; elapsed = 00:00:24 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:23 ; elapsed = 00:00:24 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:23 ; elapsed = 00:00:24 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:23 ; elapsed = 00:00:24 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:23 ; elapsed = 00:00:24 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -249,28 +249,26 @@ Report Cell Usage:
 +------+----------+------+
 |1     |div_gen   |     1|
 |2     |div_gen_0 |     2|
-|4     |BUFG      |     1|
-|5     |CARRY4    |    96|
-|6     |LUT1      |     3|
-|7     |LUT2      |    35|
-|8     |LUT3      |    80|
-|9     |LUT4      |    77|
-|10    |LUT5      |    11|
-|11    |LUT6      |    51|
-|12    |FDRE      |   126|
-|13    |LDC       |     1|
-|14    |LDP       |     1|
+|4     |LUT1      |     3|
+|5     |LUT2      |     2|
+|6     |LUT3      |     4|
+|7     |LUT4      |     4|
+|8     |LUT5      |     2|
+|9     |LUT6      |     6|
+|10    |FDRE      |    15|
+|11    |LDC       |     1|
+|12    |LDP       |     1|
 +------+----------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:23 ; elapsed = 00:00:24 . Memory (MB): peak = 1484.098 ; gain = 621.023
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 3 critical warnings and 6 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:16 ; elapsed = 00:00:23 . Memory (MB): peak = 1430.156 ; gain = 522.098
-Synthesis Optimization Complete : Time (s): cpu = 00:00:24 ; elapsed = 00:00:25 . Memory (MB): peak = 1430.156 ; gain = 565.574
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:15 ; elapsed = 00:00:23 . Memory (MB): peak = 1484.098 ; gain = 523.332
+Synthesis Optimization Complete : Time (s): cpu = 00:00:23 ; elapsed = 00:00:24 . Memory (MB): peak = 1484.098 ; gain = 621.023
 INFO: [Project 1-571] Translating synthesized netlist
 INFO: [Project 1-454] Reading design checkpoint 'c:/Users/Cesar/Documents/GitHub/FPinGA/ip/div_gen_0/ip/div_gen_0/div_gen_0.dcp' for cell 'tone_detection/first_div'
-Netlist sorting complete. Time (s): cpu = 00:00:01 ; elapsed = 00:00:01 . Memory (MB): peak = 1430.156 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 1922 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:01 ; elapsed = 00:00:01 . Memory (MB): peak = 1484.098 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 1826 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-479] Netlist was created with Vivado 2023.1
 INFO: [Project 1-570] Preparing netlist for logic optimization
@@ -278,17 +276,17 @@ INFO: [Project 1-538] Using original IP XDC constraints instead of the XDC const
 INFO: [Project 1-538] Using original IP XDC constraints instead of the XDC constraints in dcp 'c:/Users/Cesar/Documents/GitHub/FPinGA/ip/div_gen_0/ip/div_gen_0/div_gen_0.dcp'
 INFO: [Project 1-538] Using original IP XDC constraints instead of the XDC constraints in dcp 'c:/Users/Cesar/Documents/GitHub/FPinGA/ip/div_gen_0/ip/div_gen_0/div_gen_0.dcp'
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.017 . Memory (MB): peak = 1521.258 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.016 . Memory (MB): peak = 1519.305 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 2 instances were transformed.
   LDC => LDCE: 1 instance 
   LDP => LDPE: 1 instance 
 
-Synth Design complete | Checksum: c1125489
+Synth Design complete | Checksum: ca61f262
 INFO: [Common 17-83] Releasing license: Synthesis
 28 Infos, 20 Warnings, 3 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:36 ; elapsed = 00:00:40 . Memory (MB): peak = 1521.258 ; gain = 1035.164
+synth_design: Time (s): cpu = 00:00:35 ; elapsed = 00:00:39 . Memory (MB): peak = 1519.305 ; gain = 1034.605
 # launch_simulation
 Command: launch_simulation 
 INFO: [Vivado 12-12493] Simulation top is 'fsm_tb'
@@ -333,9 +331,9 @@ Running: C:/Xilinx/Vivado/2023.1/bin/unwrapped/win64.o/xelab.exe --incr --debug 
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:146]
-WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:154]
-WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:162]
+WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:143]
+WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:151]
+WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:159]
 WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 1 for port 'recording_length' [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv:27]
 WARNING: [VRFC 10-3823] variable 'tone_ident' might have multiple concurrent drivers [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv:53]
 Completed static elaboration
@@ -480,7 +478,7 @@ Compiling module xil_defaultlib.tone_detection_fsm
 Compiling module xil_defaultlib.fsm_tb
 Compiling module xil_defaultlib.glbl
 Built simulation snapshot fsm_tb_behav
-run_program: Time (s): cpu = 00:00:00 ; elapsed = 00:00:36 . Memory (MB): peak = 1521.258 ; gain = 0.000
+run_program: Time (s): cpu = 00:00:00 ; elapsed = 00:00:36 . Memory (MB): peak = 1519.305 ; gain = 0.000
 INFO: [USF-XSim-69] 'elaborate' step finished in '36' seconds
 INFO: [USF-XSim-4] XSim::Simulate design
 INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/Cesar/Documents/GitHub/FPinGA/ip_4_tb/ip_4_tb.sim/sim_1/behav/xsim'
@@ -493,7 +491,7 @@ source fsm_tb.tcl
 Starting Sim
 INFO: [USF-XSim-96] XSim completed. Design snapshot 'fsm_tb_behav' loaded.
 INFO: [USF-XSim-97] XSim simulation ran for 1000ns
-launch_simulation: Time (s): cpu = 00:00:00 ; elapsed = 00:00:44 . Memory (MB): peak = 1521.258 ; gain = 0.000
+launch_simulation: Time (s): cpu = 00:00:01 ; elapsed = 00:00:44 . Memory (MB): peak = 1519.305 ; gain = 0.000
 # restart
 INFO: [Wavedata 42-604] Simulation restarted
 # open_vcd
@@ -505,4 +503,4 @@ Simulation finished
 $finish called at time : 250020 ns : File "C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv" Line 86
 # flush_vcd
 # close_vcd
-INFO: [Common 17-206] Exiting Vivado at Tue Dec 12 16:24:49 2023...
+INFO: [Common 17-206] Exiting Vivado at Tue Dec 12 16:02:10 2023...

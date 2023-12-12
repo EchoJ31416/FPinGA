@@ -10,9 +10,11 @@ module div_tb();
   logic signed [61:0] sig_1; // used by the external master to signal that it is able to provide data (critical in pipelining)  
   logic signed [31:0] out_actual;
   logic val;
+  logic read;
+
   div_gen_0 testing_div(
     .aclk(clk_in),
-    .s_axis_divisor_tvalid(1),
+    .s_axis_divisor_tvalid(read),
     .s_axis_divisor_tdata(fft_data_reg_1),
     .s_axis_dividend_tdata(change_1),
     .m_axis_dout_tvalid(val),
@@ -30,6 +32,7 @@ module div_tb();
     $display("Starting Sim");
     clk_in = 0;
     rst_in = 0;
+    read = 0;
     out_actual = 0;
     #10;
     // Reset all variables
@@ -44,6 +47,9 @@ module div_tb();
     
     for (int i = 0; i<10000; i=i+1)begin // Begin FFT Analysis
      #5; // Check clock cycling
+     if (i == 5000)begin
+      read = 1;
+     end
      change_1 = 32'b1111_1111_1111_1111;
      fft_data_reg_1 = 32'b0000_0000_1001;
     end

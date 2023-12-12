@@ -168,15 +168,16 @@ module top_level(
   always_ff @(posedge clk_100mhz)begin  
     if (audio_sample_valid)begin    
       if (fft_last && fft_out_ready)begin
-        fft_valid = 1;
+        fft_valid <= 1;
+        fft_out_valid <= 1; // May need to fix
       end if (fft_out_valid == 1  && fft_out_data != 0)begin
-        fft_valid = 0;
-        fft_out_ready = 0;
-        fft_out_valid = 0;
+        fft_valid <= 0;
+        fft_out_ready <= 0;
+        fft_out_valid <= 0;
       end 
-      fft_data = {audio_data, 8'b0};
-      fft_data_count = fft_data_count + 1;    
-      fft_last = (fft_data_count == 2047); 
+      fft_data <= {audio_data, 8'b0};
+      fft_data_count <= fft_data_count + 1;    
+      fft_last <= (fft_data_count == 2047); 
     end else begin    
       fft_valid = 0;  
     end 
@@ -224,7 +225,7 @@ module top_level(
         THIRD: val_to_display = 32'd3;
         FOURTH: val_to_display = 32'd4;
         MEM_OUT: val_to_display = 32'd5;
-        default: val_to_display = 32'd0;
+        default: val_to_display = 32'd0; // Indicates error
       endcase
     end else begin
       val_to_display == 32'hFEED; // Use to debug pipelining issues

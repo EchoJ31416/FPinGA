@@ -1,4 +1,0 @@
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/sim/div_tb.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module div_tb
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/ip_3_tb/ip_3_tb.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module glbl
