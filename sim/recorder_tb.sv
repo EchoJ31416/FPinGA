@@ -16,7 +16,7 @@ module recorder_tb();
     .audio_valid_in(audio_valid_in),
     .audio_in(audio_in),
     .single_out(single_out)
-  );
+  ); // EDIT RECORDER MODULE TO OUTPUT ERROR IF RUN OUT OF SPACE
 
   always begin
       #5;  //every 5 ns switch...so period of clock is 10 ns...100 MHz clock

@@ -3,4 +3,5 @@ Starting Sim
 ERROR: Could not open vcd file fft_tb.vcd. A VCD file by name dump.vcd has already been opened. Only one VCD file is allowed to be open.
 Starting Sim
 Simulation finished
-$finish called at time : 100020 ns : File "C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fft_tb.sv" Line 63
+$finish called at time : 500030 ns : File "C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fft_tb.sv" Line 103
+INFO: xsimkernel Simulation Memory Usage: 36136 KB (Peak: 36136 KB), Simulation CPU Usage: 34281 ms

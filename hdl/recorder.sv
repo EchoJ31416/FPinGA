@@ -6,7 +6,8 @@ module  recorder(
   input wire signed [7:0] audio_in,
   input wire record_in,
   input wire audio_valid_in,
-  output logic signed [7:0] single_out
+  output logic signed [7:0] single_out,
+  output logic [31:0] length
   );
 
   logic [15:0] w_address;

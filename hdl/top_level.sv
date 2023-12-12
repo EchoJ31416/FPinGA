@@ -98,14 +98,16 @@ module top_level(
   end
     // Recorder
   logic [7:0] single_audio; // recorder output
+  logic [31:0] length; // length of recording in clock cycles
  
-  recorder my_recorder(
+  recorder recorder(
     .clk_in(clk_m), // system clock
     .rst_in(sys_rst),// global reset
     .record_in(record), // button indicating whether to record or not
     .audio_valid_in(audio_sample_valid), // 12 kHz audio sample valid signal
     .audio_in(mic_audio), // 8 bit signed data from microphone
-    .single_out(single_audio) // played back audio (8 bit signed at 12 kHz)
+    .single_out(single_audio), // played back audio (8 bit signed at 12 kHz)
+    .recording_length(length),
   );
 
   // Select Functional Mode - UPDATE AS CAPACITIES IMPROVE
@@ -129,23 +131,23 @@ module top_level(
 
   // FFT  
   logic fft_valid; // used by the external master to signal that it is able to provide data
-  logic fft_last; // asserted by the external master on the last sample of the frame
-  logic fft_ready; // used by the core to signal that it is ready to accept data
-  logic fft_out_last; // asserted by the core on the last sample of the frame
-  logic fft_out_valid; // asserted by the core to signal that it is able to provide status data
-  logic fft_out_ready; // asserted by the external slave to signal that it is ready to accept data
+  logic fft_last; // asserted by the external master on the last sample of the frame (can be used to regulate flow of data)
+  logic fft_ready; // used by the core to signal that it is ready to accept data (can be used to begin recording)
+  logic fft_out_last; // asserted by the core on the last sample of the frame (will begin reporting data on falling edge)
+  logic fft_out_valid; // asserted by the core to signal that it is able to provide status data (begins reporting data on rising edge)
+  logic fft_out_ready; // asserted by the external slave to signal that it is ready to accept data (ready from the fsm)
   
   logic [31:0] fft_data; // unprocessed sample data
   logic [31:0] fft_out_data; // carries processed sample data - [31:16] real, [15:0] imaginary
 
-    // CONTROL FLOW OF DATA - WRITTEN BY PROFF
-  logic [9:0] fft_data_count; // Used to count frames for FFT
+    // CONTROL FLOW OF DATA - WRITTEN BY PROFF - edit based on testbench
+  logic [10:0] fft_data_count; // Used to count frames for FFT
   always_ff @(posedge clk_m)begin  
     if (audio_sample_valid)begin    
-      fft_valid <= 1;    
+      fft_valid <= 1; // Change this to depend on tone_detection fsm    
       fft_data <= {single_audio,8'b0};
       fft_data_count <= fft_data_count + 1;    
-      fft_last <= (fft_data == 1023);
+      fft_last <= (fft_data_count == 2047); 
     end else begin    
       fft_valid = 0;  
     end 
@@ -181,6 +183,8 @@ module top_level(
   localparam THIRD = 3'b010; // variable to store 3rd tone identifier
   localparam FOURTH = 3'b100; // variable to store 4th tone identifier
 
+  localparam MEM_OUT = 3'b101; // variable to indicate recording ran out of memory, user must restart system
+
   always_ff @(posedge clk_100mhz)begin
     if(tone_valid)begin
       case(tone_ident)
@@ -188,6 +192,7 @@ module top_level(
         SECOND: val_to_display = 32'd2;
         THIRD: val_to_display = 32'd3;
         FOURTH: val_to_display = 32'd4;
+        MEM_OUT: val_to_display = 32'd5;
         default: val_to_display = 32'd0;
       endcase
     end else begin

@@ -3,28 +3,42 @@
 module  tone_detection_fsm(
             input wire clk_in,
             input wire rst_in,
-            input wire valid_in_signal,
-            input wire fft_last,
-            input wire [31:0] fft_data,
+            input wire valid_in_signal, // FFT out valid in - begins reporting data at this point
+            input wire fft_last, // FFT out last
+            input wire recording_length, // Length of recording in clock cycles to space signals evenly
+            input signed wire [31:0] fft_data,
             output logic [2:0] tone_ident,
             output logic ready_signal,
-            output logic valid_signal
+            output logic valid_signal,
   );
 
-logic [16:0] fft_data_reg_1; // First bit 0 indicates positive, 1 indicates negative
-logic [16:0] fft_data_reg_2; // First bit 0 indicates positive, 1 indicates negative
-logic [16:0] change; // Used to keep track of change in frequencies
-logic [16:0]
-
+logic signed [31:0] fft_data_reg_1;
+logic signed [31:0] fft_data_reg_2;
+logic signed [31:0] fft_data_reg_3;
+logic signed [32:0] change; // Used to keep track of change in frequencies, ignore overflow bit
+logic [2:0] tone; // Used to store changes  
+logic [1:0] fft_counter; // Used to count how many 
+logic [31:0] cycle_counter; // Used to count 
 typedef enum {IDLE=0, CALC=1, REPORT=2} state;
+// Will only run three fourier transforms to meet goal
+
+always_comb begin
+  // Logic to determine length of recording
+end
+
 always_ff @(posedge clk_in)begin
   if (rst_in)begin
     ready_signal <= 1;
     valid_signal <= 0;
-    // Replace with all variables
+    fft_counter <= 0;
+
+    fft_data_reg_1 <= 0;
+    fft_data_reg_1 <= 0;
+    fft_data_reg_1 <= 0;
+    tone <= 0;
   end else begin
     if (valid_in_signal && fft_last)begin
-      fft_data_reg_1 <= {0 , fft_data[31:16]};
+      fft_data_reg_1 <= fft_data; // FIX DO NOT JUST HAVE POSITIVE REGION
       ready_signal <= 0;      
       state <= IDLE;
     end else begin
@@ -34,10 +48,12 @@ always_ff @(posedge clk_in)begin
         state <= CALC;
       end
       CALC: begin
-        change <= (fft_data_reg_1 - fft_data_reg_2);
+        change <= (fft_data_reg_1 + fft_data_reg_2);
       end
       REPORT: begin
-        // FIll
+        tone <= 0; //FIX
+        valid_signal <= 1;
+        // Fill with logic to identify tone
       end
       endcase
     end
@@ -46,6 +62,10 @@ end
 
 always_comb begin
   case(tone)
+  1: tone_ident = 3'b000;
+  2: tone_ident = 3'b001;
+  3: tone_ident = 3'b010;
+  4: tone_ident = 3'b100;
   default: tone_ident = 3'b000;
   endcase
 end

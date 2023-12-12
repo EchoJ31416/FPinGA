@@ -5,9 +5,9 @@ Running: C:/Xilinx/Vivado/2023.1/bin/unwrapped/win64.o/xelab.exe --incr --debug 
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_config_tdata' [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fft_tb.sv:20]
-WARNING: [VRFC 10-5021] port 'event_status_channel_halt' is not connected on this instance [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fft_tb.sv:20]
-WARNING: [VRFC 10-3823] variable 'fft_ready' might have multiple concurrent drivers [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fft_tb.sv:35]
+WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_config_tdata' [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fft_tb.sv:23]
+WARNING: [VRFC 10-5021] port 'event_status_channel_halt' is not connected on this instance [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fft_tb.sv:23]
+WARNING: [VRFC 10-3823] variable 'fft_ready' might have multiple concurrent drivers [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fft_tb.sv:45]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
