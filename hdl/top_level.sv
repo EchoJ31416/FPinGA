@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`default_nettype none // prevents system from inferring an undeclared logic (good practice)
+`default_nettype none
 
 module top_level(
   input wire clk_100mhz,
@@ -107,13 +107,33 @@ module top_level(
     .audio_valid_in(audio_sample_valid), // 12 kHz audio sample valid signal
     .audio_in(mic_audio), // 8 bit signed data from microphone
     .single_out(single_audio), // played back audio (8 bit signed at 12 kHz)
-    .recording_length(length),
+    .recording_length(length)
   );
+
+  // Length determination for FFT spacing
+  logic [2:0] tone_ident; // three-bit identifier used throughout top level
+  logic [31:0] fft_length; // length of fft duration in clock cycles
+
+  always_comb begin // logic to determine if recorder ran out of space
+    if (length == 32'd149994000) begin // Maximum possible value for length from recorder module
+      tone_ident = 3'b101; // identifer indicates memory issue
+    end
+  end
+
+  div_gen_0 fft_spacing(
+    .aclk(clk_100mhz)
+    .s_axis_divisor_tvalid(1),
+    .s_axis_divisor_tdata(32'd3),
+    .s_axis_dividend_tdata(length),
+    .m_axis_dout_tvalid(),
+    .m_axis_dout_tdata(fft_length)
+  ); // Currently lazy pipelining - consider changing m.axis_dout_tvalid for better pipelining
+    // or adding a .s_axis_divisor_tvalid signal from the modified recorder module
 
   // Select Functional Mode - UPDATE AS CAPACITIES IMPROVE
   logic [2:0] mode;
-  assign mode_0 = 2'b00; // Standby mode
-  assign mode_1 = 2'b01; // Tone Identifying Mode
+  assign mode_0 = 2'b00; // Standby mode 
+  assign mode_1 = 2'b01; // Tone Identifying Mode - must activate before recording
   assign mode_2 = 2'b10; // Randomized Practice Mode
   assign mode_3 = 2'b11; // Challenge Mode
     
@@ -142,7 +162,7 @@ module top_level(
 
     // CONTROL FLOW OF DATA - WRITTEN BY PROFF - edit based on testbench
   logic [10:0] fft_data_count; // Used to count frames for FFT
-  always_ff @(posedge clk_m)begin  
+  always_ff @(posedge clk_100mhz)begin  
     if (audio_sample_valid)begin    
       fft_valid <= 1; // Change this to depend on tone_detection fsm    
       fft_data <= {single_audio,8'b0};
@@ -173,7 +193,8 @@ module top_level(
      .fft_data(fft_out_data),
      .tone_ident(tone_ident),
      .ready_signal(fft_out_ready),
-     .valid_signal(tone_valid)
+     .valid_signal(tone_valid),
+     .recording_length(fft_length)
   );  
 
   // Logic to Change Display Data - CHANGE WITH STATE MACHINE FOR MORE ADVANCED VERSIONS
@@ -186,7 +207,7 @@ module top_level(
   localparam MEM_OUT = 3'b101; // variable to indicate recording ran out of memory, user must restart system
 
   always_ff @(posedge clk_100mhz)begin
-    if(tone_valid)begin
+    if(tone_valid && (mode == mode_1))begin
       case(tone_ident)
         FIRST: val_to_display = 32'd1;   
         SECOND: val_to_display = 32'd2;
