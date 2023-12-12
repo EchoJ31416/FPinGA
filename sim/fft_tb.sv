@@ -65,36 +65,50 @@ module fft_tb();
     // Begin Test
     #10;
     rst_in = 0; 
-    /*
-    for (int i = 0; i<100000; i=i+1)begin // Begin FFT Analysis
-      if (fft_last)begin
-        audio_valid_in = 0;
-        dummy = i;
-      end else if (audio_valid_in) begin
-        audio_data = i; 
-      end else begin
-        audio_data = 0;
-        if (i == dummy*2) begin // Switch with conditions for FFT to finish calculating
-          audio_valid_in = 1;
-        end
-      end
-      #5; // Check clock cycling
-    end
-    */
 
+    
     for (int i = 0; i<33333; i=i+1)begin // Begin FFT Analysis
-      if (fft_last)begin
-        fft_out_ready = 1; // Check - holds last value of fft if not ready to get in more data! This is good! Control, FFT calculations
-        fft_valid = 1; // Without valid in, FFT don't work.
+      // reset
+      if (i==0)begin
+        fft_out_ready = 1;
+      end
+      if (fft_last && fft_out_ready)begin
+        fft_valid = 1;
+      end if (fft_out_valid == 1 && fft_out_data != 0)begin
+        fft_valid = 0;
+        fft_out_ready = 0;
+        fft_out_valid = 0;
       end
       audio_data = 8'b1111_1111; 
       #5; // Check clock cycling
     end
     for (int i = 0; i<33333; i=i+1)begin // Begin FFT Analysis
+    fft_out_ready =! fft_out_ready;
+      if (i==0)begin
+        fft_out_ready = 1;
+      end
+      if (fft_last && fft_out_ready)begin
+        fft_valid = 1;
+      end if (fft_out_valid == 1 && fft_out_data != 0)begin
+        fft_valid = 0;
+        fft_out_ready = 0;
+        fft_out_valid = 0;
+      end
       audio_data = 8'b0000_1111; 
       #5; // Check clock cycling
     end
     for (int i = 0; i<33333; i=i+1)begin // Begin FFT Analysis
+      fft_out_ready = !fft_out_ready;
+      if (i==0)begin
+        fft_out_ready = 1;
+      end
+      if (fft_last && fft_out_ready)begin
+        fft_valid = 1;
+      end if (fft_out_valid == 1 && fft_out_data != 0)begin
+        fft_valid = 0;
+        fft_out_ready = 0;
+        fft_out_valid = 0;
+      end
       audio_data = 8'b1000_1111; 
       #5; // Check clock cycling
     end

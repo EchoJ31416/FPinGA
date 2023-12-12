@@ -3,6 +3,7 @@
 module  tone_detection_fsm(
             input wire clk_in,
             input wire rst_in,
+            input wire external_valid,
             input wire valid_in_signal, // FFT out valid in - begins reporting data at this point
             input wire fft_last, // FFT out last
             input wire recording_length, // Length of recording in clock cycles to space signals evenly
@@ -12,60 +13,67 @@ module  tone_detection_fsm(
             output logic valid_signal,
   );
 
-logic signed [31:0] fft_data_reg_1;
-logic signed [31:0] fft_data_reg_2;
-logic signed [31:0] fft_data_reg_3;
-logic signed [32:0] change; // Used to keep track of change in frequencies, ignore overflow bit
+logic signed [31:0] fft_data_reg_1, fft_data_reg_2, fft_data_reg_3, fft_data_reg_4;
+logic signed [32:0] change_1, change_2, change_3; // Used to keep track of change in frequencies, ignore overflow bit
 logic [2:0] tone; // Used to store changes  
 logic [1:0] fft_counter; // Used to count how many FFTs have occured
 logic [31:0] cycle_counter; // Used to count how many cycles have passed
 
-typedef enum {IDLE=0, CALC=1, REPORT=2} state;
-// Will only run three fourier transforms to meet goal
-
+typedef enum {IDLE=0, CAPTURE=1, CALCULATE=2, REPORT=2} state;
+// Will only run four fourier transforms to meet goal
 // Don't forget to implement division to ensure that you have a considerable change in tone.
 // Arbitrarily determine 20 percent change as a viable difference
+
 
 always_ff @(posedge clk_in)begin
   if (rst_in)begin
     ready_signal <= 1;
     valid_signal <= 0;
     fft_counter <= 0;
-
     fft_data_reg_1 <= 0;
     fft_data_reg_1 <= 0;
     fft_data_reg_1 <= 0;
     tone <= 0;
-
+    cycle_counter <= 0;
+    state <= IDLE;
   end else begin
     cycle_counter <= cycle_counter + 1;
-    if (valid_in_signal && fft_last)begin
-      fft_data_reg_1 <= fft_data;
-      ready_signal <= 0;      
-      state <= IDLE;
-
+    if (valid_in_signal && fft_last && valid_in_signal && external_valid)begin
+      state <= CAPTURE;
+      ready_signal <= 0;     
     end else begin
       if (cycle_counter == fft_length)begin
-        ready_signal <= 1; // Pipelining is really going to hurt on this one.
-      end
-      if (ff_counter == 2'd2)begin
-        state <= REPORT;
+        ready_signal <= 1; // Pipelining is really going to hurt on this one
+      end if (ff_counter == 2'd3)begin 
+        state <= CALCULATE; // Check pipelining on this one
       end else begin
         case(state)
         IDLE: begin 
-          fft_data_reg_2 <= fft_data_reg_1;
-          state <= CALC;
+          if (valid_in_signal && fft_last && valid_in_signal && external_valid)begin
+            state <= CAPTURE;
+            ready_signal <= 0;  
+          end
         end
-        CALC: begin
-          change <= (fft_data_reg_1 + fft_data_reg_2);
-          fft_counter
+        CAPTURE: begin
+          fft_data_reg_4 <= fft_data_reg_3;
+          fft_data_reg_3 <= fft_data_reg_2;
+          fft_data_reg_2 <= fft_data_reg_1;
+          fft_data_reg_1 <= fft_data;
+        end 
+        CALCULATE: begin
+          change_3 = (fft_data_reg_4 - fft_data_reg_3)
+          change_2 = (fft_data_reg_3 - fft_data_reg_2)
+          change_1 = (fft_data_reg_2 - fft_data_reg_1)
+          // Taking break for now, need to determine if change is significant, then assign tone change
+          fft_counter;
+          state <= REPORT;
+
+          // Make changes 6 bits, 11 00 01, fall, neutral, rise.
         end
         REPORT: begin
           tone <= 0; //FIX
-          valid_signal <= 1;
+          valid_signal <= 1; // No need to reset since it's a one-time calculation
           ready_signal <= 0;
-          
-
           // Fill with logic to identify tone
         end
         endcase
@@ -83,6 +91,31 @@ always_comb begin // FIX ASAP!
   default: tone_ident = 3'b000;
   endcase
 end
+
+div_gen_0 change_1(
+    .aclk(clk_in)
+    .s_axis_divisor_tvalid(1),
+    .s_axis_divisor_tdata(fft_data_reg_1),
+    .s_axis_dividend_tdata(change_1),
+    .m_axis_dout_tvalid(),
+    .m_axis_dout_tdata(sig_1)
+  );
+  div_gen_0 change_2(
+    .aclk(clk_in)
+    .s_axis_divisor_tvalid(1),
+    .s_axis_divisor_tdata(32'd3),
+    .s_axis_dividend_tdata(change_2),
+    .m_axis_dout_tvalid(),
+    .m_axis_dout_tdata(sig_2)
+  );
+  div_gen_0 change_3(
+    .aclk(clk_in)
+    .s_axis_divisor_tvalid(1),
+    .s_axis_divisor_tdata(change_3 = ),
+    .s_axis_dividend_tdata(change_3),
+    .m_axis_dout_tvalid(),
+    .m_axis_dout_tdata(sig_3)
+  );
 
 endmodule
 `default_nettype wire

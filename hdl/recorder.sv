@@ -29,6 +29,7 @@ module  recorder(
       single_address <= 0;
       cycle_delay <= 0;
       delay <= 0;
+      largest_address <= 0;
     end else begin
       if (record_in && audio_valid_in)begin // Writing
         w_address <= w_address + 1;
@@ -55,17 +56,17 @@ module  recorder(
     single_out <= single;
   end
 
-  always_comb begin // confirm logic to determine length with TAs (MAY HAVE TO USE IP TO MULTIPLY!)
-    r_address_int = {6'b0, r_address};
+  always_comb begin
+    r_address_int = {6'b0, w_address};
     if (r_address_int > largest_address) begin
       largest_address = r_address_int;
     end
   end
 
   mult_gen_0 multiply(
-    .clk(clk_in) // Clock
-    .A(largest_address) // Value of largest address
-    .B(32'd8333) // Constant that converts samples into clock cycles
+    .CLK(clk_in), // Clock
+    .A(largest_address), // Value of largest address
+    .B(32'd8333), // Constant that converts samples into clock cycles
     .P(length) // Product
   );
   

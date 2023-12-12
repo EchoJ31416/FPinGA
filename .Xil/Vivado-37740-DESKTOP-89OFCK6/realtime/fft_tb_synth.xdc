@@ -1,7 +1,0 @@
-set_property SRC_FILE_INFO {cfile:c:/Users/Cesar/Documents/GitHub/FPinGA/ip/xfft_1/ip/xfft_1/xfft_1/xfft_1_in_context.xdc rfile:../../../ip/xfft_1/ip/xfft_1/xfft_1/xfft_1_in_context.xdc id:1 order:EARLY scoped_inst:fft} [current_design]
-set_property src_info {type:SCOPED_XDC file:1 line:1 export:INPUT save:INPUT read:READ} [current_design]
-set_property CLOCK_PERIOD_OOC_TARGET 10 [get_pins fft/aclk]
-set_property src_info {type:SCOPED_XDC file:1 line:2 export:INPUT save:INPUT read:READ} [current_design]
-set_property IS_IP_OOC_CELL true [get_cells fft]
-set_property src_info {type:TCL file:{} line:-1 export:INPUT save:INPUT read:READ} [current_design]
-set_property KEEP_HIERARCHY SOFT [get_cells fft]

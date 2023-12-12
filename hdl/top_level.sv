@@ -107,7 +107,7 @@ module top_level(
     .audio_valid_in(audio_sample_valid), // 12 kHz audio sample valid signal
     .audio_in(mic_audio), // 8 bit signed data from microphone
     .single_out(single_audio), // played back audio (8 bit signed at 12 kHz)
-    .recording_length(length)
+    .recording_length(length) // Length of address - corroborated by testbench
   );
 
   // Length determination for FFT spacing
@@ -150,7 +150,7 @@ module top_level(
   end
 
   // FFT  
-  logic fft_valid; // used by the external master to signal that it is able to provide data
+  logic fft_valid; // used by the external master to signal that it is able to provide data (critical in pipelining)
   logic fft_last; // asserted by the external master on the last sample of the frame (can be used to regulate flow of data)
   logic fft_ready; // used by the core to signal that it is ready to accept data (can be used to begin recording)
   logic fft_out_last; // asserted by the core on the last sample of the frame (will begin reporting data on falling edge)
@@ -160,14 +160,21 @@ module top_level(
   logic [31:0] fft_data; // unprocessed sample data
   logic [31:0] fft_out_data; // carries processed sample data - [31:16] real, [15:0] imaginary
 
-    // CONTROL FLOW OF DATA - WRITTEN BY PROFF - edit based on testbench
+    // CONTROL FLOW OF DATA - Pipelining on Testbench results
   logic [10:0] fft_data_count; // Used to count frames for FFT
+  
   always_ff @(posedge clk_100mhz)begin  
     if (audio_sample_valid)begin    
-      fft_valid <= 1; // Change this to depend on tone_detection fsm    
-      fft_data <= {single_audio,8'b0};
-      fft_data_count <= fft_data_count + 1;    
-      fft_last <= (fft_data_count == 2047); 
+      if (fft_last && fft_out_ready)begin
+        fft_valid = 1;
+      end if (fft_out_valid == 1  && fft_out_data != 0)begin
+        fft_valid = 0;
+        fft_out_ready = 0;
+        fft_out_valid = 0;
+      end 
+      fft_data = {audio_data, 8'b0};
+      fft_data_count = fft_data_count + 1;    
+      fft_last = (fft_data_count == 2047); 
     end else begin    
       fft_valid = 0;  
     end 
@@ -194,7 +201,8 @@ module top_level(
      .tone_ident(tone_ident),
      .ready_signal(fft_out_ready),
      .valid_signal(tone_valid),
-     .recording_length(fft_length)
+     .recording_length(fft_length),
+     .external_valid(fft_valid)
   );  
 
   // Logic to Change Display Data - CHANGE WITH STATE MACHINE FOR MORE ADVANCED VERSIONS
