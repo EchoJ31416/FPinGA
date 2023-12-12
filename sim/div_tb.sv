@@ -9,12 +9,13 @@ module div_tb();
   logic signed [31:0] change_1; // asserted by the external master on the last sample of the frame (can be used to regulate flow of data)
   logic signed [61:0] sig_1; // used by the external master to signal that it is able to provide data (critical in pipelining)  
   logic signed [31:0] out_actual;
+  logic val;
   div_gen_0 testing_div(
     .aclk(clk_in),
     .s_axis_divisor_tvalid(1),
     .s_axis_divisor_tdata(fft_data_reg_1),
     .s_axis_dividend_tdata(change_1),
-    .m_axis_dout_tvalid(),
+    .m_axis_dout_tvalid(val),
     .m_axis_dout_tdata(sig_1));
 
   always begin // 100 MHz clock
@@ -52,8 +53,8 @@ module div_tb();
       #5; // Check clock cycling
     end
     for (int i = 0; i<10000; i=i+1)begin // Begin FFT Analysis
-      change_1 = 32'd1111;
-      fft_data_reg_1 = 32'b0000_0000_0000;
+      change_1 = 32'd1 * 32'd100;
+      fft_data_reg_1 = 32'd5;
       #5; // Check clock cycling
     end
 
@@ -62,5 +63,3 @@ module div_tb();
   end
 endmodule
 `default_nettype wire
-
-// WRONG IP - GIVES REMAINDER

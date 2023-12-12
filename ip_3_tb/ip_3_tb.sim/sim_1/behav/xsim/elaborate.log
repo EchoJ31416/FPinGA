@@ -5,7 +5,7 @@ Running: C:/Xilinx/Vivado/2023.1/bin/unwrapped/win64.o/xelab.exe --incr --debug 
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/div_tb.sv:12]
+WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/div_tb.sv:13]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis

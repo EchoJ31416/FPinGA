@@ -8,6 +8,7 @@ module fsm_tb();
   logic [15:0] fft_in; // Only analyzing real part of FFT datas
   logic [2:0] tone_identifier;
   logic ready;
+  logic val;
 
   tone_detection_fsm fsm(
             .clk_in(clk_in),

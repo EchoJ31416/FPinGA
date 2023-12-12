@@ -19,6 +19,7 @@ logic signed [61:0] quo_1, quo_2, quo_3; // quotients to calculate signidicant c
 logic [2:0] tone; // Used to store changes  
 logic [1:0] fft_counter; // Used to count how many FFTs have occured
 logic [31:0] cycle_counter; // Used to count how many cycles have passed
+logic ready_to_div; // Used to trigger division module
 
 typedef enum {IDLE=0, CAPTURE=1, CALCULATE=2, REPORT=2} state;
 // Will only run four fourier transforms to meet goal
@@ -36,6 +37,7 @@ always_ff @(posedge clk_in)begin
     fft_data_reg_1 <= 0;
     tone <= 0;
     cycle_counter <= 0;
+    ready_to_div <= 0;
     state <= IDLE;
   end else begin
     cycle_counter <= cycle_counter + 1;
@@ -62,16 +64,16 @@ always_ff @(posedge clk_in)begin
           fft_data_reg_1 <= fft_data;
         end 
         CALCULATE: begin
-          change_3 = (fft_data_reg_4 - fft_data_reg_3)
-          change_2 = (fft_data_reg_3 - fft_data_reg_2)
-          change_1 = (fft_data_reg_2 - fft_data_reg_1)
-          // Taking break for now, need to determine if change is significant, then assign tone change
-          fft_counter;
+          change_3 <= (fft_data_reg_4 - fft_data_reg_3) * 31'd100; // May be very inefficient, revise
+          change_2 <= (fft_data_reg_3 - fft_data_reg_2) * 31'd100; // Consider using bitshift twice, then multiply
+          change_1 <= (fft_data_reg_2 - fft_data_reg_1) * 31'd100; 
+          ready_to_div <= 1; 
+          
           state <= REPORT;
-
           // Make changes 6 bits, 11 00 01, fall, neutral, rise.
         end
         REPORT: begin
+          ready_to_div <= 0;
           tone <= 0; //FIX
           valid_signal <= 1; // No need to reset since it's a one-time calculation
           ready_signal <= 0;
