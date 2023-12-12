@@ -3,4 +3,4 @@ Starting Sim
 ERROR: Could not open vcd file div_tb.vcd. A VCD file by name dump.vcd has already been opened. Only one VCD file is allowed to be open.
 Starting Sim
 Simulation finished
-$finish called at time : 150035 ns : File "C:/Users/Cesar/Documents/GitHub/FPinGA/sim/div_tb.sv" Line 59
+$finish called at time : 150035 ns : File "C:/Users/Cesar/Documents/GitHub/FPinGA/sim/div_tb.sv" Line 61

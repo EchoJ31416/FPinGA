@@ -15,6 +15,7 @@ module  tone_detection_fsm(
 
 logic signed [31:0] fft_data_reg_1, fft_data_reg_2, fft_data_reg_3, fft_data_reg_4;
 logic signed [32:0] change_1, change_2, change_3; // Used to keep track of change in frequencies, ignore overflow bit
+logic signed [61:0] quo_1, quo_2, quo_3; // quotients to calculate signidicant changes
 logic [2:0] tone; // Used to store changes  
 logic [1:0] fft_counter; // Used to count how many FFTs have occured
 logic [31:0] cycle_counter; // Used to count how many cycles have passed
@@ -92,29 +93,29 @@ always_comb begin // FIX ASAP!
   endcase
 end
 
-div_gen_0 change_1(
+div_gen_0 first_div(
     .aclk(clk_in)
     .s_axis_divisor_tvalid(1),
     .s_axis_divisor_tdata(fft_data_reg_1),
     .s_axis_dividend_tdata(change_1),
     .m_axis_dout_tvalid(),
-    .m_axis_dout_tdata(sig_1)
+    .m_axis_dout_tdata(quo_1)
   );
-  div_gen_0 change_2(
+  div_gen_0 second_div(
     .aclk(clk_in)
     .s_axis_divisor_tvalid(1),
-    .s_axis_divisor_tdata(32'd3),
+    .s_axis_divisor_tdata(fft_data_reg_2),
     .s_axis_dividend_tdata(change_2),
     .m_axis_dout_tvalid(),
-    .m_axis_dout_tdata(sig_2)
+    .m_axis_dout_tdata(quo_2)
   );
-  div_gen_0 change_3(
+  div_gen_0 third_div(
     .aclk(clk_in)
     .s_axis_divisor_tvalid(1),
-    .s_axis_divisor_tdata(change_3 = ),
+    .s_axis_divisor_tdata(fft_data_reg_3),
     .s_axis_dividend_tdata(change_3),
     .m_axis_dout_tvalid(),
-    .m_axis_dout_tdata(sig_3)
+    .m_axis_dout_tdata(quo_3)
   );
 
 endmodule

@@ -7,8 +7,8 @@ module div_tb();
   logic rst_in;
   logic signed [31:0] fft_data_reg_1; // used by the external master to signal that it is able to provide data (critical in pipelining)
   logic signed [31:0] change_1; // asserted by the external master on the last sample of the frame (can be used to regulate flow of data)
-  logic signed [31:0] sig_1; // used by the external master to signal that it is able to provide data (critical in pipelining)  
-  
+  logic signed [61:0] sig_1; // used by the external master to signal that it is able to provide data (critical in pipelining)  
+  logic signed [31:0] out_actual;
   div_gen_0 testing_div(
     .aclk(clk_in),
     .s_axis_divisor_tvalid(1),
@@ -20,6 +20,7 @@ module div_tb();
   always begin // 100 MHz clock
       #5; 
       clk_in = !clk_in;
+      out_actual = sig_1[61:32];
   end
 
   initial begin
@@ -28,6 +29,7 @@ module div_tb();
     $display("Starting Sim");
     clk_in = 0;
     rst_in = 0;
+    out_actual = 0;
     #10;
     // Reset all variables
     rst_in = 1;
@@ -37,7 +39,7 @@ module div_tb();
     // Begin Test
     #10;
     rst_in = 0; 
-
+    
     
     for (int i = 0; i<10000; i=i+1)begin // Begin FFT Analysis
      #5; // Check clock cycling
@@ -45,8 +47,8 @@ module div_tb();
      fft_data_reg_1 = 32'b0000_0000_1001;
     end
     for (int i = 0; i<10000; i=i+1)begin // Begin FFT Analysis
-      change_1 = 32'b0000_0000_1111_1111;
-      fft_data_reg_1 = 32'b0000_0000_1100;
+      change_1 = 32'd9;
+      fft_data_reg_1 = 32'd3;
       #5; // Check clock cycling
     end
     for (int i = 0; i<10000; i=i+1)begin // Begin FFT Analysis
@@ -60,3 +62,5 @@ module div_tb();
   end
 endmodule
 `default_nettype wire
+
+// WRONG IP - GIVES REMAINDER

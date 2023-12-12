@@ -656,11 +656,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Dec 12 09:16:53 UTC 2023</spirit:value>
+            <spirit:value>Tue Dec 12 15:43:44 UTC 2023</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:b94f0554</spirit:value>
+            <spirit:value>9:4163ec08</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -674,11 +674,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Dec 12 09:17:40 UTC 2023</spirit:value>
+            <spirit:value>Tue Dec 12 15:44:42 UTC 2023</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:b94f0554</spirit:value>
+            <spirit:value>9:4163ec08</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -692,11 +692,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Dec 12 09:16:53 UTC 2023</spirit:value>
+            <spirit:value>Tue Dec 12 15:43:44 UTC 2023</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:b94f0554</spirit:value>
+            <spirit:value>9:4163ec08</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -711,11 +711,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Dec 12 09:16:53 UTC 2023</spirit:value>
+            <spirit:value>Tue Dec 12 15:43:44 UTC 2023</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:b94f0554</spirit:value>
+            <spirit:value>9:4163ec08</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -729,11 +729,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Dec 12 09:16:53 UTC 2023</spirit:value>
+            <spirit:value>Tue Dec 12 15:43:44 UTC 2023</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:b94f0554</spirit:value>
+            <spirit:value>9:4163ec08</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -779,11 +779,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Dec 12 09:16:53 UTC 2023</spirit:value>
+            <spirit:value>Tue Dec 12 15:43:44 UTC 2023</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:10dfad0b</spirit:value>
+            <spirit:value>9:0b2fc6da</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -799,11 +799,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Dec 12 09:16:53 UTC 2023</spirit:value>
+            <spirit:value>Tue Dec 12 15:43:44 UTC 2023</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:10dfad0b</spirit:value>
+            <spirit:value>9:0b2fc6da</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -849,11 +849,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Dec 12 09:16:53 UTC 2023</spirit:value>
+            <spirit:value>Tue Dec 12 15:43:44 UTC 2023</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:b94f0554</spirit:value>
+            <spirit:value>9:4163ec08</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -869,11 +869,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Dec 12 09:16:53 UTC 2023</spirit:value>
+            <spirit:value>Tue Dec 12 15:43:44 UTC 2023</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:b94f0554</spirit:value>
+            <spirit:value>9:4163ec08</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -889,11 +889,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Tue Dec 12 09:16:53 UTC 2023</spirit:value>
+            <spirit:value>Tue Dec 12 15:43:44 UTC 2023</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>9:b94f0554</spirit:value>
+            <spirit:value>9:4163ec08</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1311,7 +1311,7 @@
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>C_LATENCY</spirit:name>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_LATENCY">36</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_LATENCY">68</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>ALGORITHM_TYPE</spirit:name>
@@ -1335,7 +1335,7 @@
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>FRACTIONAL_B</spirit:name>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.FRACTIONAL_B">0</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.FRACTIONAL_B">1</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>FRACTIONAL_WIDTH</spirit:name>
@@ -1910,11 +1910,11 @@
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>remainder_type</spirit:name>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.remainder_type" spirit:choiceRef="choice_list_a47a4c93" spirit:order="11">Remainder</spirit:value>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.remainder_type" spirit:choiceRef="choice_list_a47a4c93" spirit:order="11">Fractional</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>fractional_width</spirit:name>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.fractional_width" spirit:order="12" spirit:minimum="0" spirit:maximum="64" spirit:rangeType="long">32</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.fractional_width" spirit:order="12" spirit:minimum="2" spirit:maximum="64" spirit:rangeType="long">32</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>operand_sign</spirit:name>
@@ -1950,7 +1950,7 @@
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>latency</spirit:name>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.latency" spirit:order="21" spirit:minimum="36" spirit:maximum="36" spirit:rangeType="long">36</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.latency" spirit:order="21" spirit:minimum="68" spirit:maximum="68" spirit:rangeType="long">68</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>ACLKEN</spirit:name>
@@ -1984,10 +1984,12 @@
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S_AXIS_DIVISOR.TDATA_NUM_BYTES" xilinx:valueSource="auto"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S_AXIS_DIVISOR.TDEST_WIDTH" xilinx:valueSource="constant"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S_AXIS_DIVISOR.TID_WIDTH" xilinx:valueSource="constant"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.divide_by_zero_detect" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.dividend_and_quotient_width" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.divisor_width" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.fractional_width" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.latency" xilinx:valueSource="user"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.remainder_type" xilinx:valueSource="user"/>
       </xilinx:configElementInfos>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>

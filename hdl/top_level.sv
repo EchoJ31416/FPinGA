@@ -112,21 +112,23 @@ module top_level(
 
   // Length determination for FFT spacing
   logic [2:0] tone_ident; // three-bit identifier used throughout top level
+  logic [61:0] div_out; // intermediate value
   logic [31:0] fft_length; // length of fft duration in clock cycles
 
   always_comb begin // logic to determine if recorder ran out of space
     if (length == 32'd149994000) begin // Maximum possible value for length from recorder module
       tone_ident = 3'b101; // identifer indicates memory issue
     end
+    fft_length = div_out[61:32]; // rounded number of clock cycles between each FFT
   end
 
   div_gen_0 fft_spacing(
     .aclk(clk_100mhz)
     .s_axis_divisor_tvalid(1),
-    .s_axis_divisor_tdata(32'd3),
+    .s_axis_divisor_tdata(32'd4),
     .s_axis_dividend_tdata(length),
     .m_axis_dout_tvalid(),
-    .m_axis_dout_tdata(fft_length)
+    .m_axis_dout_tdata(div_out)
   ); // Currently lazy pipelining - consider changing m.axis_dout_tvalid for better pipelining
     // or adding a .s_axis_divisor_tvalid signal from the modified recorder module
 
@@ -206,7 +208,7 @@ module top_level(
   );  
 
   // Logic to Change Display Data - CHANGE WITH STATE MACHINE FOR MORE ADVANCED VERSIONS
-  // UPDATE WITH HDMI WHEN PROVE FOURIER WORKS
+  // UPDATE WITH HDMI WHEN WE PROVE FOURIER WORKS
   localparam FIRST = 3'b000; // variable to store 1st tone identifier
   localparam SECOND = 3'b001; // variable to store 2nd tone identifier
   localparam THIRD = 3'b010; // variable to store 3rd tone identifier
