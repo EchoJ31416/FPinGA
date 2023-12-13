@@ -7,7 +7,7 @@ module  recorder(
   input wire record_in,
   input wire audio_valid_in,
   output logic signed [7:0] single_out,
-  output logic [31:0] length // length of recording in clock cycles
+  output logic [31:0] recording_length // length of recording in clock cycles
   );
 
   logic [15:0] w_address;
@@ -67,7 +67,7 @@ module  recorder(
     .CLK(clk_in), // Clock
     .A(largest_address), // Value of largest address
     .B(32'd8333), // Constant that converts samples into clock cycles
-    .P(length) // Product
+    .P(recording_length) // Product
   );
   
   xilinx_true_dual_port_read_first_2_clock_ram #(

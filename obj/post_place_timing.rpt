@@ -1,0 +1,87 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
+| Date         : Tue Dec 12 21:04:50 2023
+| Host         : DESKTOP-89OFCK6 running 64-bit major release  (build 9200)
+| Command      : report_timing -file obj/post_place_timing.rpt
+| Design       : top_level
+| Device       : 7s50-csga324
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+| Design State : Fully Placed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Slack (MET) :             3.098ns  (required time - arrival time)
+  Source:                 tone_detection/change_3_reg[20]/C
+                            (rising edge-triggered cell FDRE clocked by clk_out_audio_clk_wiz  {rise@0.000ns fall@5.087ns period=10.173ns})
+  Destination:            tone_detection/fft_data_reg_1_reg[16]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_out_audio_clk_wiz  {rise@0.000ns fall@5.087ns period=10.173ns})
+  Path Group:             clk_out_audio_clk_wiz
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.173ns  (clk_out_audio_clk_wiz rise@10.173ns - clk_out_audio_clk_wiz rise@0.000ns)
+  Data Path Delay:        6.514ns  (logic 1.105ns (16.963%)  route 5.409ns (83.037%))
+  Logic Levels:           5  (LUT4=2 LUT5=1 LUT6=2)
+  Clock Path Skew:        -0.042ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.630ns = ( 8.543 - 10.173 ) 
+    Source Clock Delay      (SCD):    -1.035ns
+    Clock Pessimism Removal (CPR):    0.554ns
+  Clock Uncertainty:      0.107ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.203ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_out_audio_clk_wiz rise edge)
+                                                      0.000     0.000 r  
+    N15                                               0.000     0.000 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000     0.000    macw/clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         1.440     1.440 r  macw/clkin1_ibufg/O
+                         net (fo=1, estimated)        1.233     2.673    macw/clk_in_audio_clk_wiz
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -7.025    -4.352 r  macw/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, estimated)        1.666    -2.686    macw/clk_out_audio_clk_wiz
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096    -2.590 r  macw/clkout1_buf/O
+                         net (fo=8984, estimated)     1.555    -1.035    tone_detection/clk_out
+    SLICE_X49Y55         FDRE                                         r  tone_detection/change_3_reg[20]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X49Y55         FDRE (Prop_fdre_C_Q)         0.456    -0.579 f  tone_detection/change_3_reg[20]/Q
+                         net (fo=1, estimated)        1.153     0.574    tone_detection/change_3[20]
+    SLICE_X49Y60         LUT4 (Prop_lut4_I1_O)        0.124     0.698 f  tone_detection/state[0]_i_20/O
+                         net (fo=1, estimated)        0.485     1.183    tone_detection/state[0]_i_20_n_0
+    SLICE_X49Y60         LUT5 (Prop_lut5_I4_O)        0.124     1.307 f  tone_detection/state[0]_i_10/O
+                         net (fo=1, estimated)        0.463     1.770    tone_detection/state[0]_i_10_n_0
+    SLICE_X49Y59         LUT6 (Prop_lut6_I5_O)        0.124     1.894 f  tone_detection/state[0]_i_4/O
+                         net (fo=1, estimated)        1.122     3.016    tone_detection/state[0]_i_4_n_0
+    SLICE_X47Y55         LUT6 (Prop_lut6_I0_O)        0.124     3.140 r  tone_detection/state[0]_i_3/O
+                         net (fo=6, estimated)        1.183     4.323    tone_detection/state[0]_i_3_n_0
+    SLICE_X56Y55         LUT4 (Prop_lut4_I0_O)        0.153     4.476 r  tone_detection/fft_counter[2]_i_1/O
+                         net (fo=34, estimated)       1.003     5.479    tone_detection/fft_counter
+    SLICE_X47Y58         FDRE                                         r  tone_detection/fft_data_reg_1_reg[16]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_out_audio_clk_wiz rise edge)
+                                                     10.173    10.173 r  
+    N15                                               0.000    10.173 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000    10.173    macw/clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         1.370    11.543 r  macw/clkin1_ibufg/O
+                         net (fo=1, estimated)        1.171    12.715    macw/clk_in_audio_clk_wiz
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -7.279     5.436 r  macw/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, estimated)        1.583     7.019    macw/clk_out_audio_clk_wiz
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091     7.110 r  macw/clkout1_buf/O
+                         net (fo=8984, estimated)     1.433     8.543    tone_detection/clk_out
+    SLICE_X47Y58         FDRE                                         r  tone_detection/fft_data_reg_1_reg[16]/C
+                         clock pessimism              0.554     9.096    
+                         clock uncertainty           -0.107     8.989    
+    SLICE_X47Y58         FDRE (Setup_fdre_C_CE)      -0.412     8.577    tone_detection/fft_data_reg_1_reg[16]
+  -------------------------------------------------------------------
+                         required time                          8.577    
+                         arrival time                          -5.479    
+  -------------------------------------------------------------------
+                         slack                                  3.098    
+
+
+
+

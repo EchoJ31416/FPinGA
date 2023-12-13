@@ -29,13 +29,16 @@ module top_level(
 
   // Clock magic
   logic clk_m;
-  audio_clk_wiz macw (.clk_in(clk_100mhz), .clk_out(clk_m)); //98.3MHz
+  logic clk_0;
+  
+  audio_clk_wiz macw (.clk_in(clk_100mhz), .clk_out(clk_m)); //98.3MHz - How will this affect the FFT?
+  assign clk_0 = clk_m;
 
   // Seven segment for display - REPLACE WITH HDMI SECTION IN THE FUTURE
   logic [31:0] val_to_display; // value of number to display using 7s
   logic [6:0] ss_c; // used to grab output cathode signal for 7s leds
 
-  seven_segment_controller display(.clk_in(clk_100mhz),
+  seven_segment_controller display(.clk_in(clk_0),
                                 .rst_in(sys_rst),
                                 .val_in(val_to_display),
                                 .cat_out(ss_c),
@@ -123,7 +126,7 @@ module top_level(
   end
 
   div_gen_0 fft_spacing(
-    .aclk(clk_100mhz)
+    .aclk(clk_0),
     .s_axis_divisor_tvalid(1),
     .s_axis_divisor_tdata(32'd4),
     .s_axis_dividend_tdata(length),
@@ -133,7 +136,7 @@ module top_level(
     // or adding a .s_axis_divisor_tvalid signal from the modified recorder module
 
   // Select Functional Mode - UPDATE AS CAPACITIES IMPROVE
-  logic [2:0] mode;
+  logic [2:0] mode, mode_0, mode_1, mode_2, mode_3;
   assign mode_0 = 2'b00; // Standby mode 
   assign mode_1 = 2'b01; // Tone Identifying Mode - must activate before recording
   assign mode_2 = 2'b10; // Randomized Practice Mode
@@ -147,7 +150,7 @@ module top_level(
     end else if (sw[2])begin
       mode = mode_2;
     end else if (sw[3])begin
-      mode = mode_3
+      mode = mode_3;
     end
   end
 
@@ -158,18 +161,17 @@ module top_level(
   logic fft_out_last; // asserted by the core on the last sample of the frame (will begin reporting data on falling edge)
   logic fft_out_valid; // asserted by the core to signal that it is able to provide status data (begins reporting data on rising edge)
   logic fft_out_ready; // asserted by the external slave to signal that it is ready to accept data (ready from the fsm)
-  
   logic [31:0] fft_data; // unprocessed sample data
   logic [31:0] fft_out_data; // carries processed sample data - [31:16] real, [15:0] imaginary
 
     // CONTROL FLOW OF DATA - Pipelining on Testbench results
   logic [10:0] fft_data_count; // Used to count frames for FFT
   
-  always_ff @(posedge clk_100mhz)begin  
+  always_ff @(posedge clk_0)begin  
     if (audio_sample_valid)begin    
       if (fft_last && fft_out_ready)begin
         fft_valid <= 1;
-        fft_out_valid <= 1; // May need to fix
+        fft_out_valid <= 1; // May need to fix this pipelining issue
       end if (fft_out_valid == 1  && fft_out_data != 0)begin
         fft_valid <= 0;
         fft_out_ready <= 0;
@@ -185,7 +187,7 @@ module top_level(
 
     // Transform length of 1024, Frequency of 100 MHz, Data throughput of 50 Msps
   xfft_1 fft(
-   .aclk(clk_100mhz),
+   .aclk(clk_0),
    .s_axis_data_tvalid(fft_valid), .s_axis_data_tdata(fft_data),
    .s_axis_data_tlast(fft_last), .s_axis_data_tready(fft_ready), 
    .s_axis_config_tdata(0), .s_axis_config_tvalid(0), .s_axis_config_tready(),
@@ -195,11 +197,12 @@ module top_level(
    .event_data_in_channel_halt(), .event_data_out_channel_halt());
 
   // Tone Checking Finite State Machine
+  logic tone_valid; // asserted when valid tone is returned by fsm
   tone_detection_fsm tone_detection(
      .valid_in_signal(fft_out_valid),
      .fft_last(fft_out_last),
-     .clk_in(clk_100mhz),
-     .rst_in(rst_in),
+     .clk_in(clk_0),
+     .rst_in(sys_rst),
      .fft_data(fft_out_data),
      .tone_ident(tone_ident),
      .ready_signal(fft_out_ready),
@@ -217,8 +220,8 @@ module top_level(
 
   localparam MEM_OUT = 3'b101; // variable to indicate recording ran out of memory, user must restart system
 
-  always_ff @(posedge clk_100mhz)begin
-    if(tone_valid && (mode == mode_1))begin
+  always_ff @(posedge clk_0)begin
+    if(tone_valid && (mode == mode_0))begin
       case(tone_ident)
         FIRST: val_to_display = 32'd1;   
         SECOND: val_to_display = 32'd2;
@@ -228,7 +231,7 @@ module top_level(
         default: val_to_display = 32'd0; // Indicates error
       endcase
     end else begin
-      val_to_display == 32'hFEED; // Use to debug pipelining issues
+      val_to_display = 32'hFEED; // Use to debug pipelining issues
     end
   end
 endmodule // top_level

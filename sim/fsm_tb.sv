@@ -68,7 +68,7 @@ module fsm_tb();
     rst_in = 1;
     #10;
     rst_in = 0;
-    fft_length = 6250;
+    fft_length = 32'd6250;
 
     for (int i = 0; i<10000; i=i+1)begin
       fft_out_data = 32'b1111_1111_1111;
