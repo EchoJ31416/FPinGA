@@ -6,7 +6,7 @@ module  tone_detection_fsm(
             input wire external_valid,
             input wire valid_in_signal, // FFT out valid in - begins reporting data at this point
             input wire fft_last, // FFT out last
-            input wire recording_length, // Length of recording in clock cycles to space signals evenly
+            input wire [31:0] recording_length, // Length of recording in clock cycles to space signals evenly
             input wire signed [31:0] fft_data,
             output logic [2:0] tone_ident,
             output logic ready_signal,
@@ -17,7 +17,7 @@ logic signed [31:0] fft_data_reg_1, fft_data_reg_2, fft_data_reg_3, fft_data_reg
 logic signed [32:0] change_1, change_2, change_3; // Used to keep track of change in frequencies, ignore overflow bit
 logic signed [61:0] quo_1, quo_2, quo_3; // quotients to calculate signidicant changes
 logic [5:0] tone; // Used to store changes (3 packets of 2 bits corresponding to a change - a one in the first place indicates a negative change, a zero in the first place indicates a positive change)
-logic [10:0] fft_counter; // Used to count how many FFTs have occured
+logic [2:0] fft_counter; // Used to count how many FFTs have occured
 logic [31:0] cycle_counter; // Used to count how many cycles have passed
 logic ready_to_div; // Used to trigger division module
 localparam SIGNIFICANT = 32'd20; // Used to determine if there is a significant change in tone
@@ -39,15 +39,18 @@ always_ff @(posedge clk_in)begin
     ready_to_div <= 0;
     state <= IDLE;
   end else begin
-    if (valid_in_signal && external_valid)begin // Never triggered
+    if (valid_in_signal && external_valid && state != REPORT)begin // Never triggered
       state <= CAPTURE;
       ready_signal <= 0;     
     end else begin
       if (cycle_counter >= recording_length)begin // Not being triggered - not synthesized
         ready_signal <= 1; // Pipelining is really going to hurt on this one
         cycle_counter <= 0; // May prove issue due to double assignment
-      end if (fft_counter == 2'd3 && state == IDLE)begin 
+      end else if (fft_counter == 3'd4 && state == IDLE)begin 
         state <= CALCULATE; // Check pipelining on this one
+        cycle_counter <= cycle_counter + 1;
+      end else if (fft_last == 1 && ((change_1 != 0 )||(change_2 != 0 )||(change_3 != 0 )))begin // Latency to finish division
+        state <= REPORT;
         cycle_counter <= cycle_counter + 1;
       end else begin
         cycle_counter <= cycle_counter + 1;
@@ -59,7 +62,7 @@ always_ff @(posedge clk_in)begin
           end
         end
         CAPTURE: begin
-          fft_data_reg_4 <= fft_data_reg_3;
+          fft_data_reg_4 <= fft_data_reg_3; // counterintuitive - reg_1 is the most recent sample
           fft_data_reg_3 <= fft_data_reg_2;
           fft_data_reg_2 <= fft_data_reg_1;
           fft_data_reg_1 <= fft_data;
@@ -67,14 +70,14 @@ always_ff @(posedge clk_in)begin
           fft_counter <= fft_counter + 1;
         end 
         CALCULATE: begin
-          change_3 <= (fft_data_reg_4 - fft_data_reg_3) * 31'd100; // May be very inefficient, revise
-          change_2 <= (fft_data_reg_3 - fft_data_reg_2) * 31'd100; // Consider using bitshift twice, then multiply
-          change_1 <= (fft_data_reg_2 - fft_data_reg_1) * 31'd100; 
-          state <= REPORT;
+          change_1 <= (fft_data_reg_3 - fft_data_reg_4) * 31'd100; // May be very inefficient, revise
+          change_2 <= (fft_data_reg_2 - fft_data_reg_3) * 31'd100; // Consider using bitshift twice, then multiply
+          change_3 <= (fft_data_reg_1 - fft_data_reg_2) * 31'd100; 
+          state <= IDLE;
         end
-        REPORT: begin
-          if ((quo_1 != 0) && (quo_2 != 0) && (quo_3 != 0))begin // Make changes 6 bits, 11 00 01, fall, neutral, rise.
-            if (quo_1 >= SIGNIFICANT)begin
+        REPORT: begin // CHECK CALCULATIONS PHASE AND NEGATIVE DETERMINATION
+        
+            if (quo_1[61:32] >= SIGNIFICANT)begin
               if (change_1[31] == 1)begin // How to determine if a change is negative? Good question - fix this logic to represent that
                 tone[1:0] <= 2'b11;
               end else begin
@@ -84,25 +87,24 @@ always_ff @(posedge clk_in)begin
               tone[1:0] <= 2'b00;
             end if (quo_2 >= SIGNIFICANT)begin
               if (change_2[31] == 1)begin // How to determine if a change is negative? Good question - fix this logic to represent that
-                tone[1:0] <= 2'b11;
+                tone[3:2] <= 2'b11;
               end else begin
-                tone[1:0] <= 2'b01;
+                tone[3:2] <= 2'b01;
               end
             end else begin
               tone[3:2] <= 2'b00;
             end if (quo_3 >= SIGNIFICANT)begin
               if (change_3[31] == 1)begin // How to determine if a change is negative? Good question - fix this logic to represent that
-                tone[1:0] <= 2'b11;
+                tone[5:4] <= 2'b11;
               end else begin
-                tone[1:0] <= 2'b01;
+                tone[5:4] <= 2'b01;
               end
             end else begin
               tone[5:4] <= 2'b00;
-            end
+            end 
             valid_signal <= 1; // No need to reset since it's a one-time calculation
             ready_signal <= 0;
           end
-        end
         endcase
       end
     end

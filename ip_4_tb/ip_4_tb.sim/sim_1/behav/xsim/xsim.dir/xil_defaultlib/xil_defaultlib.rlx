@@ -1,8 +1,0 @@
-0.7
-2020.2
-May  7 2023
-15:24:31
-C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv,1702416184,systemVerilog,,C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv,,tone_detection_fsm,,uvm,,,,,,
-C:/Users/Cesar/Documents/GitHub/FPinGA/ip/div_gen_0/ip/div_gen_0/sim/div_gen_0.vhd,1702409142,vhdl,,,,div_gen_0,,,,,,,,
-C:/Users/Cesar/Documents/GitHub/FPinGA/ip_4_tb/ip_4_tb.sim/sim_1/behav/xsim/glbl.v,1683266558,verilog,,,,glbl,,uvm,,,,,,
-C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv,1702415948,systemVerilog,,,,fsm_tb,,uvm,,,,,,

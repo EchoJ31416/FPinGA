@@ -1,6 +1,0 @@
-Time resolution is 1 ps
-Starting Sim
-ERROR: Could not open vcd file fsm_tb.vcd. A VCD file by name dump.vcd has already been opened. Only one VCD file is allowed to be open.
-Starting Sim
-Simulation finished
-$finish called at time : 250020 ns : File "C:/Users/Cesar/Documents/GitHub/FPinGA/sim/fsm_tb.sv" Line 86

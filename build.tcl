@@ -28,6 +28,8 @@ set_part $partNum
 
 # generate IP
 read_ip ./ip/xfft_1/xfft_1.xci
+read_ip ./ip/div_gen_0/div_gen_0.xci
+read_ip ./ip/mult_gen_0/mult_gen_0.xci
 generate_target all [get_ips]
 synth_ip [get_ips]
 
