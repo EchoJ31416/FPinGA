@@ -7,7 +7,8 @@ module  recorder(
   input wire record_in,
   input wire audio_valid_in,
   output logic signed [7:0] single_out,
-  output logic [31:0] recording_length // length of recording in clock cycles
+  output logic [31:0] recording_length, // length of recording in clock cycles
+  output logic finish
   );
 
   logic [15:0] w_address;
@@ -60,6 +61,8 @@ module  recorder(
     r_address_int = {6'b0, w_address};
     if (r_address_int > largest_address) begin
       largest_address = r_address_int;
+    end if (audio_valid_in == 1 && record_in == 0 && single_out > 0)begin
+      finish = 1;
     end
   end
 

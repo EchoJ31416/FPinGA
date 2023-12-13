@@ -1,7 +1,8 @@
 create_project -force -part  xc7s50csga324-1 ip_5_tb ip_5_tb
 
 read_verilog -sv [ glob ./hdl/*.sv ]
-read_verilog  [ glob ./hdl/*.v ]
+read_verilog  -v [ glob ./hdl/*.v ]
+read_verilog -v ./hdl/xilinx_true_dual_port_read_first_2_clock_ram.v
 read_verilog -sv ./sim/top_level_tb.sv
 
 read_ip ./ip/mult_gen_0/mult_gen_0.xci

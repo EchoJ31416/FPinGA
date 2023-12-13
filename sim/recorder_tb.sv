@@ -9,6 +9,7 @@ module recorder_tb();
   logic record_in;
   logic [7:0] audio_in, single_out;
   logic [31:0] length;
+  logic finish;
 
   recorder modified_recorder( 
     .clk_in(clk_in),
@@ -17,7 +18,8 @@ module recorder_tb();
     .audio_valid_in(audio_valid_in),
     .audio_in(audio_in),
     .single_out(single_out),
-    .length(length)
+    .recording_length(length),
+    .finish(finish)
   ); 
 
   always begin
@@ -33,6 +35,7 @@ module recorder_tb();
     rst_in = 0;
     audio_valid_in = 0;
     record_in = 0;
+    finish = 0;
     #10;
     rst_in = 1;
     #10;

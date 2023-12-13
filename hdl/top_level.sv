@@ -47,19 +47,18 @@ module top_level(
   assign ss0_c = ss_c; // control upper four digit's cathodes
   assign ss1_c = ss_c; // control lower four digits cathodes
 
-  // Recording section
+  // Record Trigger
   logic record; // signal used to trigger recording
   debouncer rec_deb(  .clk_in(clk_m),
                       .rst_in(sys_rst),
                       .dirty_in(btn[1]),
                       .clean_out(record));
-
+                      
+  // Audio Filter
     // Logic for controlling microphone associated modules:
   logic [8:0] m_clock_counter; // used for counting for mic clock generation
   logic audio_sample_valid; // single-cycle enable for samples at ~12 kHz (approx)
   logic signed [7:0] mic_audio; // audio from microphone 8 bit unsigned at 12 kHz
-  logic [7:0] audio_data; // raw scaled audio data
-
     // Logic for interfacing with the microphone and generating 3.072 MHz signals
   logic [7:0] pdm_tally;
   logic [8:0] pdm_counter;
@@ -69,7 +68,6 @@ module top_level(
   logic sampled_mic_data; // one bit grabbed/held values of mic
   logic pdm_signal_valid; // single-cycle signal at 3.072 MHz indicating pdm steps
   assign pdm_signal_valid = mic_clk && ~old_mic_clk;
-
     // Logic to produce 25 MHz step signal for PWM module
   logic [1:0] pwm_counter;
   logic pwm_step; //single-cycle pwm step
@@ -77,14 +75,12 @@ module top_level(
   always_ff @(posedge clk_m)begin
     pwm_counter <= pwm_counter+1;
   end
-
     // Generate clock signal for microphone - microphone signal at ~3.072 MHz
   always_ff @(posedge clk_m)begin
     mic_clk <= m_clock_counter < PDM_COUNT_PERIOD/2;
     m_clock_counter <= (m_clock_counter==PDM_COUNT_PERIOD-1)?0:m_clock_counter+1;
     old_mic_clk <= mic_clk;
   end
-
     // Generate audio signal (samples at ~12 kHz)
   always_ff @(posedge clk_m)begin
     if (pdm_signal_valid)begin
@@ -99,9 +95,11 @@ module top_level(
       audio_sample_valid <= 0;
     end
   end
-    // Recorder
+  
+  // Recorder
   logic [7:0] single_audio; // recorder output
   logic [31:0] length; // length of recording in clock cycles
+  logic valid_audio; // used to indicate that recording is finished to begin FFT pipeline
  
   recorder recorder(
     .clk_in(clk_m), // system clock
@@ -110,7 +108,8 @@ module top_level(
     .audio_valid_in(audio_sample_valid), // 12 kHz audio sample valid signal
     .audio_in(mic_audio), // 8 bit signed data from microphone
     .single_out(single_audio), // played back audio (8 bit signed at 12 kHz)
-    .recording_length(length) // Length of address - corroborated by testbench
+    .recording_length(length), // Length of address - corroborated by testbench
+    .finish(valid_audio)
   );
 
   // Length determination for FFT spacing
@@ -120,7 +119,6 @@ module top_level(
 
   assign fft_length = div_out[61:32]; // rounded number of clock cycles between each FFT
 
-
   div_gen_0 fft_spacing(
     .aclk(clk_0),
     .s_axis_divisor_tvalid(1),
@@ -128,8 +126,7 @@ module top_level(
     .s_axis_dividend_tdata(length),
     .m_axis_dout_tvalid(),
     .m_axis_dout_tdata(div_out)
-  ); // Currently lazy pipelining - consider changing m.axis_dout_tvalid for better pipelining
-    // or adding a .s_axis_divisor_tvalid signal from the modified recorder module
+  );
 
   // Select Functional Mode - UPDATE AS CAPACITIES IMPROVE
   logic [2:0] mode, mode_0, mode_1, mode_2, mode_3;
@@ -164,13 +161,13 @@ module top_level(
   logic [10:0] fft_data_count; // Used to count frames for FFT
   
   always_ff @(posedge clk_0)begin  
-    if (audio_sample_valid)begin    
+    if (valid_audio)begin    
       if (fft_last && fft_out_ready)begin
         fft_valid <= 1;
       end if (fft_out_valid == 1  && fft_out_data != 0)begin
         fft_valid <= 0;
       end 
-      fft_data <= {audio_data, 8'b0};
+      fft_data <= {single_audio, 8'b0};
       fft_data_count <= fft_data_count + 1;    
       fft_last <= (fft_data_count == 2047); 
     end else begin    
@@ -223,8 +220,10 @@ module top_level(
         MEM_OUT: val_to_display = 32'd5;
         default: val_to_display = 32'd0; // Indicates error
       endcase
+    end else if (valid_audio == 0) begin
+      val_to_display = 32'hFEED; // Indicates ready to receive data
     end else begin
-      val_to_display = 32'hFEED; // Use to debug pipelining issues
+      val_to_display = 32'hDEAD; // Indicates pippeline never made it
     end
   end
 endmodule // top_level

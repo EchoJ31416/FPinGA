@@ -5,19 +5,20 @@ Running: C:/Xilinx/Vivado/2023.1/bin/unwrapped/win64.o/xelab.exe --incr --debug 
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 'p' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/recorder.sv:66]
-WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/top_level.sv:124]
-WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_config_tdata' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/top_level.sv:182]
+WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 'p' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/recorder.sv:69]
+WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/top_level_tb.sv:43]
+WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_config_tdata' [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/top_level_tb.sv:52]
 WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:148]
 WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:156]
 WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_divisor_tvalid' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv:164]
-WARNING: [VRFC 10-3091] actual bit length 16 differs from formal bit length 15 for port 'addra' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/recorder.sv:78]
-WARNING: [VRFC 10-3091] actual bit length 16 differs from formal bit length 15 for port 'addrb' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/recorder.sv:87]
-WARNING: [VRFC 10-5021] port 'event_status_channel_halt' is not connected on this instance [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/top_level.sv:182]
+WARNING: [VRFC 10-3091] actual bit length 16 differs from formal bit length 15 for port 'addra' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/recorder.sv:81]
+WARNING: [VRFC 10-3091] actual bit length 16 differs from formal bit length 15 for port 'addrb' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/recorder.sv:90]
+WARNING: [VRFC 10-5021] port 'event_status_channel_halt' is not connected on this instance [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/top_level_tb.sv:52]
+WARNING: [VRFC 10-3823] variable 'single_audio' might have multiple concurrent drivers [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/top_level_tb.sv:97]
 Completed static elaboration
 Starting simulation data flow analysis
-WARNING: [XSIM 43-4099] "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/bto7s.sv" Line 1. Module bto7s doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/bto7s.sv" Line 1. Module bto7s doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/xilinx_true_dual_port_read_first_2_clock_ram.v" Line 10. Module xilinx_true_dual_port_read_first_2_clock_ram(RAM_WIDTH=8,RAM_DEPTH=18000) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/xilinx_true_dual_port_read_first_2_clock_ram.v" Line 10. Module xilinx_true_dual_port_read_first_2_clock_ram(RAM_WIDTH=8,RAM_DEPTH=18000) doesn't have a timescale but at least one module in design has a timescale.
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
 Compiling package std.standard
@@ -62,13 +63,6 @@ Compiling package xfft_v9_1_9.half_sincos_tw_table
 Compiling package mult_gen_v12_0_18.dsp_pkg
 Compiling package xfft_v9_1_9.quarter_sin_tw_table
 Compiling package xfft_v9_1_9.quarter2_sin_tw_table
-Compiling module unisims_ver.IBUF
-Compiling module unisims_ver.MMCME2_ADV(CLKFBOUT_MULT_F=57.75...
-Compiling module unisims_ver.BUFG
-Compiling module xil_defaultlib.audio_clk_wiz
-Compiling module xil_defaultlib.bto7s
-Compiling module xil_defaultlib.seven_segment_controller
-Compiling module xil_defaultlib.debouncer_default
 Compiling architecture lut2_v of entity unisim.LUT2 [\LUT2(init="1000")(0,3)\]
 Compiling architecture mult_and_v of entity unisim.MULT_AND [mult_and_default]
 Compiling architecture muxcy_v of entity unisim.MUXCY [muxcy_default]
@@ -511,7 +505,6 @@ Compiling architecture synth of entity xfft_v9_1_9.xfft_v9_1_9_viv [\xfft_v9_1_9
 Compiling architecture xilinx of entity xfft_v9_1_9.xfft_v9_1_9 [\xfft_v9_1_9(c_xdevicefamily="sp...]
 Compiling architecture xfft_1_arch of entity xil_defaultlib.xfft_1 [xfft_1_default]
 Compiling module xil_defaultlib.tone_detection_fsm
-Compiling module xil_defaultlib.top_level
 Compiling module xil_defaultlib.top_level_tb
 Compiling module xil_defaultlib.glbl
 Built simulation snapshot top_level_tb_behav

@@ -1,24 +1,11 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/audio_clk_wiz.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module audio_clk_wiz
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/xilinx_true_dual_port_read_first_2_clock_ram.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module xilinx_true_dual_port_read_first_2_clock_ram
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/bto7s.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module bto7s
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/debouncer.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module debouncer
-WARNING: [VRFC 10-9031] illegal cast without ' [C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/debouncer.sv:12]
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/recorder.sv" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module recorder
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/seven_segment_controller.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module seven_segment_controller
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module tone_detection_fsm
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/top_level.sv" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module top_level
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/sim/top_level_tb.sv" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module top_level_tb
-WARNING: [VRFC 10-3248] data object 'switch' is already declared [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/top_level_tb.sv:9]
-WARNING: [VRFC 10-9364] second declaration of 'switch' is ignored [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/top_level_tb.sv:9]
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/ip_5_tb/ip_5_tb.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module glbl
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Cesar/Documents/GitHub/FPinGA/ip/div_gen_0/ip/div_gen_0/sim/div_gen_0.vhd" into library xil_defaultlib
