@@ -7,17 +7,18 @@ module recorder_tb();
   logic rst_in;
   logic audio_valid_in;
   logic record_in;
-  logic [7:0] audio_in, single_out, echo_out;
+  logic [7:0] audio_in, single_out;
+  logic [31:0] length;
 
-  recorder my_recorder(
+  recorder modified_recorder( 
     .clk_in(clk_in),
     .rst_in(rst_in),
     .record_in(record_in),
     .audio_valid_in(audio_valid_in),
     .audio_in(audio_in),
     .single_out(single_out),
-    .echo_out(echo_out)
-  );
+    .length(length)
+  ); 
 
   always begin
       #5;  //every 5 ns switch...so period of clock is 10 ns...100 MHz clock

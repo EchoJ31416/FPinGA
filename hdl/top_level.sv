@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`default_nettype none // prevents system from inferring an undeclared logic (good practice)
+`default_nettype none
 
 module top_level(
   input wire clk_100mhz,
@@ -8,74 +8,81 @@ module top_level(
   output logic [15:0] led, //16 green output LEDs (located right above switches)
   output logic [2:0] rgb0, //rgb led
   output logic [2:0] rgb1, //rgb led
-  output logic spkl, spkr, //speaker outputs
+  output logic [3:0] ss0_an,//anode control for upper four digits of seven-seg display
+  output logic [3:0] ss1_an,//anode control for lower four digits of seven-seg display
+  output logic [6:0] ss0_c, //cathode controls for the segments of upper four digits
+  output logic [6:0] ss1_c, //cathod controls for the segments of lower four digits
   output logic mic_clk, //microphone clock
   input wire  mic_data //microphone data
   );
-  assign led = sw; //for debugging
-  //shut up those rgb LEDs (active high):
+
+  // For debugging
+  assign led = sw;
+
+  // Turn off RGB leds (active high):
   assign rgb1= 0;
   assign rgb0 = 0;
 
+  // System reset
   logic sys_rst;
   assign sys_rst = btn[0];
 
+  // Clock magic
   logic clk_m;
   audio_clk_wiz macw (.clk_in(clk_100mhz), .clk_out(clk_m)); //98.3MHz
-  // we make 98.3 MHz since that number is cleanly divisible by
-  // 32 to give us 3.072 MHz.  3.072 MHz is nice because it is cleanly divisible
-  // by nice powers of 2 to give us reasonable audio sample rates. For example,
-  // a decimation by a factor of 64 could give us 6 bit 48 kHz audio
-  // a decimation by a factor of 256 gives us 8 bit 12 kHz audio
-  //we do the latter in this lab.
 
+  // Seven segment for display - REPLACE WITH HDMI SECTION IN THE FUTURE
+  logic [31:0] val_to_display; // value of number to display using 7s
+  logic [6:0] ss_c; // used to grab output cathode signal for 7s leds
 
-  logic record; //signal used to trigger recording
-  //definitely want this debounced:
+  seven_segment_controller display(.clk_in(clk_100mhz),
+                                .rst_in(sys_rst),
+                                .val_in(val_to_display),
+                                .cat_out(ss_c),
+                                .an_out({ss0_an, ss1_an}));
+
+  assign ss0_c = ss_c; // control upper four digit's cathodes
+  assign ss1_c = ss_c; // control lower four digits cathodes
+
+  // Recording section
+  logic record; // signal used to trigger recording
   debouncer rec_deb(  .clk_in(clk_m),
                       .rst_in(sys_rst),
                       .dirty_in(btn[1]),
                       .clean_out(record));
 
-  //logic for controlling PDM associated modules:
-  logic [8:0] m_clock_counter; //used for counting for mic clock generation
-  logic audio_sample_valid;//single-cycle enable for samples at ~12 kHz (approx)
-  logic audio_sample_valid_2;//single-cycle enable for samples at ~12 kHz (approx)
-  logic signed [7:0] mic_audio; //audio from microphone 8 bit unsigned at 12 kHz
-  logic[7:0] audio_data; //raw scaled audio data
+    // Logic for controlling microphone associated modules:
+  logic [8:0] m_clock_counter; // used for counting for mic clock generation
+  logic audio_sample_valid; // single-cycle enable for samples at ~12 kHz (approx)
+  logic signed [7:0] mic_audio; // audio from microphone 8 bit unsigned at 12 kHz
+  logic [7:0] audio_data; // raw scaled audio data
 
-  //logic for interfacing with the microphone and generating 3.072 MHz signals
+    // Logic for interfacing with the microphone and generating 3.072 MHz signals
   logic [7:0] pdm_tally;
   logic [8:0] pdm_counter;
-  logic [8:0] pdm_counter_2;
-
-  localparam PDM_COUNT_PERIOD = 32; //do not change
-  localparam NUM_PDM_SAMPLES = 256; //number of pdm in downsample/decimation/average
-
-  logic old_mic_clk; //prior mic clock for edge detection
-  logic sampled_mic_data; //one bit grabbed/held values of mic
-  logic pdm_signal_valid; //single-cycle signal at 3.072 MHz indicating pdm steps
-
+  localparam PDM_COUNT_PERIOD = 32; // do not change
+  localparam NUM_PDM_SAMPLES = 256; // number of pdm in downsample/decimation/average
+  logic old_mic_clk; // prior mic clock for edge detection
+  logic sampled_mic_data; // one bit grabbed/held values of mic
+  logic pdm_signal_valid; // single-cycle signal at 3.072 MHz indicating pdm steps
   assign pdm_signal_valid = mic_clk && ~old_mic_clk;
 
-
-  //logic to produce 25 MHz step signal for PWM module
+    // Logic to produce 25 MHz step signal for PWM module
   logic [1:0] pwm_counter;
   logic pwm_step; //single-cycle pwm step
   assign pwm_step = (pwm_counter==2'b11);
-
   always_ff @(posedge clk_m)begin
     pwm_counter <= pwm_counter+1;
   end
 
-  //generate clock signal for microphone
-  //microphone signal at ~3.072 MHz
+    // Generate clock signal for microphone - microphone signal at ~3.072 MHz
   always_ff @(posedge clk_m)begin
     mic_clk <= m_clock_counter < PDM_COUNT_PERIOD/2;
     m_clock_counter <= (m_clock_counter==PDM_COUNT_PERIOD-1)?0:m_clock_counter+1;
     old_mic_clk <= mic_clk;
   end
-  //generate audio signal (samples at ~12 kHz
+
+    // Generate audio signal (samples at ~12 kHz)
   always_ff @(posedge clk_m)begin
     if (pdm_signal_valid)begin
       sampled_mic_data    <= mic_data;
@@ -89,122 +96,140 @@ module top_level(
       audio_sample_valid <= 0;
     end
   end
-  
-  always_ff @(posedge clk_m)begin
-    if (pdm_signal_valid)begin
-      pdm_counter_2         <= (pdm_counter_2==436)?0:pdm_counter_2 + 1;
-      audio_sample_valid_2  <= (pdm_counter_2==436);
-    end else begin
-      audio_sample_valid_2 <= 0;
+    // Recorder
+  logic [7:0] single_audio; // recorder output
+  logic [31:0] length; // length of recording in clock cycles
+ 
+  recorder recorder(
+    .clk_in(clk_m), // system clock
+    .rst_in(sys_rst),// global reset
+    .record_in(record), // button indicating whether to record or not
+    .audio_valid_in(audio_sample_valid), // 12 kHz audio sample valid signal
+    .audio_in(mic_audio), // 8 bit signed data from microphone
+    .single_out(single_audio), // played back audio (8 bit signed at 12 kHz)
+    .recording_length(length) // Length of address - corroborated by testbench
+  );
+
+  // Length determination for FFT spacing
+  logic [2:0] tone_ident; // three-bit identifier used throughout top level
+  logic [61:0] div_out; // intermediate value
+  logic [31:0] fft_length; // length of fft duration in clock cycles
+
+  always_comb begin // logic to determine if recorder ran out of space
+    if (length == 32'd149994000) begin // Maximum possible value for length from recorder module
+      tone_ident = 3'b101; // identifer indicates memory issue
     end
+    fft_length = div_out[61:32]; // rounded number of clock cycles between each FFT
   end
 
-  logic [7:0] tone_750; //output of sine wave of 750Hz
-  logic [7:0] tone_440; //output of sine wave of 440 Hz
-  logic [7:0] single_audio; //recorder non-echo output
-  logic [7:0] echo_audio; //recorder echo output
+  div_gen_0 fft_spacing(
+    .aclk(clk_100mhz)
+    .s_axis_divisor_tvalid(1),
+    .s_axis_divisor_tdata(32'd4),
+    .s_axis_dividend_tdata(length),
+    .m_axis_dout_tvalid(),
+    .m_axis_dout_tdata(div_out)
+  ); // Currently lazy pipelining - consider changing m.axis_dout_tvalid for better pipelining
+    // or adding a .s_axis_divisor_tvalid signal from the modified recorder module
 
-  //generate a 750 Hz tone
-  sine_generator sine_750(
-    .clk_in(clk_m),
-    .rst_in(sys_rst),
-    .step_in(audio_sample_valid),
-    .amp_out(tone_750)
-  );
-
-  //generate a 440 Hz tone
-  sine_generator sine_440(
-    .clk_in(clk_m),
-    .rst_in(sys_rst),
-    .step_in(audio_sample_valid_2),
-    .amp_out(tone_440)
-  );
-
-  recorder my_recorder(
-    .clk_in(clk_m), //system clock
-    .rst_in(sys_rst),//global reset
-    .record_in(record), //button indicating whether to record or not
-    .audio_valid_in(audio_sample_valid), //12 kHz audio sample valid signal
-    .audio_in(mic_audio), //8 bit signed data from microphone
-    .single_out(single_audio), //played back audio (8 bit signed at 12 kHz)
-    .echo_out(echo_audio) //played back audio (8 bit signed at 12 kHz)
-  );
-
-
-  //choose which signal to play:
-  logic [7:0] audio_data_sel;
-
+  // Select Functional Mode - UPDATE AS CAPACITIES IMPROVE
+  logic [2:0] mode;
+  assign mode_0 = 2'b00; // Standby mode 
+  assign mode_1 = 2'b01; // Tone Identifying Mode - must activate before recording
+  assign mode_2 = 2'b10; // Randomized Practice Mode
+  assign mode_3 = 2'b11; // Challenge Mode
+    
   always_comb begin
-    if          (sw[0])begin
-      audio_data_sel = tone_750; //signed
+    if (sw[0])begin
+      mode = mode_0;
     end else if (sw[1])begin
-      audio_data_sel = tone_440; //signed
-    end else if (sw[5])begin
-      audio_data_sel = mic_audio; //signed
-    end else if (sw[6])begin
-      audio_data_sel = single_audio; //signed
-    end else if (sw[7])begin
-      audio_data_sel = echo_audio; //signed
-    end else begin
-      audio_data_sel = mic_audio; //signed
+      mode = mode_1;
+    end else if (sw[2])begin
+      mode = mode_2;
+    end else if (sw[3])begin
+      mode = mode_3
     end
   end
 
+  // FFT  
+  logic fft_valid; // used by the external master to signal that it is able to provide data (critical in pipelining)
+  logic fft_last; // asserted by the external master on the last sample of the frame (can be used to regulate flow of data)
+  logic fft_ready; // used by the core to signal that it is ready to accept data (can be used to begin recording)
+  logic fft_out_last; // asserted by the core on the last sample of the frame (will begin reporting data on falling edge)
+  logic fft_out_valid; // asserted by the core to signal that it is able to provide status data (begins reporting data on rising edge)
+  logic fft_out_ready; // asserted by the external slave to signal that it is ready to accept data (ready from the fsm)
+  
+  logic [31:0] fft_data; // unprocessed sample data
+  logic [31:0] fft_out_data; // carries processed sample data - [31:16] real, [15:0] imaginary
 
-  logic signed [7:0] vol_out; //can be signed or not signed...doesn't really matter
-  // all this does is convey the output of vol_out to the input of the pdm
-  // since it isn't used directly with any sort of math operation its signedness
-  // is not as important.
-  volume_control vc (.vol_in(sw[15:13]),.signal_in(audio_data_sel), .signal_out(vol_out));
-
-  //PWM:
-  logic pwm_out_signal; //an inherently digital signal (0 or 1..no need to make signed)
-  //the "value" is encoded using Pulse Width Modulation
-  //PDM:
-  logic pdm_out_signal; //an inherently digital signal (0 or 1..no need to make signed)
-  //the value is encoded using Pulse Density Modulation
-  logic audio_out; //value that drives output channels directly
-
-  //already implemented for you:
-  pwm my_pwm(
-    .clk_in(clk_m),
-    .rst_in(sys_rst),
-    .level_in(vol_out),
-    .tick_in(pwm_step),
-    .pwm_out(pwm_out_signal)
-  );
-
-  //you build (currently empty):
-  pdm my_pdm(
-    .clk_in(clk_m),
-    .rst_in(sys_rst),
-    .level_in(vol_out),
-    .tick_in(pdm_signal_valid),
-    .pdm_out(pdm_out_signal)
-  );
-
-  always_comb begin
-    case (sw[4:3])
-      2'b00: audio_out = pwm_out_signal;
-      2'b01: audio_out = pdm_out_signal;
-      2'b10: audio_out = sampled_mic_data;
-      2'b11: audio_out = 0;
-    endcase
+    // CONTROL FLOW OF DATA - Pipelining on Testbench results
+  logic [10:0] fft_data_count; // Used to count frames for FFT
+  
+  always_ff @(posedge clk_100mhz)begin  
+    if (audio_sample_valid)begin    
+      if (fft_last && fft_out_ready)begin
+        fft_valid <= 1;
+        fft_out_valid <= 1; // May need to fix
+      end if (fft_out_valid == 1  && fft_out_data != 0)begin
+        fft_valid <= 0;
+        fft_out_ready <= 0;
+        fft_out_valid <= 0;
+      end 
+      fft_data <= {audio_data, 8'b0};
+      fft_data_count <= fft_data_count + 1;    
+      fft_last <= (fft_data_count == 2047); 
+    end else begin    
+      fft_valid = 0;  
+    end 
   end
 
-  assign spkl = audio_out;
-  assign spkr = audio_out;
+    // Transform length of 1024, Frequency of 100 MHz, Data throughput of 50 Msps
+  xfft_1 fft(
+   .aclk(clk_100mhz),
+   .s_axis_data_tvalid(fft_valid), .s_axis_data_tdata(fft_data),
+   .s_axis_data_tlast(fft_last), .s_axis_data_tready(fft_ready), 
+   .s_axis_config_tdata(0), .s_axis_config_tvalid(0), .s_axis_config_tready(),
+   .m_axis_data_tdata(fft_out_data), .m_axis_data_tvalid(fft_out_valid),
+   .m_axis_data_tlast(fft_out_last), .m_axis_data_tready(fft_out_ready),
+   .event_frame_started(), .event_tlast_unexpected(), .event_tlast_missing(),
+   .event_data_in_channel_halt(), .event_data_out_channel_halt());
 
+  // Tone Checking Finite State Machine
+  tone_detection_fsm tone_detection(
+     .valid_in_signal(fft_out_valid),
+     .fft_last(fft_out_last),
+     .clk_in(clk_100mhz),
+     .rst_in(rst_in),
+     .fft_data(fft_out_data),
+     .tone_ident(tone_ident),
+     .ready_signal(fft_out_ready),
+     .valid_signal(tone_valid),
+     .recording_length(fft_length),
+     .external_valid(fft_valid)
+  );  
+
+  // Logic to Change Display Data - CHANGE WITH STATE MACHINE FOR MORE ADVANCED VERSIONS
+  // UPDATE WITH HDMI WHEN WE PROVE FOURIER WORKS
+  localparam FIRST = 3'b000; // variable to store 1st tone identifier
+  localparam SECOND = 3'b001; // variable to store 2nd tone identifier
+  localparam THIRD = 3'b010; // variable to store 3rd tone identifier
+  localparam FOURTH = 3'b100; // variable to store 4th tone identifier
+
+  localparam MEM_OUT = 3'b101; // variable to indicate recording ran out of memory, user must restart system
+
+  always_ff @(posedge clk_100mhz)begin
+    if(tone_valid && (mode == mode_1))begin
+      case(tone_ident)
+        FIRST: val_to_display = 32'd1;   
+        SECOND: val_to_display = 32'd2;
+        THIRD: val_to_display = 32'd3;
+        FOURTH: val_to_display = 32'd4;
+        MEM_OUT: val_to_display = 32'd5;
+        default: val_to_display = 32'd0; // Indicates error
+      endcase
+    end else begin
+      val_to_display == 32'hFEED; // Use to debug pipelining issues
+    end
+  end
 endmodule // top_level
-
-//Volume Control
-module volume_control (
-  input wire [2:0] vol_in,
-  input wire signed [7:0] signal_in,
-  output logic signed [7:0] signal_out);
-    logic [2:0] shift;
-    assign shift = 3'd7 - vol_in;
-    assign signal_out = signal_in>>>shift;
-endmodule
-
 `default_nettype wire
