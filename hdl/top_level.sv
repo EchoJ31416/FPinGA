@@ -118,12 +118,8 @@ module top_level(
   logic [61:0] div_out; // intermediate value
   logic [31:0] fft_length; // length of fft duration in clock cycles
 
-  always_comb begin // logic to determine if recorder ran out of space
-    if (length == 32'd149994000) begin // Maximum possible value for length from recorder module
-      tone_ident = 3'b101; // identifer indicates memory issue
-    end
-    fft_length = div_out[61:32]; // rounded number of clock cycles between each FFT
-  end
+  assign fft_length = div_out[61:32]; // rounded number of clock cycles between each FFT
+
 
   div_gen_0 fft_spacing(
     .aclk(clk_0),
@@ -171,11 +167,8 @@ module top_level(
     if (audio_sample_valid)begin    
       if (fft_last && fft_out_ready)begin
         fft_valid <= 1;
-        fft_out_valid <= 1; // May need to fix this pipelining issue
       end if (fft_out_valid == 1  && fft_out_data != 0)begin
         fft_valid <= 0;
-        fft_out_ready <= 0;
-        fft_out_valid <= 0;
       end 
       fft_data <= {audio_data, 8'b0};
       fft_data_count <= fft_data_count + 1;    

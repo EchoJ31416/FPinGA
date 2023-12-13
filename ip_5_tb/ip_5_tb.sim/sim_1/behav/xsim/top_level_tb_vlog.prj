@@ -1,0 +1,19 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../../hdl/audio_clk_wiz.v" \
+"../../../../../hdl/xilinx_true_dual_port_read_first_2_clock_ram.v" \
+
+sv xil_defaultlib  \
+"../../../../../hdl/bto7s.sv" \
+"../../../../../hdl/debouncer.sv" \
+"../../../../../hdl/recorder.sv" \
+"../../../../../hdl/seven_segment_controller.sv" \
+"../../../../../hdl/tone_detection_fsm.sv" \
+"../../../../../hdl/top_level.sv" \
+"../../../../../sim/top_level_tb.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
