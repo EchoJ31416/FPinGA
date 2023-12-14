@@ -123,19 +123,26 @@ module top_level_tb();
     #10;
     sys_rst = 0;
     record = 1;
+    audio_sample_valid = 1;
     for (int i = 0; i<10000; i=i+1)begin
       mic_audio = i;
-      audio_sample_valid = 1;
       #10;
     end
     record = 0;
-    audio_sample_valid = 0;
     for (int i = 0; i<10000; i=i+1)begin // Wait
       audio_sample_valid = 1; // You will have to keep this in your module!!! CHECK IT OUT!
       #10;
       audio_sample_valid = 0;
       #60;
     end
+    /*
+    for (int i = 0; i<10000; i=i+1)begin // Wait
+      audio_sample_valid = 1; // You will have to keep this in your module!!! CHECK IT OUT!
+      #10;
+      audio_sample_valid = 0;
+      #60;
+    end
+    */
     $display("Simulation finished");
     $finish;
   end

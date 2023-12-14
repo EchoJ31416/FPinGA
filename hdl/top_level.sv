@@ -31,9 +31,12 @@ module top_level(
   logic clk_m;
   logic clk_0;
   
-  // audio_clk_wiz macw (.clk_in(clk_100mhz), .clk_out(clk_m)); //98.3MHz - How will this affect the FFT?
-  assign clk_0 = clk_100mhz; // Consider changing
-  assign clk_m = clk_100mhz; // Consider changing
+  audio_clk_wiz macw (.clk_in(clk_100mhz), .clk_out(clk_m)); //98.3MHz - How will this affect the FFT?
+  //assign clk_0 = clk_100mhz; // Consider changing
+  //assign clk_m = clk_100mhz; // Consider changing
+
+  assign clk_0 = clk_m; // Consider changing
+  //assign clk_m = clk_100mhz; // Consider changing
 
   // Seven segment for display - REPLACE WITH HDMI SECTION IN THE FUTURE
   logic [31:0] val_to_display; // value of number to display using 7s
@@ -60,6 +63,9 @@ module top_level(
   logic [8:0] m_clock_counter; // used for counting for mic clock generation
   logic audio_sample_valid; // single-cycle enable for samples at ~12 kHz (approx)
   logic signed [7:0] mic_audio; // audio from microphone 8 bit unsigned at 12 kHz
+
+
+  
     // Logic for interfacing with the microphone and generating 3.072 MHz signals
   logic [7:0] pdm_tally;
   logic [8:0] pdm_counter;
@@ -84,7 +90,9 @@ module top_level(
   end
     // Generate audio signal (samples at ~12 kHz)
   always_ff @(posedge clk_m)begin
-    if (pdm_signal_valid)begin
+    if(record)begin
+      audio_sample_valid <= 1;
+    end if (pdm_signal_valid)begin
       sampled_mic_data    <= mic_data;
       pdm_counter         <= (pdm_counter==NUM_PDM_SAMPLES)?0:pdm_counter + 1;
       pdm_tally           <= (pdm_counter==NUM_PDM_SAMPLES)?mic_data
@@ -96,11 +104,11 @@ module top_level(
       audio_sample_valid <= 0;
     end
   end
-  
+
   // Recorder
   logic [7:0] single_audio; // recorder output
   logic valid_audio; // used to indicate that recording is finished to begin FFT pipeline
- 
+
   recorder recorder(
     .clk_in(clk_m), // system clock
     .rst_in(sys_rst),// global reset
@@ -212,18 +220,31 @@ module top_level(
   always_ff @(posedge clk_0)begin
     if(tone_valid && (mode == mode_1))begin // Check mode == mode_0
       case(tone_ident)
-        FIRST: val_to_display = 32'd1;   
-        SECOND: val_to_display = 32'd2;
-        THIRD: val_to_display = 32'd3;
-        FOURTH: val_to_display = 32'd4;
-        MEM_OUT: val_to_display = 32'd5;
-        default: val_to_display = 32'd0; // Indicates ready to receive data
-      endcase
-    end else if (valid_audio == 0 && mode == mode_1) begin
-      val_to_display = 32'hFEED; 
+        FIRST: val_to_display <= 32'd1;   
+        SECOND: val_to_display <= 32'd2;
+        THIRD: val_to_display <= 32'd3;
+        FOURTH: val_to_display <= 32'd4;
+        MEM_OUT: val_to_display <= 32'd5;
+        default: val_to_display <= 32'd0; // Indicates ready to receive data
+      endcase 
+    end else if (fft_valid)begin
+      val_to_display <= 32'hBAAA;
+    end else if (valid_audio)begin
+      val_to_display <= 32'hBABE;
+    end else if (valid_audio == 0 && mode == mode_1)begin
+      if (record)begin
+        val_to_display <= 32'hC0DE; // Used in debugging
+      end else begin
+        val_to_display <= 32'hFEED; // ready to accept data
+      end
+    end else if (valid_audio == 1 && mode == mode_1)begin
+      val_to_display <= 32'hBAAD; // Indicates recording occured, but no tone identifier was created
     end else begin
-      val_to_display = 32'hDEAD; // Indicates pipeline never made it
+      val_to_display <= 32'hDEAD; // Indicates pipeline never made it
     end
   end
 endmodule // top_level
 `default_nettype wire
+///////////////// Debugin Notes /////////////////
+// BABE Triggered, indicating valid_audio is output -> recorder works
+// Bug must be present in FFT pipelining, which is most probable 

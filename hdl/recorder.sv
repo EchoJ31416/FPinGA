@@ -57,7 +57,7 @@ module  recorder(
 
   always_comb begin
     largest_address = w_address;
-    if (audio_valid_in == 1 && record_in == 0 && single_out > 0)begin
+    if (audio_valid_in == 1 && record_in == 0 && w_address > 0)begin
       finish = 1;
     end
   end

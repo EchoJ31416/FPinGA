@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date         : Thu Dec 14 00:40:26 2023
+| Date         : Thu Dec 14 03:10:25 2023
 | Host         : DESKTOP-89OFCK6 running 64-bit major release  (build 9200)
 | Command      : report_timing_summary -file obj/post_place_timing_summary.rpt
 | Design       : top_level
@@ -48,7 +48,7 @@ check_timing report
 
 Table of Contents
 -----------------
-1. checking no_clock (10)
+1. checking no_clock (18)
 2. checking constant_clock (0)
 3. checking pulse_width_clock (0)
 4. checking unconstrained_internal_endpoints (1)
@@ -61,27 +61,43 @@ Table of Contents
 11. checking partial_output_delay (0)
 12. checking latch_loops (0)
 
-1. checking no_clock (10)
+1. checking no_clock (18)
 -------------------------
  There is 1 register/latch pin with no clock driven by root clock pin: audio_sample_valid_reg/Q (HIGH)
 
  There is 1 register/latch pin with no clock driven by root clock pin: rec_deb/current_reg/Q (HIGH)
 
- There is 1 register/latch pin with no clock driven by root clock pin: recorder/single_out_reg[0]/Q (HIGH)
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[0]/Q (HIGH)
 
- There is 1 register/latch pin with no clock driven by root clock pin: recorder/single_out_reg[1]/Q (HIGH)
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[10]/Q (HIGH)
 
- There is 1 register/latch pin with no clock driven by root clock pin: recorder/single_out_reg[2]/Q (HIGH)
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[11]/Q (HIGH)
 
- There is 1 register/latch pin with no clock driven by root clock pin: recorder/single_out_reg[3]/Q (HIGH)
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[12]/Q (HIGH)
 
- There is 1 register/latch pin with no clock driven by root clock pin: recorder/single_out_reg[4]/Q (HIGH)
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[13]/Q (HIGH)
 
- There is 1 register/latch pin with no clock driven by root clock pin: recorder/single_out_reg[5]/Q (HIGH)
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[14]/Q (HIGH)
 
- There is 1 register/latch pin with no clock driven by root clock pin: recorder/single_out_reg[6]/Q (HIGH)
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[15]/Q (HIGH)
 
- There is 1 register/latch pin with no clock driven by root clock pin: recorder/single_out_reg[7]/Q (HIGH)
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[1]/Q (HIGH)
+
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[2]/Q (HIGH)
+
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[3]/Q (HIGH)
+
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[4]/Q (HIGH)
+
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[5]/Q (HIGH)
+
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[6]/Q (HIGH)
+
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[7]/Q (HIGH)
+
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[8]/Q (HIGH)
+
+ There is 1 register/latch pin with no clock driven by root clock pin: recorder/w_address_reg[9]/Q (HIGH)
 
 
 2. checking constant_clock (0)
@@ -155,7 +171,7 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-      2.147        0.000                      0                30052       -0.083       -1.962                     69                30052        2.750        0.000                       0                 23034  
+      3.395        0.000                      0                30056       -0.141       -4.008                     97                30056        2.000        0.000                       0                 23045  
 
 
 Timing constraints are not met.
@@ -166,9 +182,11 @@ Timing constraints are not met.
 | -------------
 ------------------------------------------------------------------------------------------------
 
-Clock  Waveform(ns)       Period(ns)      Frequency(MHz)
------  ------------       ----------      --------------
-gclk   {0.000 4.000}      10.000          100.000         
+Clock                     Waveform(ns)       Period(ns)      Frequency(MHz)
+-----                     ------------       ----------      --------------
+gclk                      {0.000 4.000}      10.000          100.000         
+  clk_out_audio_clk_wiz   {0.000 5.087}      10.173          98.298          
+  clkfbout_audio_clk_wiz  {0.000 25.000}     50.000          20.000          
 
 
 ------------------------------------------------------------------------------------------------
@@ -176,9 +194,11 @@ gclk   {0.000 4.000}      10.000          100.000
 | -----------------
 ------------------------------------------------------------------------------------------------
 
-Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
------             -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-gclk                2.147        0.000                      0                30052       -0.083       -1.962                     69                30052        2.750        0.000                       0                 23034  
+Clock                         WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+-----                         -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+gclk                                                                                                                                                                        2.000        0.000                       0                     1  
+  clk_out_audio_clk_wiz         3.395        0.000                      0                30056       -0.141       -4.008                     97                30056        3.837        0.000                       0                 23041  
+  clkfbout_audio_clk_wiz                                                                                                                                                   47.845        0.000                       0                     3  
 
 
 ------------------------------------------------------------------------------------------------
@@ -209,131 +229,10 @@ Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing 
 From Clock:  gclk
   To Clock:  gclk
 
-Setup :            0  Failing Endpoints,  Worst Slack        2.147ns,  Total Violation        0.000ns
-Hold  :           69  Failing Endpoints,  Worst Slack       -0.083ns,  Total Violation       -1.962ns
-PW    :            0  Failing Endpoints,  Worst Slack        2.750ns,  Total Violation        0.000ns
+Setup :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack        2.000ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
-
-
-Max Delay Paths
---------------------------------------------------------------------------------------
-Slack (MET) :             2.147ns  (required time - arrival time)
-  Source:                 tone_detection/change_2_reg[17]/C
-                            (rising edge-triggered cell FDRE clocked by gclk  {rise@0.000ns fall@4.000ns period=10.000ns})
-  Destination:            tone_detection/fft_data_reg_4_reg[24]/CE
-                            (rising edge-triggered cell FDRE clocked by gclk  {rise@0.000ns fall@4.000ns period=10.000ns})
-  Path Group:             gclk
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            10.000ns  (gclk rise@10.000ns - gclk rise@0.000ns)
-  Data Path Delay:        7.675ns  (logic 1.412ns (18.397%)  route 6.263ns (81.603%))
-  Logic Levels:           4  (LUT4=1 LUT5=2 LUT6=1)
-  Clock Path Skew:        0.062ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.942ns = ( 14.942 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.061ns
-    Clock Pessimism Removal (CPR):    0.182ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock gclk rise edge)       0.000     0.000 r  
-    N15                                               0.000     0.000 r  clk_100mhz (IN)
-                         net (fo=0)                   0.000     0.000    clk_100mhz
-    N15                  IBUF (Prop_ibuf_I_O)         1.440     1.440 r  clk_100mhz_IBUF_inst/O
-                         net (fo=1, estimated)        1.972     3.412    clk_100mhz_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.508 r  clk_100mhz_IBUF_BUFG_inst/O
-                         net (fo=23033, estimated)    1.553     5.061    tone_detection/clk_100mhz_IBUF_BUFG
-    SLICE_X40Y97         FDRE                                         r  tone_detection/change_2_reg[17]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X40Y97         FDRE (Prop_fdre_C_Q)         0.456     5.517 f  tone_detection/change_2_reg[17]/Q
-                         net (fo=2, estimated)        1.471     6.988    tone_detection/change_2[17]
-    SLICE_X49Y108        LUT4 (Prop_lut4_I1_O)        0.152     7.140 f  tone_detection/state[1]_i_16/O
-                         net (fo=2, estimated)        1.170     8.310    tone_detection/state[1]_i_16_n_0
-    SLICE_X51Y101        LUT5 (Prop_lut5_I4_O)        0.354     8.664 f  tone_detection/state[1]_i_7/O
-                         net (fo=2, estimated)        1.332     9.996    tone_detection/state[1]_i_7_n_0
-    SLICE_X32Y101        LUT5 (Prop_lut5_I2_O)        0.326    10.322 f  tone_detection/state[1]_i_4/O
-                         net (fo=7, estimated)        0.861    11.183    tone_detection/state[1]_i_4_n_0
-    SLICE_X30Y95         LUT6 (Prop_lut6_I4_O)        0.124    11.307 r  tone_detection/fft_data_reg_2[31]_i_1/O
-                         net (fo=95, estimated)       1.429    12.736    tone_detection/fft_data_reg_4
-    SLICE_X51Y109        FDRE                                         r  tone_detection/fft_data_reg_4_reg[24]/CE
-  -------------------------------------------------------------------    -------------------
-
-                         (clock gclk rise edge)      10.000    10.000 r  
-    N15                                               0.000    10.000 r  clk_100mhz (IN)
-                         net (fo=0)                   0.000    10.000    clk_100mhz
-    N15                  IBUF (Prop_ibuf_I_O)         1.370    11.370 r  clk_100mhz_IBUF_inst/O
-                         net (fo=1, estimated)        1.873    13.244    clk_100mhz_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.335 r  clk_100mhz_IBUF_BUFG_inst/O
-                         net (fo=23033, estimated)    1.607    14.942    tone_detection/clk_100mhz_IBUF_BUFG
-    SLICE_X51Y109        FDRE                                         r  tone_detection/fft_data_reg_4_reg[24]/C
-                         clock pessimism              0.182    15.123    
-                         clock uncertainty           -0.035    15.088    
-    SLICE_X51Y109        FDRE (Setup_fdre_C_CE)      -0.205    14.883    tone_detection/fft_data_reg_4_reg[24]
-  -------------------------------------------------------------------
-                         required time                         14.883    
-                         arrival time                         -12.736    
-  -------------------------------------------------------------------
-                         slack                                  2.147    
-
-
-
-
-
-Min Delay Paths
---------------------------------------------------------------------------------------
-Slack (VIOLATED) :        -0.083ns  (arrival time - required time)
-  Source:                 fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[0].natural_order_input.PE/FB_1.BF_1/mem_mux_and_reg_upper_re/slicel_slicem_implementation.mux/use_lut6_2.latency1.Q_reg[6]/C
-                            (rising edge-triggered cell FDRE clocked by gclk  {rise@0.000ns fall@4.000ns period=10.000ns})
-  Destination:            fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[0].natural_order_input.PE/FB_1.BF_1/MEM/blk_ram.use_bram_only.mem/depths_3to9.ram_loop[0].use_RAMB18.SDP_RAMB18E1_36x512/DIADI[5]
-                            (rising edge-triggered cell RAMB18E1 clocked by gclk  {rise@0.000ns fall@4.000ns period=10.000ns})
-  Path Group:             gclk
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (gclk rise@0.000ns - gclk rise@0.000ns)
-  Data Path Delay:        0.270ns  (logic 0.141ns (52.144%)  route 0.129ns (47.856%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.057ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.254ns
-    Source Clock Delay      (SCD):    1.704ns
-    Clock Pessimism Removal (CPR):    0.493ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock gclk rise edge)       0.000     0.000 r  
-    N15                                               0.000     0.000 r  clk_100mhz (IN)
-                         net (fo=0)                   0.000     0.000    clk_100mhz
-    N15                  IBUF (Prop_ibuf_I_O)         0.209     0.209 r  clk_100mhz_IBUF_inst/O
-                         net (fo=1, estimated)        0.831     1.040    clk_100mhz_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     1.066 r  clk_100mhz_IBUF_BUFG_inst/O
-                         net (fo=23033, estimated)    0.638     1.704    fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[0].natural_order_input.PE/FB_1.BF_1/mem_mux_and_reg_upper_re/slicel_slicem_implementation.mux/aclk
-    SLICE_X9Y117         FDRE                                         r  fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[0].natural_order_input.PE/FB_1.BF_1/mem_mux_and_reg_upper_re/slicel_slicem_implementation.mux/use_lut6_2.latency1.Q_reg[6]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X9Y117         FDRE (Prop_fdre_C_Q)         0.141     1.845 r  fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[0].natural_order_input.PE/FB_1.BF_1/mem_mux_and_reg_upper_re/slicel_slicem_implementation.mux/use_lut6_2.latency1.Q_reg[6]/Q
-                         net (fo=1, estimated)        0.129     1.974    fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[0].natural_order_input.PE/FB_1.BF_1/MEM/blk_ram.use_bram_only.mem/dina[23]
-    RAMB18_X0Y46         RAMB18E1                                     r  fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[0].natural_order_input.PE/FB_1.BF_1/MEM/blk_ram.use_bram_only.mem/depths_3to9.ram_loop[0].use_RAMB18.SDP_RAMB18E1_36x512/DIADI[5]
-  -------------------------------------------------------------------    -------------------
-
-                         (clock gclk rise edge)       0.000     0.000 r  
-    N15                                               0.000     0.000 r  clk_100mhz (IN)
-                         net (fo=0)                   0.000     0.000    clk_100mhz
-    N15                  IBUF (Prop_ibuf_I_O)         0.396     0.396 r  clk_100mhz_IBUF_inst/O
-                         net (fo=1, estimated)        0.875     1.271    clk_100mhz_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.300 r  clk_100mhz_IBUF_BUFG_inst/O
-                         net (fo=23033, estimated)    0.954     2.254    fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[0].natural_order_input.PE/FB_1.BF_1/MEM/blk_ram.use_bram_only.mem/clk
-    RAMB18_X0Y46         RAMB18E1                                     r  fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[0].natural_order_input.PE/FB_1.BF_1/MEM/blk_ram.use_bram_only.mem/depths_3to9.ram_loop[0].use_RAMB18.SDP_RAMB18E1_36x512/CLKBWRCLK
-                         clock pessimism             -0.493     1.761    
-    RAMB18_X0Y46         RAMB18E1 (Hold_ramb18e1_CLKBWRCLK_DIADI[5])
-                                                      0.296     2.057    fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[0].natural_order_input.PE/FB_1.BF_1/MEM/blk_ram.use_bram_only.mem/depths_3to9.ram_loop[0].use_RAMB18.SDP_RAMB18E1_36x512
-  -------------------------------------------------------------------
-                         required time                         -2.057    
-                         arrival time                           1.974    
-  -------------------------------------------------------------------
-                         slack                                 -0.083    
-
-
-
 
 
 Pulse Width Checks
@@ -343,10 +242,193 @@ Waveform(ns):       { 0.000 4.000 }
 Period(ns):         10.000
 Sources:            { clk_100mhz }
 
-Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location       Pin
-Min Period        n/a     RAMB36E1/CLKARDCLK  n/a            2.944         10.000      7.056      RAMB36_X0Y25   recorder/audio_buffer/BRAM_reg_0_0/CLKARDCLK
-Low Pulse Width   Slow    RAMS64E/CLK         n/a            1.250         6.000       4.750      SLICE_X34Y104  fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[1].natural_order_input.PE/has_TW_mult.TW/twiddle_generator/tw2.twgen2/dist_ram.first_quarter_table_reg_0_63_0_0/SP/CLK
-High Pulse Width  Slow    RAMS64E/CLK         n/a            1.250         4.000       2.750      SLICE_X34Y104  fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[1].natural_order_input.PE/has_TW_mult.TW/twiddle_generator/tw2.twgen2/dist_ram.first_quarter_table_reg_0_63_0_0/SP/CLK
+Check Type        Corner  Lib Pin            Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location         Pin
+Min Period        n/a     MMCME2_ADV/CLKIN1  n/a            1.249         10.000      8.751      MMCME2_ADV_X0Y0  macw/mmcm_adv_inst/CLKIN1
+Max Period        n/a     MMCME2_ADV/CLKIN1  n/a            100.000       10.000      90.000     MMCME2_ADV_X0Y0  macw/mmcm_adv_inst/CLKIN1
+Low Pulse Width   Slow    MMCME2_ADV/CLKIN1  n/a            2.000         6.000       4.000      MMCME2_ADV_X0Y0  macw/mmcm_adv_inst/CLKIN1
+High Pulse Width  Slow    MMCME2_ADV/CLKIN1  n/a            2.000         4.000       2.000      MMCME2_ADV_X0Y0  macw/mmcm_adv_inst/CLKIN1
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_out_audio_clk_wiz
+  To Clock:  clk_out_audio_clk_wiz
+
+Setup :            0  Failing Endpoints,  Worst Slack        3.395ns,  Total Violation        0.000ns
+Hold  :           97  Failing Endpoints,  Worst Slack       -0.141ns,  Total Violation       -4.008ns
+PW    :            0  Failing Endpoints,  Worst Slack        3.837ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             3.395ns  (required time - arrival time)
+  Source:                 tone_detection/first_div/U0/i_synth/i_nonzero_fract.i_synth/i_algo_r2_or_lutmult.i_nonzero_fract.i_sdivider/signed_output.cmp_quot/twos_comp/i_reg_arch_simp.i_q.q_i_reg[28]/C
+                            (rising edge-triggered cell FDRE clocked by clk_out_audio_clk_wiz  {rise@0.000ns fall@5.087ns period=10.173ns})
+  Destination:            tone_detection/tone_reg[1]/D
+                            (rising edge-triggered cell FDRE clocked by clk_out_audio_clk_wiz  {rise@0.000ns fall@5.087ns period=10.173ns})
+  Path Group:             clk_out_audio_clk_wiz
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.173ns  (clk_out_audio_clk_wiz rise@10.173ns - clk_out_audio_clk_wiz rise@0.000ns)
+  Data Path Delay:        6.372ns  (logic 0.920ns (14.438%)  route 5.452ns (85.562%))
+  Logic Levels:           3  (LUT2=1 LUT6=2)
+  Clock Path Skew:        -0.003ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.453ns = ( 8.720 - 10.173 ) 
+    Source Clock Delay      (SCD):    -0.969ns
+    Clock Pessimism Removal (CPR):    0.482ns
+  Clock Uncertainty:      0.107ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.203ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_out_audio_clk_wiz rise edge)
+                                                      0.000     0.000 r  
+    N15                                               0.000     0.000 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000     0.000    macw/clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         1.440     1.440 r  macw/clkin1_ibufg/O
+                         net (fo=1, estimated)        1.233     2.673    macw/clk_in_audio_clk_wiz
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -7.025    -4.352 r  macw/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, estimated)        1.666    -2.686    macw/clk_out_audio_clk_wiz
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096    -2.590 r  macw/clkout1_buf/O
+                         net (fo=23039, estimated)    1.621    -0.969    tone_detection/first_div/U0/i_synth/i_nonzero_fract.i_synth/i_algo_r2_or_lutmult.i_nonzero_fract.i_sdivider/signed_output.cmp_quot/twos_comp/aclk
+    SLICE_X64Y89         FDRE                                         r  tone_detection/first_div/U0/i_synth/i_nonzero_fract.i_synth/i_algo_r2_or_lutmult.i_nonzero_fract.i_sdivider/signed_output.cmp_quot/twos_comp/i_reg_arch_simp.i_q.q_i_reg[28]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X64Y89         FDRE (Prop_fdre_C_Q)         0.518    -0.451 r  tone_detection/first_div/U0/i_synth/i_nonzero_fract.i_synth/i_algo_r2_or_lutmult.i_nonzero_fract.i_sdivider/signed_output.cmp_quot/twos_comp/i_reg_arch_simp.i_q.q_i_reg[28]/Q
+                         net (fo=1, estimated)        1.019     0.568    tone_detection/first_div_n_4
+    SLICE_X65Y84         LUT6 (Prop_lut6_I3_O)        0.124     0.692 r  tone_detection/tone[1]_i_3/O
+                         net (fo=1, estimated)        0.809     1.501    tone_detection/tone[1]_i_3_n_0
+    SLICE_X65Y86         LUT6 (Prop_lut6_I0_O)        0.124     1.625 r  tone_detection/tone[1]_i_2/O
+                         net (fo=2, estimated)        2.859     4.484    tone_detection/tone1
+    SLICE_X20Y109        LUT2 (Prop_lut2_I1_O)        0.154     4.638 r  tone_detection/tone[1]_i_1/O
+                         net (fo=1, estimated)        0.765     5.403    tone_detection/p_5_out[1]
+    SLICE_X11Y110        FDRE                                         r  tone_detection/tone_reg[1]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_out_audio_clk_wiz rise edge)
+                                                     10.173    10.173 r  
+    N15                                               0.000    10.173 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000    10.173    macw/clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         1.370    11.543 r  macw/clkin1_ibufg/O
+                         net (fo=1, estimated)        1.171    12.715    macw/clk_in_audio_clk_wiz
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -7.279     5.436 r  macw/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, estimated)        1.583     7.019    macw/clk_out_audio_clk_wiz
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091     7.110 r  macw/clkout1_buf/O
+                         net (fo=23039, estimated)    1.610     8.720    tone_detection/clk_out
+    SLICE_X11Y110        FDRE                                         r  tone_detection/tone_reg[1]/C
+                         clock pessimism              0.482     9.201    
+                         clock uncertainty           -0.107     9.094    
+    SLICE_X11Y110        FDRE (Setup_fdre_C_D)       -0.296     8.798    tone_detection/tone_reg[1]
+  -------------------------------------------------------------------
+                         required time                          8.798    
+                         arrival time                          -5.403    
+  -------------------------------------------------------------------
+                         slack                                  3.395    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (VIOLATED) :        -0.141ns  (arrival time - required time)
+  Source:                 fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/three_mult_structure.use_dsp.i_dsp48/optionally_negate_inputs/apply_negation.registered_twos_comp_hblknm.gen_full_slices[1].gen_fdre[0].ff_br/C
+                            (rising edge-triggered cell FDRE clocked by clk_out_audio_clk_wiz  {rise@0.000ns fall@5.087ns period=10.173ns})
+  Destination:            fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/three_mult_structure.use_dsp.i_dsp48/mult2_preadder_d_plus_a.mult2/mult/use_prim.appDSP48[0].bppDSP48[0].use_dsp.use_dsp48e1.iDSP48E1/B[4]
+                            (rising edge-triggered cell DSP48E1 clocked by clk_out_audio_clk_wiz  {rise@0.000ns fall@5.087ns period=10.173ns})
+  Path Group:             clk_out_audio_clk_wiz
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_out_audio_clk_wiz rise@0.000ns - clk_out_audio_clk_wiz rise@0.000ns)
+  Data Path Delay:        0.382ns  (logic 0.141ns (36.941%)  route 0.241ns (63.059%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.441ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.680ns
+    Source Clock Delay      (SCD):    -0.603ns
+    Clock Pessimism Removal (CPR):    -0.518ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_out_audio_clk_wiz rise edge)
+                                                      0.000     0.000 r  
+    N15                                               0.000     0.000 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000     0.000    macw/clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         0.209     0.209 r  macw/clkin1_ibufg/O
+                         net (fo=1, estimated)        0.520     0.728    macw/clk_in_audio_clk_wiz
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -2.621    -1.893 r  macw/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, estimated)        0.702    -1.191    macw/clk_out_audio_clk_wiz
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026    -1.165 r  macw/clkout1_buf/O
+                         net (fo=23039, estimated)    0.562    -0.603    fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/three_mult_structure.use_dsp.i_dsp48/optionally_negate_inputs/aclk
+    SLICE_X53Y98         FDRE                                         r  fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/three_mult_structure.use_dsp.i_dsp48/optionally_negate_inputs/apply_negation.registered_twos_comp_hblknm.gen_full_slices[1].gen_fdre[0].ff_br/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X53Y98         FDRE (Prop_fdre_C_Q)         0.141    -0.462 r  fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/three_mult_structure.use_dsp.i_dsp48/optionally_negate_inputs/apply_negation.registered_twos_comp_hblknm.gen_full_slices[1].gen_fdre[0].ff_br/Q
+                         net (fo=2, estimated)        0.241    -0.221    fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/three_mult_structure.use_dsp.i_dsp48/mult2_preadder_d_plus_a.mult2/mult/B[3]
+    DSP48_X1Y40          DSP48E1                                      r  fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/three_mult_structure.use_dsp.i_dsp48/mult2_preadder_d_plus_a.mult2/mult/use_prim.appDSP48[0].bppDSP48[0].use_dsp.use_dsp48e1.iDSP48E1/B[4]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_out_audio_clk_wiz rise edge)
+                                                      0.000     0.000 r  
+    N15                                               0.000     0.000 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000     0.000    macw/clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         0.396     0.396 r  macw/clkin1_ibufg/O
+                         net (fo=1, estimated)        0.547     0.943    macw/clk_in_audio_clk_wiz
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -3.399    -2.456 r  macw/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, estimated)        0.739    -1.717    macw/clk_out_audio_clk_wiz
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029    -1.688 r  macw/clkout1_buf/O
+                         net (fo=23039, estimated)    1.008    -0.680    fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/three_mult_structure.use_dsp.i_dsp48/mult2_preadder_d_plus_a.mult2/mult/aclk
+    DSP48_X1Y40          DSP48E1                                      r  fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/three_mult_structure.use_dsp.i_dsp48/mult2_preadder_d_plus_a.mult2/mult/use_prim.appDSP48[0].bppDSP48[0].use_dsp.use_dsp48e1.iDSP48E1/CLK
+                         clock pessimism              0.518    -0.162    
+    DSP48_X1Y40          DSP48E1 (Hold_dsp48e1_CLK_B[4])
+                                                      0.082    -0.080    fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/three_mult_structure.use_dsp.i_dsp48/mult2_preadder_d_plus_a.mult2/mult/use_prim.appDSP48[0].bppDSP48[0].use_dsp.use_dsp48e1.iDSP48E1
+  -------------------------------------------------------------------
+                         required time                          0.080    
+                         arrival time                          -0.221    
+  -------------------------------------------------------------------
+                         slack                                 -0.141    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_out_audio_clk_wiz
+Waveform(ns):       { 0.000 5.087 }
+Period(ns):         10.173
+Sources:            { macw/mmcm_adv_inst/CLKOUT0 }
+
+Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location         Pin
+Min Period        n/a     RAMB36E1/CLKARDCLK  n/a            2.944         10.173      7.229      RAMB36_X0Y20     recorder/audio_buffer/BRAM_reg_0_0/CLKARDCLK
+Max Period        n/a     MMCME2_ADV/CLKOUT0  n/a            213.360       10.173      203.187    MMCME2_ADV_X0Y0  macw/mmcm_adv_inst/CLKOUT0
+Low Pulse Width   Slow    RAMS64E/CLK         n/a            1.250         5.087       3.837      SLICE_X30Y126    fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[1].natural_order_input.PE/has_TW_mult.TW/twiddle_generator/tw2.twgen2/dist_ram.first_quarter_table_reg_0_63_0_0/SP/CLK
+High Pulse Width  Slow    RAMS64E/CLK         n/a            1.250         5.087       3.837      SLICE_X30Y126    fft/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[1].natural_order_input.PE/has_TW_mult.TW/twiddle_generator/tw2.twgen2/dist_ram.first_quarter_table_reg_0_63_0_0/SP/CLK
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clkfbout_audio_clk_wiz
+  To Clock:  clkfbout_audio_clk_wiz
+
+Setup :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack       47.845ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clkfbout_audio_clk_wiz
+Waveform(ns):       { 0.000 25.000 }
+Period(ns):         50.000
+Sources:            { macw/mmcm_adv_inst/CLKFBOUT }
+
+Check Type  Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location         Pin
+Min Period  n/a     BUFG/I              n/a            2.155         50.000      47.845     BUFGCTRL_X0Y1    macw/clkf_buf/I
+Max Period  n/a     MMCME2_ADV/CLKFBIN  n/a            100.000       50.000      50.000     MMCME2_ADV_X0Y0  macw/mmcm_adv_inst/CLKFBIN
 
 
 
