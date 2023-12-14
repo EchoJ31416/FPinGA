@@ -1,0 +1,12 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/xilinx_true_dual_port_read_first_2_clock_ram.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module xilinx_true_dual_port_read_first_2_clock_ram
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/recorder.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module recorder
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/hdl/tone_detection_fsm.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tone_detection_fsm
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/sim/top_level_tb.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module top_level_tb
+WARNING: [VRFC 10-3248] data object 'mic_audio' is already declared [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/top_level_tb.sv:76]
+WARNING: [VRFC 10-9364] second declaration of 'mic_audio' is ignored [C:/Users/Cesar/Documents/GitHub/FPinGA/sim/top_level_tb.sv:76]
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Cesar/Documents/GitHub/FPinGA/ip_5_tb/ip_5_tb.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl

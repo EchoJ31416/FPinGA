@@ -69,14 +69,67 @@ module top_level_tb();
      .external_valid(fft_valid)
   );  
   ///////////////////////////////////// Simulation Start /////////////////////////////////////
+  // FIX THE AUDIO FILTERS MATE
+   // Audio Filter
+    // Logic for controlling microphone associated modules:
+  logic [8:0] m_clock_counter; // used for counting for mic clock generation
+  logic signed [7:0] mic_audio; // audio from microphone 8 bit unsigned at 12 kHz
+    // Logic for interfacing with the microphone and generating 3.072 MHz signals
+  logic mic_data;
+  logic [7:0] pdm_tally;
+  logic [8:0] pdm_counter;
+  localparam PDM_COUNT_PERIOD = 32; // do not change
+  localparam NUM_PDM_SAMPLES = 256; // number of pdm in downsample/decimation/average
+  logic old_mic_clk; // prior mic clock for edge detection
+  logic mic_clk;
+  logic sampled_mic_data; // one bit grabbed/held values of mic
+  logic pdm_signal_valid; // single-cycle signal at 3.072 MHz indicating pdm steps
+  //assign pdm_signal_valid = mic_clk && ~old_mic_clk;
+    // Logic to produce 25 MHz step signal for PWM module
+  logic [1:0] pwm_counter;
+  logic pwm_step; //single-cycle pwm step
+  //assign pwm_step = (pwm_counter==2'b11);
+  /*
+  always_ff @(posedge clk_m)begin
+    pwm_counter <= pwm_counter+1;
+  end
+    // Generate clock signal for microphone - microphone signal at ~3.072 MHz
+  always_ff @(posedge clk_m)begin
+    mic_clk <= m_clock_counter < PDM_COUNT_PERIOD/2;
+    m_clock_counter <= (m_clock_counter==PDM_COUNT_PERIOD-1)?0:m_clock_counter+1;
+    old_mic_clk <= mic_clk;
+  end
+    // Generate audio signal (samples at ~12 kHz)
+  always_ff @(posedge clk_m)begin
+    if(record)begin
+      audio_sample_valid <= 1;
+    end if (pdm_signal_valid)begin
+      sampled_mic_data    <= mic_data;
+      pdm_counter         <= (pdm_counter==NUM_PDM_SAMPLES)?0:pdm_counter + 1;
+      pdm_tally           <= (pdm_counter==NUM_PDM_SAMPLES)?mic_data
+                                                            :pdm_tally+mic_data;
+      audio_sample_valid  <= (pdm_counter==NUM_PDM_SAMPLES);
+      mic_audio           <= (pdm_counter==NUM_PDM_SAMPLES)?{~pdm_tally[7],pdm_tally[6:0]}
+                                                            :mic_audio;
+    end else begin
+      audio_sample_valid <= 0;
+    end
+  end
+*/
 
   always begin
       #5;  // 100 MHz clock
       clk_0 = !clk_0;
+      pdm_signal_valid = mic_clk && ~old_mic_clk;
+      pwm_step = (pwm_counter==2'b11);
   end 
 
   always begin // INSERT ALL SEQUENTIAL LOGIC IN HERE
       #10; // on each clock cycle
+      pwm_counter <= pwm_counter+1;
+      mic_clk <= m_clock_counter < PDM_COUNT_PERIOD/2;
+      m_clock_counter <= (m_clock_counter==PDM_COUNT_PERIOD-1)?0:m_clock_counter+1;
+      old_mic_clk <= mic_clk;
       if (record)begin
         fft_length = fft_length + 1; // Ensure you add this to the top level
       end
@@ -91,6 +144,20 @@ module top_level_tb();
         fft_last <= (fft_data_count == 2047); 
       end else begin    
         fft_valid = 0;  
+      end 
+      
+      if(record)begin
+        audio_sample_valid <= 1;
+      end if (pdm_signal_valid)begin
+        sampled_mic_data    <= mic_data;
+        pdm_counter         <= (pdm_counter==NUM_PDM_SAMPLES)?0:pdm_counter + 1;
+        pdm_tally           <= (pdm_counter==NUM_PDM_SAMPLES)?mic_data
+                                                            :pdm_tally+mic_data;
+        audio_sample_valid  <= (pdm_counter==NUM_PDM_SAMPLES);
+        mic_audio           <= (pdm_counter==NUM_PDM_SAMPLES)?{~pdm_tally[7],pdm_tally[6:0]}
+                                                            :mic_audio;
+      end else begin
+        audio_sample_valid <= 0;
       end
   end 
 
@@ -118,24 +185,27 @@ module top_level_tb();
     sys_rst = 0;
     clk_0 = 0;
     record = 0;
+    audio_sample_valid = 0;
     /////////////////////// Unknown Region ///////////////////////
     sys_rst = 1;
     #10;
     sys_rst = 0;
     record = 1;
-    audio_sample_valid = 1;
+    
     for (int i = 0; i<10000; i=i+1)begin
-      mic_audio = i;
+      mic_data = i;
       #10;
     end
     record = 0;
+
+    /*
+    Uncomment for working code
     for (int i = 0; i<10000; i=i+1)begin // Wait
       audio_sample_valid = 1; // You will have to keep this in your module!!! CHECK IT OUT!
       #10;
       audio_sample_valid = 0;
       #60;
     end
-    /*
     for (int i = 0; i<10000; i=i+1)begin // Wait
       audio_sample_valid = 1; // You will have to keep this in your module!!! CHECK IT OUT!
       #10;

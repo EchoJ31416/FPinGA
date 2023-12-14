@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date         : Thu Dec 14 03:09:16 2023
-| Host         : DESKTOP-89OFCK6 running 64-bit major release  (build 9200)
+| Date         : Thu Dec 14 15:25:15 2023
+| Host         : DESKTOP-M3QN9GM running 64-bit major release  (build 9200)
 | Command      : report_utilization -file obj/post_synth_util.rpt
 | Design       : top_level
 | Device       : xc7s50csga324-1
@@ -31,13 +31,13 @@ Table of Contents
 +----------------------------+-------+-------+------------+-----------+-------+
 |          Site Type         |  Used | Fixed | Prohibited | Available | Util% |
 +----------------------------+-------+-------+------------+-----------+-------+
-| Slice LUTs*                | 12512 |     0 |          0 |     32600 | 38.38 |
-|   LUT as Logic             | 11861 |     0 |          0 |     32600 | 36.38 |
+| Slice LUTs*                | 12539 |     0 |          0 |     32600 | 38.46 |
+|   LUT as Logic             | 11888 |     0 |          0 |     32600 | 36.47 |
 |   LUT as Memory            |   651 |     0 |          0 |      9600 |  6.78 |
 |     LUT as Distributed RAM |    31 |     0 |            |           |       |
 |     LUT as Shift Register  |   620 |     0 |            |           |       |
-| Slice Registers            | 32946 |     0 |          0 |     65200 | 50.53 |
-|   Register as Flip Flop    | 32945 |     0 |          0 |     65200 | 50.53 |
+| Slice Registers            | 32963 |     0 |          0 |     65200 | 50.56 |
+|   Register as Flip Flop    | 32962 |     0 |          0 |     65200 | 50.56 |
 |   Register as Latch        |     1 |     0 |          0 |     65200 | <0.01 |
 | F7 Muxes                   |     0 |     0 |          0 |     16300 |  0.00 |
 | F8 Muxes                   |     0 |     0 |          0 |      8150 |  0.00 |
@@ -61,7 +61,7 @@ Warning! LUT value is adjusted to account for LUT combining.
 | 0     |          Yes |           - |          Set |
 | 1     |          Yes |           - |        Reset |
 | 2     |          Yes |         Set |            - |
-| 32943 |          Yes |       Reset |            - |
+| 32960 |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -121,9 +121,9 @@ Warning! LUT value is adjusted to account for LUT combining.
 +------------+------+-------+------------+-----------+-------+
 |  Site Type | Used | Fixed | Prohibited | Available | Util% |
 +------------+------+-------+------------+-----------+-------+
-| BUFGCTRL   |    2 |     0 |          0 |        32 |  6.25 |
+| BUFGCTRL   |    1 |     0 |          0 |        32 |  3.13 |
 | BUFIO      |    0 |     0 |          0 |        20 |  0.00 |
-| MMCME2_ADV |    1 |     0 |          0 |         5 | 20.00 |
+| MMCME2_ADV |    0 |     0 |          0 |         5 |  0.00 |
 | PLLE2_ADV  |    0 |     0 |          0 |         5 |  0.00 |
 | BUFMRCE    |    0 |     0 |          0 |        10 |  0.00 |
 | BUFHCE     |    0 |     0 |          0 |        72 |  0.00 |
@@ -151,30 +151,29 @@ Warning! LUT value is adjusted to account for LUT combining.
 7. Primitives
 -------------
 
-+------------+-------+---------------------+
-|  Ref Name  |  Used | Functional Category |
-+------------+-------+---------------------+
-| FDRE       | 32943 |        Flop & Latch |
-| LUT3       |  9418 |                 LUT |
-| CARRY4     |  2836 |          CarryLogic |
-| LUT2       |  1567 |                 LUT |
-| SRL16E     |   793 |  Distributed Memory |
-| LUT1       |   692 |                 LUT |
-| LUT4       |   421 |                 LUT |
-| LUT6       |   345 |                 LUT |
-| SRLC32E    |   166 |  Distributed Memory |
-| LUT5       |    85 |                 LUT |
-| OBUF       |    45 |                  IO |
-| RAMS64E    |    31 |  Distributed Memory |
-| IBUF       |    20 |                  IO |
-| DSP48E1    |    12 |    Block Arithmetic |
-| RAMB36E1   |     8 |        Block Memory |
-| RAMB18E1   |     4 |        Block Memory |
-| FDSE       |     2 |        Flop & Latch |
-| BUFG       |     2 |               Clock |
-| MMCME2_ADV |     1 |               Clock |
-| LDCE       |     1 |        Flop & Latch |
-+------------+-------+---------------------+
++----------+-------+---------------------+
+| Ref Name |  Used | Functional Category |
++----------+-------+---------------------+
+| FDRE     | 32960 |        Flop & Latch |
+| LUT3     |  9441 |                 LUT |
+| CARRY4   |  2840 |          CarryLogic |
+| LUT2     |  1567 |                 LUT |
+| SRL16E   |   793 |  Distributed Memory |
+| LUT1     |   693 |                 LUT |
+| LUT4     |   418 |                 LUT |
+| LUT6     |   354 |                 LUT |
+| SRLC32E  |   166 |  Distributed Memory |
+| LUT5     |    83 |                 LUT |
+| OBUF     |    45 |                  IO |
+| RAMS64E  |    31 |  Distributed Memory |
+| IBUF     |    20 |                  IO |
+| DSP48E1  |    12 |    Block Arithmetic |
+| RAMB36E1 |     8 |        Block Memory |
+| RAMB18E1 |     4 |        Block Memory |
+| FDSE     |     2 |        Flop & Latch |
+| LDCE     |     1 |        Flop & Latch |
+| BUFG     |     1 |               Clock |
++----------+-------+---------------------+
 
 
 8. Black Boxes

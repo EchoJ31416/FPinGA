@@ -31,9 +31,9 @@ module top_level(
   logic clk_m;
   logic clk_0;
   
-  audio_clk_wiz macw (.clk_in(clk_100mhz), .clk_out(clk_m)); //98.3MHz - How will this affect the FFT?
-  //assign clk_0 = clk_100mhz; // Consider changing
-  //assign clk_m = clk_100mhz; // Consider changing
+  //audio_clk_wiz macw (.clk_in(clk_100mhz), .clk_out(clk_m)); //98.3MHz - How will this affect the FFT?
+  assign clk_0 = clk_100mhz; // Consider changing
+  assign clk_m = clk_100mhz; // Consider changing
 
   assign clk_0 = clk_m; // Consider changing
   //assign clk_m = clk_100mhz; // Consider changing
@@ -109,6 +109,7 @@ module top_level(
   logic [7:0] single_audio; // recorder output
   logic valid_audio; // used to indicate that recording is finished to begin FFT pipeline
 
+  //////////////////// rESETTING sYSTEM DOES NOT DO ANYTHING TO MEMORY 
   recorder recorder(
     .clk_in(clk_m), // system clock
     .rst_in(sys_rst),// global reset
@@ -169,7 +170,7 @@ module top_level(
   always_ff @(posedge clk_0)begin  
     if (record)begin
       fft_length = fft_length + 1;
-    end if (valid_audio)begin    
+    end if (valid_audio && (single_audio != 0))begin    
       if (fft_last && fft_out_ready)begin
         fft_valid <= 1;
       end if (fft_out_valid && !fft_out_ready && fft_out_data != 0)begin
@@ -217,34 +218,46 @@ module top_level(
 
   localparam MEM_OUT = 3'b101; // variable to indicate recording ran out of memory, user must restart system
 
+  // 
+  logic freeze; // Signal to hold display, counterintuitive - 1 == don't freeze, 0 == freeze display
+
   always_ff @(posedge clk_0)begin
-    if(tone_valid && (mode == mode_1))begin // Check mode == mode_0
-      case(tone_ident)
-        FIRST: val_to_display <= 32'd1;   
-        SECOND: val_to_display <= 32'd2;
-        THIRD: val_to_display <= 32'd3;
-        FOURTH: val_to_display <= 32'd4;
-        MEM_OUT: val_to_display <= 32'd5;
-        default: val_to_display <= 32'd0; // Indicates ready to receive data
-      endcase 
-    end else if (fft_valid)begin
-      val_to_display <= 32'hBAAA;
-    end else if (valid_audio)begin
-      val_to_display <= 32'hBABE;
-    end else if (valid_audio == 0 && mode == mode_1)begin
-      if (record)begin
-        val_to_display <= 32'hC0DE; // Used in debugging
+    // Add reset 
+    if (freeze)begin // If completed, will continue to check modes to display, will not freeze last display
+      if(tone_valid && (mode == mode_1))begin // Check mode == mode_0 - FREEZE
+        case(tone_ident)
+          FIRST: val_to_display <= 32'd1;   
+          SECOND: val_to_display <= 32'd2;
+          THIRD: val_to_display <= 32'd3;
+          FOURTH: val_to_display <= 32'd4;
+          MEM_OUT: val_to_display <= 32'd5;
+          default: val_to_display <= 32'd0; // Indicates ready to receive data
+        endcase 
+        freeze <= 0;
+      end else if (fft_valid)begin
+        val_to_display <= 32'hBAAA;
+        freeze <= 0; // remove asap
+      end else if (valid_audio)begin
+        val_to_display <= 32'hBABE;
+        freeze <= 0; // remove asap
+      end else if (valid_audio == 0 && mode == mode_1)begin
+        if (record)begin
+          val_to_display <= 32'hC0DE; // Used in debugging -- will reset at some point
+        end else begin
+          val_to_display <= 32'hFEED; // ready to accept data
+        end
+      end else if (valid_audio == 1 && mode == mode_1)begin
+        val_to_display <= 32'hBAAD; // Indicates recording occured, but no tone identifier was created
+        freeze <= 0; // remove asap
       end else begin
-        val_to_display <= 32'hFEED; // ready to accept data
+        val_to_display <= 32'hDEAD; // Indicates pipeline never made it
       end
-    end else if (valid_audio == 1 && mode == mode_1)begin
-      val_to_display <= 32'hBAAD; // Indicates recording occured, but no tone identifier was created
-    end else begin
-      val_to_display <= 32'hDEAD; // Indicates pipeline never made it
+    end else if(sys_rst)begin
+      freeze <= 1;
     end
   end
 endmodule // top_level
 `default_nettype wire
 ///////////////// Debugin Notes /////////////////
-// BABE Triggered, indicating valid_audio is output -> recorder works
-// Bug must be present in FFT pipelining, which is most probable 
+// 
+// 

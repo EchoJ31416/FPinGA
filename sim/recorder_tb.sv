@@ -8,7 +8,6 @@ module recorder_tb();
   logic audio_valid_in;
   logic record_in;
   logic [7:0] audio_in, single_out;
-  logic [31:0] length;
   logic finish;
 
   recorder modified_recorder( 
@@ -18,7 +17,6 @@ module recorder_tb();
     .audio_valid_in(audio_valid_in),
     .audio_in(audio_in),
     .single_out(single_out),
-    .recording_length(length),
     .finish(finish)
   ); 
 
@@ -48,6 +46,20 @@ module recorder_tb();
     end
     record_in = 0;
     for (int i = 0; i<10000; i= i+ 1)begin
+      audio_valid_in = 1;
+      #10;
+      audio_valid_in = 0;
+      #60;
+    end
+    for (int i = 0; i<10000; i= i+ 1)begin
+      rst_in = 1;
+      audio_valid_in = 1;
+      #10;
+      audio_valid_in = 0;
+      #60;
+    end
+    for (int i = 0; i<10000; i= i+ 1)begin
+      rst_in = 0;
       audio_valid_in = 1;
       #10;
       audio_valid_in = 0;
