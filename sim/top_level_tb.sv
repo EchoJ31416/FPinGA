@@ -33,18 +33,15 @@ module top_level_tb();
     .audio_valid_in(audio_sample_valid), // 12 kHz audio sample valid signal
     .audio_in(mic_audio), // 8 bit signed data from microphone
     .single_out(single_audio), // played back audio (8 bit signed at 12 kHz)
-    .recording_length(length), // Length of address - corroborated by testbench
+    // .recording_length(length), // Length of address - corroborated by testbench
     .finish(valid_audio)
   );
-
-
-  assign fft_length = div_out[61:32]; // rounded number of clock cycles between each FFT
 
   div_gen_0 fft_spacing(
     .aclk(clk_0),
     .s_axis_divisor_tvalid(1),
     .s_axis_divisor_tdata(32'd4),
-    .s_axis_dividend_tdata(length),
+    .s_axis_dividend_tdata(fft_length),
     .m_axis_dout_tvalid(),
     .m_axis_dout_tdata(div_out)
   );
@@ -61,7 +58,7 @@ module top_level_tb();
 
   tone_detection_fsm tone_detection(
      .valid_in_signal(fft_out_valid),
-     .fft_last(fft_out_last),
+     .fft_last(fft_last),
      .clk_in(clk_0),
      .rst_in(sys_rst),
      .fft_data(fft_out_data),
@@ -80,10 +77,13 @@ module top_level_tb();
 
   always begin // INSERT ALL SEQUENTIAL LOGIC IN HERE
       #10; // on each clock cycle
-      if (valid_audio)begin    
+      if (record)begin
+        fft_length = fft_length + 1; // Ensure you add this to the top level
+      end
+      if (valid_audio)begin                 //  Valid audio instead of always on changes it, valid_audio
         if (fft_last && fft_out_ready)begin
           fft_valid <= 1;
-        end if (fft_out_valid == 1  && fft_out_data != 0)begin
+        end if (fft_out_valid && !fft_out_ready && fft_out_data != 0)begin
           fft_valid <= 0;
         end 
         fft_data <= {single_audio, 8'b0};
@@ -99,10 +99,9 @@ module top_level_tb();
     $dumpvars(0,top_level_tb);
     $display("Starting Sim");
     /////////////////////// Reset Variables ///////////////////////
-    single_audio = 0; // recorder output
     length = 0; // length of recording in clock cycles
     valid_audio = 0; // used to indicate that recording is finished to begin FFT pipeline
-    tone_ident = 0; // three-bit identifier used throughout top level
+    tone_ident = 3'b111; // three-bit identifier used throughout top level
     div_out = 0; // intermediate value
     fft_length = 0; // length of fft duration in clock cycles
     fft_valid = 0; // used by the external master to signal that it is able to provide data (critical in pipelining)
@@ -131,16 +130,11 @@ module top_level_tb();
     end
     record = 0;
     audio_sample_valid = 0;
-    for (int i = 0; i<1000; i=i+1)begin // Wait
-      #10;
-    end
-    // Set to mode 0 - tone identification
     for (int i = 0; i<10000; i=i+1)begin // Wait
+      audio_sample_valid = 1; // You will have to keep this in your module!!! CHECK IT OUT!
       #10;
-    end
-    for (int i = 0; i<100000; i=i+1)begin // Wait
-      // Let the system behave - ADD NOTHING
-      #10;
+      audio_sample_valid = 0;
+      #60;
     end
     $display("Simulation finished");
     $finish;

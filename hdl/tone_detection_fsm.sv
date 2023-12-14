@@ -56,7 +56,7 @@ always_ff @(posedge clk_in)begin
         cycle_counter <= cycle_counter + 1;
         case(state)
         IDLE: begin 
-          if (valid_in_signal && fft_last && valid_in_signal && external_valid)begin
+          if (valid_in_signal && external_valid)begin
             state <= CAPTURE;
             ready_signal <= 0;  
           end
@@ -117,32 +117,36 @@ end
   localparam FOURTH = 3'b100; // variable to store 4th tone identifier
 
 always_comb begin // Currently incapable of determining more effective system, edge cases can be used to asses accuracy in future
+  if (valid_signal)begin
   case(tone)
-  // Definitive cases
-  6'b00_00_00: tone_ident = 3'b000; // Neutral
-  6'b01_01_01: tone_ident = 3'b001; // Rising
-  6'b11_01_01: tone_ident = 3'b010; // Undulating
-  6'b11_00_01: tone_ident = 3'b010; // Undulating
-  6'b11_11_11: tone_ident = 3'b100; // Falling  
-  // Neutral edge cases
-  6'b11_00_00: tone_ident = 3'b000;
-  6'b00_11_00: tone_ident = 3'b000;
-  6'b00_00_11: tone_ident = 3'b000;
-  6'b01_00_00: tone_ident = 3'b000;
-  6'b00_01_00: tone_ident = 3'b000;
-  6'b00_00_01: tone_ident = 3'b000;
-  // Falling edge cases
-  6'b11_11_00: tone_ident = 3'b100;
-  6'b11_11_01: tone_ident = 3'b100;
-  6'b00_11_11: tone_ident = 3'b100;
-  6'b11_00_11: tone_ident = 3'b100;
-  // Rising edge cases
-  6'b01_01_00: tone_ident = 3'b001;
-  6'b01_01_11: tone_ident = 3'b001;
-  6'b00_01_01: tone_ident = 3'b001;
-  6'b01_00_01: tone_ident = 3'b001;
-  default: tone_ident = 3'b111; // you messed up
+    // Definitive cases
+    6'b00_00_00: tone_ident = 3'b000; // Neutral
+    6'b01_01_01: tone_ident = 3'b001; // Rising
+    6'b11_01_01: tone_ident = 3'b010; // Undulating
+    6'b11_00_01: tone_ident = 3'b010; // Undulating
+    6'b11_11_11: tone_ident = 3'b100; // Falling  
+    // Neutral edge cases
+    6'b11_00_00: tone_ident = 3'b000;
+    6'b00_11_00: tone_ident = 3'b000;
+    6'b00_00_11: tone_ident = 3'b000;
+    6'b01_00_00: tone_ident = 3'b000;
+    6'b00_01_00: tone_ident = 3'b000;
+    6'b00_00_01: tone_ident = 3'b000;
+    // Falling edge cases
+    6'b11_11_00: tone_ident = 3'b100;
+    6'b11_11_01: tone_ident = 3'b100;
+    6'b00_11_11: tone_ident = 3'b100;
+    6'b11_00_11: tone_ident = 3'b100;
+    // Rising edge cases
+    6'b01_01_00: tone_ident = 3'b001;
+    6'b01_01_11: tone_ident = 3'b001;
+    6'b00_01_01: tone_ident = 3'b001;
+    6'b01_00_01: tone_ident = 3'b001;
+    default: tone_ident = 3'b111; // you messed up
   endcase
+  end else begin
+    tone_ident = 3'b111;
+  end
 end
 
 div_gen_0 first_div(

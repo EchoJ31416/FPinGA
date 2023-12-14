@@ -7,18 +7,17 @@ module  recorder(
   input wire record_in,
   input wire audio_valid_in,
   output logic signed [7:0] single_out,
-  output logic [31:0] recording_length, // length of recording in clock cycles
+  // output logic [31:0] recording_length, // length of recording in clock cycles
   output logic finish
   );
 
   logic [15:0] w_address;
   logic [15:0] r_address;
-  logic [15:0] r_address_int;
   logic [15:0] cycle_delay;
   logic [15:0] delay;
 
-  logic [31:0] single_address;
-  logic [31:0] largest_address;
+  logic [15:0] single_address;
+  logic [15:0] largest_address;
   
   logic signed [7:0] out;
   logic signed [7:0] single;
@@ -30,7 +29,6 @@ module  recorder(
       single_address <= 0;
       cycle_delay <= 0;
       delay <= 0;
-      largest_address <= 0;
     end else begin
       if (record_in && audio_valid_in)begin // Writing
         w_address <= w_address + 1;
@@ -58,21 +56,20 @@ module  recorder(
   end
 
   always_comb begin
-    r_address_int = {6'b0, w_address};
-    if (r_address_int > largest_address) begin
-      largest_address = r_address_int;
-    end if (audio_valid_in == 1 && record_in == 0 && single_out > 0)begin
+    largest_address = w_address;
+    if (audio_valid_in == 1 && record_in == 0 && single_out > 0)begin
       finish = 1;
     end
   end
-
+  /*
   mult_gen_0 multiply(
     .CLK(clk_in), // Clock
-    .A(largest_address), // Value of largest address
+    .A({16'b0,largest_address}), // Value of largest address
     .B(32'd8333), // Constant that converts samples into clock cycles
     .P(recording_length) // Product
+    *
   );
-  
+  */
   xilinx_true_dual_port_read_first_2_clock_ram #(
     .RAM_WIDTH(8),
     .RAM_DEPTH(18000))

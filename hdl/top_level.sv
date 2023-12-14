@@ -31,8 +31,9 @@ module top_level(
   logic clk_m;
   logic clk_0;
   
-  audio_clk_wiz macw (.clk_in(clk_100mhz), .clk_out(clk_m)); //98.3MHz - How will this affect the FFT?
-  assign clk_0 = clk_m;
+  // audio_clk_wiz macw (.clk_in(clk_100mhz), .clk_out(clk_m)); //98.3MHz - How will this affect the FFT?
+  assign clk_0 = clk_100mhz; // Consider changing
+  assign clk_m = clk_100mhz; // Consider changing
 
   // Seven segment for display - REPLACE WITH HDMI SECTION IN THE FUTURE
   logic [31:0] val_to_display; // value of number to display using 7s
@@ -98,7 +99,6 @@ module top_level(
   
   // Recorder
   logic [7:0] single_audio; // recorder output
-  logic [31:0] length; // length of recording in clock cycles
   logic valid_audio; // used to indicate that recording is finished to begin FFT pipeline
  
   recorder recorder(
@@ -108,7 +108,6 @@ module top_level(
     .audio_valid_in(audio_sample_valid), // 12 kHz audio sample valid signal
     .audio_in(mic_audio), // 8 bit signed data from microphone
     .single_out(single_audio), // played back audio (8 bit signed at 12 kHz)
-    .recording_length(length), // Length of address - corroborated by testbench
     .finish(valid_audio)
   );
 
@@ -117,13 +116,11 @@ module top_level(
   logic [61:0] div_out; // intermediate value
   logic [31:0] fft_length; // length of fft duration in clock cycles
 
-  assign fft_length = div_out[61:32]; // rounded number of clock cycles between each FFT
-
   div_gen_0 fft_spacing(
     .aclk(clk_0),
     .s_axis_divisor_tvalid(1),
     .s_axis_divisor_tdata(32'd4),
-    .s_axis_dividend_tdata(length),
+    .s_axis_dividend_tdata(fft_length),
     .m_axis_dout_tvalid(),
     .m_axis_dout_tdata(div_out)
   );
@@ -137,14 +134,14 @@ module top_level(
     
   always_comb begin
     if (sw[0])begin
-      mode = mode_0;
-    end else if (sw[1])begin
       mode = mode_1;
-    end else if (sw[2])begin
+    end else if (sw[1])begin
       mode = mode_2;
-    end else if (sw[3])begin
+    end else if (sw[2])begin
       mode = mode_3;
-    end
+    end else begin
+      mode = mode_0;
+    end 
   end
 
   // FFT  
@@ -159,15 +156,17 @@ module top_level(
 
     // CONTROL FLOW OF DATA - Pipelining on Testbench results
   logic [10:0] fft_data_count; // Used to count frames for FFT
+  assign fft_data = {single_audio, 8'b0};
   
   always_ff @(posedge clk_0)begin  
-    if (valid_audio)begin    
+    if (record)begin
+      fft_length = fft_length + 1;
+    end if (valid_audio)begin    
       if (fft_last && fft_out_ready)begin
         fft_valid <= 1;
-      end if (fft_out_valid == 1  && fft_out_data != 0)begin
+      end if (fft_out_valid && !fft_out_ready && fft_out_data != 0)begin
         fft_valid <= 0;
       end 
-      fft_data <= {single_audio, 8'b0};
       fft_data_count <= fft_data_count + 1;    
       fft_last <= (fft_data_count == 2047); 
     end else begin    
@@ -190,7 +189,7 @@ module top_level(
   logic tone_valid; // asserted when valid tone is returned by fsm
   tone_detection_fsm tone_detection(
      .valid_in_signal(fft_out_valid),
-     .fft_last(fft_out_last),
+     .fft_last(fft_last),
      .clk_in(clk_0),
      .rst_in(sys_rst),
      .fft_data(fft_out_data),
@@ -211,19 +210,19 @@ module top_level(
   localparam MEM_OUT = 3'b101; // variable to indicate recording ran out of memory, user must restart system
 
   always_ff @(posedge clk_0)begin
-    if(tone_valid && (mode == mode_0))begin
+    if(tone_valid && (mode == mode_1))begin // Check mode == mode_0
       case(tone_ident)
         FIRST: val_to_display = 32'd1;   
         SECOND: val_to_display = 32'd2;
         THIRD: val_to_display = 32'd3;
         FOURTH: val_to_display = 32'd4;
         MEM_OUT: val_to_display = 32'd5;
-        default: val_to_display = 32'd0; // Indicates error
+        default: val_to_display = 32'd0; // Indicates ready to receive data
       endcase
-    end else if (valid_audio == 0) begin
-      val_to_display = 32'hFEED; // Indicates ready to receive data
+    end else if (valid_audio == 0 && mode == mode_1) begin
+      val_to_display = 32'hFEED; 
     end else begin
-      val_to_display = 32'hDEAD; // Indicates pippeline never made it
+      val_to_display = 32'hDEAD; // Indicates pipeline never made it
     end
   end
 endmodule // top_level
