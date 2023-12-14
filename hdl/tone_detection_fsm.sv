@@ -154,6 +154,7 @@ div_gen_0 first_div(
     .s_axis_divisor_tvalid(1),
     .s_axis_divisor_tdata(fft_data_reg_1),
     .s_axis_dividend_tdata(change_1[31:0]),
+    .s_axis_dividend_tvalid(1),
     .m_axis_dout_tvalid(),
     .m_axis_dout_tdata(quo_1)
   );
@@ -162,6 +163,7 @@ div_gen_0 first_div(
     .s_axis_divisor_tvalid(1),
     .s_axis_divisor_tdata(fft_data_reg_2),
     .s_axis_dividend_tdata(change_2[31:0]),
+    .s_axis_dividend_tvalid(1),
     .m_axis_dout_tvalid(),
     .m_axis_dout_tdata(quo_2)
   );
@@ -170,6 +172,7 @@ div_gen_0 first_div(
     .s_axis_divisor_tvalid(1),
     .s_axis_divisor_tdata(fft_data_reg_3),
     .s_axis_dividend_tdata(change_3[31:0]),
+    .s_axis_dividend_tvalid(1),
     .m_axis_dout_tvalid(),
     .m_axis_dout_tdata(quo_3)
   );
