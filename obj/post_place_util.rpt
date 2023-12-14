@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date         : Thu Dec 14 15:26:37 2023
+| Date         : Thu Dec 14 16:52:16 2023
 | Host         : DESKTOP-M3QN9GM running 64-bit major release  (build 9200)
 | Command      : report_utilization -file obj/post_place_util.rpt
 | Design       : top_level
@@ -32,8 +32,8 @@ Table of Contents
 +----------------------------+-------+-------+------------+-----------+-------+
 |          Site Type         |  Used | Fixed | Prohibited | Available | Util% |
 +----------------------------+-------+-------+------------+-----------+-------+
-| Slice LUTs                 |  8474 |     0 |          0 |     32600 | 25.99 |
-|   LUT as Logic             |  7942 |     0 |          0 |     32600 | 24.36 |
+| Slice LUTs                 |  8475 |     0 |          0 |     32600 | 26.00 |
+|   LUT as Logic             |  7943 |     0 |          0 |     32600 | 24.37 |
 |   LUT as Memory            |   532 |     0 |          0 |      9600 |  5.54 |
 |     LUT as Distributed RAM |    31 |     0 |            |           |       |
 |     LUT as Shift Register  |   501 |     0 |            |           |       |
@@ -71,27 +71,27 @@ Table of Contents
 +--------------------------------------------+-------+-------+------------+-----------+-------+
 |                  Site Type                 |  Used | Fixed | Prohibited | Available | Util% |
 +--------------------------------------------+-------+-------+------------+-----------+-------+
-| Slice                                      |  3517 |     0 |          0 |      8150 | 43.15 |
-|   SLICEL                                   |  2544 |     0 |            |           |       |
-|   SLICEM                                   |   973 |     0 |            |           |       |
-| LUT as Logic                               |  7942 |     0 |          0 |     32600 | 24.36 |
+| Slice                                      |  3554 |     0 |          0 |      8150 | 43.61 |
+|   SLICEL                                   |  2572 |     0 |            |           |       |
+|   SLICEM                                   |   982 |     0 |            |           |       |
+| LUT as Logic                               |  7943 |     0 |          0 |     32600 | 24.37 |
 |   using O5 output only                     |    10 |       |            |           |       |
-|   using O6 output only                     |  7266 |       |            |           |       |
-|   using O5 and O6                          |   666 |       |            |           |       |
+|   using O6 output only                     |  7264 |       |            |           |       |
+|   using O5 and O6                          |   669 |       |            |           |       |
 | LUT as Memory                              |   532 |     0 |          0 |      9600 |  5.54 |
 |   LUT as Distributed RAM                   |    31 |     0 |            |           |       |
 |     using O5 output only                   |     0 |       |            |           |       |
 |     using O6 output only                   |    31 |       |            |           |       |
 |     using O5 and O6                        |     0 |       |            |           |       |
 |   LUT as Shift Register                    |   501 |     0 |            |           |       |
-|     using O5 output only                   |    18 |       |            |           |       |
-|     using O6 output only                   |   171 |       |            |           |       |
+|     using O5 output only                   |    25 |       |            |           |       |
+|     using O6 output only                   |   164 |       |            |           |       |
 |     using O5 and O6                        |   312 |       |            |           |       |
 | Slice Registers                            | 22167 |     0 |          0 |     65200 | 34.00 |
-|   Register driven from within the Slice    |  9760 |       |            |           |       |
-|   Register driven from outside the Slice   | 12407 |       |            |           |       |
-|     LUT in front of the register is unused |  7561 |       |            |           |       |
-|     LUT in front of the register is used   |  4846 |       |            |           |       |
+|   Register driven from within the Slice    |  9724 |       |            |           |       |
+|   Register driven from outside the Slice   | 12443 |       |            |           |       |
+|     LUT in front of the register is unused |  7547 |       |            |           |       |
+|     LUT in front of the register is used   |  4896 |       |            |           |       |
 | Unique Control Sets                        |    45 |       |          0 |      8150 |  0.55 |
 +--------------------------------------------+-------+-------+------------+-----------+-------+
 * * Note: Available Control Sets calculated as Slice * 1, Review the Control Sets Report for more information regarding control sets.
@@ -187,15 +187,15 @@ Table of Contents
 | Ref Name |  Used | Functional Category |
 +----------+-------+---------------------+
 | FDRE     | 22164 |        Flop & Latch |
-| LUT3     |  6425 |                 LUT |
+| LUT3     |  6430 |                 LUT |
 | CARRY4   |  1918 |          CarryLogic |
 | LUT2     |  1129 |                 LUT |
 | SRL16E   |   676 |  Distributed Memory |
 | LUT1     |   445 |                 LUT |
-| LUT4     |   424 |                 LUT |
+| LUT4     |   431 |                 LUT |
 | SRLC32E  |   137 |  Distributed Memory |
-| LUT5     |    99 |                 LUT |
-| LUT6     |    86 |                 LUT |
+| LUT5     |    94 |                 LUT |
+| LUT6     |    83 |                 LUT |
 | OBUF     |    45 |                  IO |
 | RAMS64E  |    31 |  Distributed Memory |
 | IBUF     |    20 |                  IO |

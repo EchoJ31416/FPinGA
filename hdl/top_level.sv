@@ -220,44 +220,45 @@ module top_level(
 
   // 
   logic freeze; // Signal to hold display, counterintuitive - 1 == don't freeze, 0 == freeze display
+  logic hold;
 
   always_ff @(posedge clk_0)begin
     // Add reset 
-    if (freeze)begin // If completed, will continue to check modes to display, will not freeze last display
-      if(tone_valid && (mode == mode_1))begin // Check mode == mode_0 - FREEZE
-        case(tone_ident)
-          FIRST: val_to_display <= 32'd1;   
-          SECOND: val_to_display <= 32'd2;
-          THIRD: val_to_display <= 32'd3;
-          FOURTH: val_to_display <= 32'd4;
-          MEM_OUT: val_to_display <= 32'd5;
-          default: val_to_display <= 32'd0; // Indicates ready to receive data
-        endcase 
-        freeze <= 0;
-      end else if (fft_valid)begin
-        val_to_display <= 32'hBAAA;
-        freeze <= 0; // remove asap
-      end else if (valid_audio)begin
-        val_to_display <= 32'hBABE;
-        freeze <= 0; // remove asap
-      end else if (valid_audio == 0 && mode == mode_1)begin
-        if (record)begin
-          val_to_display <= 32'hC0DE; // Used in debugging -- will reset at some point
-        end else begin
-          val_to_display <= 32'hFEED; // ready to accept data
+    if (sys_rst)begin
+      freeze <= 1;
+      hold <= 0;
+    end if(freeze)begin
+     // If completed, will continue to check modes to display, will not freeze last display
+      if (mode == mode_1)begin
+        if (hold)begin
+          val_to_display <= 32'hBEAD; 
+          if(tone_valid)begin // Check mode == mode_0 - FREEZE
+            case(tone_ident)
+              FIRST: val_to_display <= 32'd1;   
+              SECOND: val_to_display <= 32'd2;
+              THIRD: val_to_display <= 32'd3;
+              FOURTH: val_to_display <= 32'd4;
+              MEM_OUT: val_to_display <= 32'd5; // May never be triggered since there is no existing memory check
+              default: val_to_display <= 32'd0; // Indicates that no tone identifier was created
+            endcase 
+            freeze <= 0;
+          end
+        end else if (valid_audio == 1)begin // used to store valid-audio signal
+          hold <= 1;
+        end else if (valid_audio == 0 && hold == 0)begin // hold is undefined, so not triggering anything
+          if (record)begin
+            val_to_display <= 32'hC0DE; // Used in debugging -- will reset at some point
+          end else begin
+            val_to_display <= 32'hFEED; // ready to accept data
+          end
         end
-      end else if (valid_audio == 1 && mode == mode_1)begin
-        val_to_display <= 32'hBAAD; // Indicates recording occured, but no tone identifier was created
-        freeze <= 0; // remove asap
       end else begin
         val_to_display <= 32'hDEAD; // Indicates pipeline never made it
       end
-    end else if(sys_rst)begin
-      freeze <= 1;
     end
   end
 endmodule // top_level
 `default_nettype wire
 ///////////////// Debugin Notes /////////////////
-// 
-// 
+// FFT valid is generated
+// valid_audio is also generated

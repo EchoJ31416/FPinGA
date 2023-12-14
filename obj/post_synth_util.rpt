@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date         : Thu Dec 14 15:25:15 2023
+| Date         : Thu Dec 14 16:50:55 2023
 | Host         : DESKTOP-M3QN9GM running 64-bit major release  (build 9200)
 | Command      : report_utilization -file obj/post_synth_util.rpt
 | Design       : top_level
@@ -31,8 +31,8 @@ Table of Contents
 +----------------------------+-------+-------+------------+-----------+-------+
 |          Site Type         |  Used | Fixed | Prohibited | Available | Util% |
 +----------------------------+-------+-------+------------+-----------+-------+
-| Slice LUTs*                | 12539 |     0 |          0 |     32600 | 38.46 |
-|   LUT as Logic             | 11888 |     0 |          0 |     32600 | 36.47 |
+| Slice LUTs*                | 12540 |     0 |          0 |     32600 | 38.47 |
+|   LUT as Logic             | 11889 |     0 |          0 |     32600 | 36.47 |
 |   LUT as Memory            |   651 |     0 |          0 |      9600 |  6.78 |
 |     LUT as Distributed RAM |    31 |     0 |            |           |       |
 |     LUT as Shift Register  |   620 |     0 |            |           |       |
@@ -155,15 +155,15 @@ Warning! LUT value is adjusted to account for LUT combining.
 | Ref Name |  Used | Functional Category |
 +----------+-------+---------------------+
 | FDRE     | 32960 |        Flop & Latch |
-| LUT3     |  9441 |                 LUT |
+| LUT3     |  9446 |                 LUT |
 | CARRY4   |  2840 |          CarryLogic |
 | LUT2     |  1567 |                 LUT |
 | SRL16E   |   793 |  Distributed Memory |
 | LUT1     |   693 |                 LUT |
-| LUT4     |   418 |                 LUT |
-| LUT6     |   354 |                 LUT |
+| LUT4     |   425 |                 LUT |
+| LUT6     |   351 |                 LUT |
 | SRLC32E  |   166 |  Distributed Memory |
-| LUT5     |    83 |                 LUT |
+| LUT5     |    78 |                 LUT |
 | OBUF     |    45 |                  IO |
 | RAMS64E  |    31 |  Distributed Memory |
 | IBUF     |    20 |                  IO |
