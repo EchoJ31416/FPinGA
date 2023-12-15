@@ -192,11 +192,9 @@ module top_level_tb();
     sys_rst = 0;
     record = 1;
     for (int i = 0; i<10000; i=i+1)begin // Wait
-      audio_sample_valid = 1; // You will have to keep this in your module!!! CHECK IT OUT!
-      #10;
-      audio_sample_valid = 0;
-      #60;
+      mic_audio = i;
     end
+    record = 0;
     for (int i = 0; i<10000; i=i+1)begin // Wait
       audio_sample_valid = 1; // You will have to keep this in your module!!! CHECK IT OUT!
       #10;

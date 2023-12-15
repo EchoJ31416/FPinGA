@@ -68,20 +68,15 @@ module  recorder(
   always_comb begin
     largest_address = w_address;
     if (audio_valid_in == 1 && record_in == 0 && w_address > 0)begin
-      finish = 1; 
-      audio_in_final <= audio_in;
-      write_signal = record_in&&audio_valid_in;
-      w_address = w_int_address;
+      finish = 1;
     end if (rst_in) begin
       audio_in_final = 0;
       write_signal = 1;
       w_address = reset_address;
-      finish = 0;
     end else begin
       audio_in_final <= audio_in;
       write_signal = record_in&&audio_valid_in;
       w_address = w_int_address;
-      finish = 0;
     end
   end
   /*

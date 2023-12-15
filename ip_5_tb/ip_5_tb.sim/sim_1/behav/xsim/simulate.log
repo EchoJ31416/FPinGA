@@ -1,0 +1,7 @@
+Time resolution is 1 ps
+Starting Sim
+ERROR: Could not open vcd file top_level_tb.vcd. A VCD file by name dump.vcd has already been opened. Only one VCD file is allowed to be open.
+Starting Sim
+Simulation finished
+$finish called at time : 700010 ns : File "C:/Users/Cesar/Documents/GitHub/FPinGA/sim/top_level_tb.sv" Line 205
+INFO: xsimkernel Simulation Memory Usage: 64364 KB (Peak: 64364 KB), Simulation CPU Usage: 39703 ms

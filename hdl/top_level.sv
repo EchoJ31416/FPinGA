@@ -128,8 +128,10 @@ module top_level(
   div_gen_0 fft_spacing(
     .aclk(clk_0),
     .s_axis_divisor_tvalid(1),
+    .s_axis_dividend_tvalid(1),
     .s_axis_divisor_tdata(32'd4),
     .s_axis_dividend_tdata(fft_length),
+    
     .m_axis_dout_tvalid(),
     .m_axis_dout_tdata(div_out)
   );
